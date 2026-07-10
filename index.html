@@ -223,6 +223,19 @@
   .sc-item{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
   .sc-item b{font-size:13px;color:var(--ink);font-weight:700}
 
+  /* Toggle switch */
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:14px}
+  .toggle-row .tl{display:flex;align-items:center;gap:8px}
+  .toggle-row .tl-icon{font-size:18px}
+  .toggle-row .tl-text{font-size:13px;font-weight:700}
+  .toggle-row .tl-sub{font-size:11px;color:var(--muted)}
+  .toggle{position:relative;width:44px;height:24px;flex:none}
+  .toggle input{opacity:0;width:0;height:0}
+  .toggle .slider{position:absolute;inset:0;background:var(--line);border-radius:24px;cursor:pointer;transition:background .2s}
+  .toggle .slider::before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+  .toggle input:checked+.slider{background:var(--correct)}
+  .toggle input:checked+.slider::before{transform:translateX(20px)}
+
   /* Page views */
   .page{display:none}
   .page.active{display:block}
@@ -2068,6 +2081,7 @@ function subjMastery(s){
   return {pct:Math.round((sum/(qs.length*5))*100), n:qs.length, mastered:qs.filter(q=>P.cards[q.id].box>=5).length, seen:qs.filter(q=>P.cards[q.id].seen>0).length};
 }
 let filterDiff=0;
+let randomMode=false;
 let panel={map:true,status:true};
 function dfilter(a){ return filterDiff? a.filter(q=>(q.diff||2)===filterDiff):a; }
 function diffMastery(d){ const qs=BANK.filter(q=>(q.diff||2)===d); if(!qs.length)return {pct:0,n:0,mastered:0}; let s=0; qs.forEach(q=>s+=(P.cards[q.id].box||0)); return {pct:Math.round(s/(qs.length*5)*100), n:qs.length, mastered:qs.filter(q=>P.cards[q.id].box>=5).length}; }
@@ -2178,6 +2192,11 @@ function renderDash(){
     </div>
   </div>
 
+  <div class="toggle-row" onclick="toggleRandom()">
+    <div class="tl"><span class="tl-icon">🔀</span><div><div class="tl-text">랜덤 출제</div><div class="tl-sub">${randomMode?'문항이 무작위로 섞여 나옵니다':'문항이 학습 우선순위대로 나옵니다'}</div></div></div>
+    <label class="toggle" onclick="event.stopPropagation()"><input type="checkbox" ${randomMode?'checked':''} onchange="toggleRandom()"><span class="slider"></span></label>
+  </div>
+
   <div class="quick-grid">
     <button class="quick-card primary" onclick="startMode('review')">
       <div class="qc-icon">📖</div>
@@ -2227,12 +2246,13 @@ function togglePanel(k){ panel[k]=!panel[k]; renderDash(); }
 
 function buildQueue(mode, subject){
   let pool;
-  if(mode==='review'){ pool=dfilter(dueCards()); pool.sort((a,b)=>(P.cards[a.id].box)-(P.cards[b.id].box)); pool=pool.slice(0,20); }
-  else if(mode==='weak'){ pool=dfilter(weakCards()); pool=weightedPick(pool, Math.min(20,pool.length||1)); }
-  else if(mode==='practice'){ let p=dfilter(subject==='전체'?BANK:BANK.filter(q=>q.subject===subject)); pool=weightedPick(p, Math.min(15,p.length)); }
+  if(mode==='review'){ pool=dfilter(dueCards()); if(randomMode) pool=shuffle(pool); else pool.sort((a,b)=>(P.cards[a.id].box)-(P.cards[b.id].box)); pool=pool.slice(0,20); }
+  else if(mode==='weak'){ pool=dfilter(weakCards()); pool=randomMode?shuffle(pool).slice(0,Math.min(20,pool.length)):weightedPick(pool, Math.min(20,pool.length||1)); }
+  else if(mode==='practice'){ let p=dfilter(subject==='전체'?BANK:BANK.filter(q=>q.subject===subject)); pool=randomMode?shuffle(p).slice(0,Math.min(15,p.length)):weightedPick(p, Math.min(15,p.length)); }
   else if(mode==='exam'){ let p=dfilter(BANK.filter(q=>q.subject===subject)); pool=shuffle(p).slice(0,25); }
   return pool.map(q=>q.id);
 }
+function toggleRandom(){ randomMode=!randomMode; renderDash(); }
 function weightedPick(pool, n){
   // weight = 6 - box (weaker => more likely), sample without replacement
   let items=pool.map(q=>({q,w:6-(P.cards[q.id].box||0)})); let out=[];
