@@ -176,6 +176,56 @@
   .empty .big{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px}
 
   .foot{margin-top:26px;font-size:11.5px;color:var(--faint);text-align:center;line-height:1.6}
+
+  /* Top navbar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:2px solid var(--ink);margin-bottom:18px}
+  .topbar .logo{display:flex;align-items:center;gap:10px}
+  .topbar .logo h1{font-size:17px;font-weight:800;letter-spacing:-.5px}
+  .topbar .nav-tabs{display:flex;gap:4px}
+  .topbar .nav-tab{font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:8px;color:var(--muted);transition:all .15s}
+  .topbar .nav-tab:hover{color:var(--ink);background:var(--surface-2)}
+  .topbar .nav-tab.on{color:#fff;background:var(--ink)}
+  .topbar .nav-tab .tab-badge{font-family:var(--mono);font-size:10px;margin-left:4px;padding:1px 5px;border-radius:10px;background:var(--seal);color:#fff}
+
+  /* Quick start cards */
+  .quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+  @media (max-width:560px){.quick-grid{grid-template-columns:1fr}}
+  .quick-card{background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:18px 16px;text-align:center;transition:transform .12s,border-color .12s,box-shadow .12s}
+  .quick-card:hover{transform:translateY(-2px);border-color:var(--ink-2);box-shadow:0 6px 18px -12px rgba(28,39,64,.4)}
+  .quick-card .qc-icon{font-size:28px;margin-bottom:8px}
+  .quick-card .qc-title{font-size:14px;font-weight:800;margin-bottom:4px}
+  .quick-card .qc-desc{font-size:11.5px;color:var(--muted);line-height:1.4}
+  .quick-card .qc-count{font-family:var(--mono);font-size:20px;font-weight:800;color:var(--seal);margin:6px 0 2px}
+  .quick-card.primary{background:var(--ink);border-color:var(--ink)}
+  .quick-card.primary .qc-title,.quick-card.primary .qc-count{color:#fff}
+  .quick-card.primary .qc-desc{color:#C3CAD6}
+  .quick-card.primary:hover{box-shadow:0 8px 20px -10px rgba(28,39,64,.7)}
+
+  /* Diff select main */
+  .diff-main{margin-bottom:18px}
+  .diff-main .dm-title{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px}
+  .diff-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  @media (max-width:560px){.diff-cards{grid-template-columns:repeat(2,1fr)}}
+  .diff-card{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:14px 10px;text-align:center;transition:all .12s}
+  .diff-card:hover{border-color:var(--ink-2)}
+  .diff-card.on{border-color:var(--ink);background:var(--ink);color:#fff}
+  .diff-card .dc-label{font-size:13px;font-weight:700}
+  .diff-card .dc-sub{font-size:11px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
+  .diff-card.on .dc-sub{color:#C3CAD6}
+
+  /* Subject chips row */
+  .subj-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .subj-chip{font-size:13px;font-weight:600;padding:8px 16px;border-radius:20px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink-2);transition:all .12s}
+  .subj-chip:hover{border-color:var(--ink-2)}
+
+  /* Stat bar compact */
+  .stat-compact{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .sc-item{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
+  .sc-item b{font-size:13px;color:var(--ink);font-weight:700}
+
+  /* Page views */
+  .page{display:none}
+  .page.active{display:block}
 </style>
 
 <script>
@@ -2029,124 +2079,134 @@ function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor
 const root=document.getElementById('root');
 let session=null; // {queue:[...ids], idx, answers:{}, mode, subject, examMode}
 
-function mast(){
-  return `<div class="mast">
-    <div class="seal-mark">補</div>
-    <div>
-      <h1>보상관리사 반복학습</h1>
-      <div class="sub">간격 반복 · ${BANK.length}題 · 기출 + 교재요약 · 난이도별</div>
+let curPage='home'; // 'home' | 'mastery' | 'status'
+
+function topbar(){
+  const pct=masteryPct(), due=dfilter(dueCards()).length, streak=currentStreak();
+  const acc=P.totalAnswered?Math.round(P.totalCorrect/P.totalAnswered*100):0;
+  return `<div class="topbar">
+    <div class="logo"><div class="seal-mark" style="width:34px;height:34px;font-size:15px">補</div><h1>보상관리사</h1></div>
+    <div class="nav-tabs">
+      <button class="nav-tab ${curPage==='home'?'on':''}" onclick="goPage('home')">학습</button>
+      <button class="nav-tab ${curPage==='mastery'?'on':''}" onclick="goPage('mastery')">숙련도 <span style="font-size:10px">${pct}%</span></button>
+      <button class="nav-tab ${curPage==='status'?'on':''}" onclick="goPage('status')">현황${due>0?` <span class="tab-badge">${due}</span>`:''}</button>
     </div>
-    <div class="spacer"></div>
-    <button class="reset" onclick="confirmReset()">기록 초기화</button>
   </div>`;
 }
 
-function render(){ if(session) renderStudy(); else renderDash(); }
+function goPage(p){ curPage=p; render(); }
+function render(){ if(session) renderStudy(); else if(curPage==='mastery') renderMastery(); else if(curPage==='status') renderStatus(); else renderDash(); }
 
-function renderDash(){
-  const pct=masteryPct(), due=dfilter(dueCards()).length, streak=currentStreak();
+function renderMastery(){
+  const pct=masteryPct();
   const totalSeen=BANK.filter(q=>P.cards[q.id].seen>0).length;
-  const acc=P.totalAnswered?Math.round(P.totalCorrect/P.totalAnswered*100):0;
-
   const plots = BANK.map(q=>{
     const b=P.cards[q.id].box||0;
     const cls = b===0?'plot new':'plot';
     const col = ['var(--b0)','var(--b1)','var(--b2)','var(--b3)','var(--b4)','var(--b5)'][b];
     return `<div class="${cls}" style="background:${col}" title="${q.subject} ${q.o}번 · 레벨 ${b}/5"></div>`;
   }).join('');
-
   const bars = SUBJECTS.map(s=>{
     const m=subjMastery(s);
-    return `<div class="subj">
-      <div class="top"><b>${s}</b><span class="n">${m.mastered}/${m.n} 숙달 · ${m.pct}%</span></div>
-      <div class="track"><div class="fill" style="width:${m.pct}%;background:${SUBJ_COLOR[s]}"></div></div>
-    </div>`;
+    return `<div class="subj"><div class="top"><b>${s}</b><span class="n">${m.mastered}/${m.n} 숙달 · ${m.pct}%</span></div><div class="track"><div class="fill" style="width:${m.pct}%;background:${SUBJ_COLOR[s]}"></div></div></div>`;
   }).join('');
-
   const DCOL={1:'#3A5BA0',2:'#8A6D1F',3:'#B23A3A'};
   const dbars = [[1,'★ 기초'],[2,'★★ 표준'],[3,'★★★ 심화']].map(([lv,nm])=>{
     const m=diffMastery(lv);
-    return `<div class="subj"><div class="top"><b>${nm}</b><span class="n">${m.mastered}/${m.n} 숙달 · ${m.pct}%</span></div>`+
-      `<div class="track"><div class="fill" style="width:${m.pct}%;background:${DCOL[lv]}"></div></div></div>`;
+    return `<div class="subj"><div class="top"><b>${nm}</b><span class="n">${m.mastered}/${m.n} 숙달 · ${m.pct}%</span></div><div class="track"><div class="fill" style="width:${m.pct}%;background:${DCOL[lv]}"></div></div></div>`;
   }).join('');
-  const dueBadge = due>0?`<span class="badge due">${due}題</span>`:`<span class="badge">0題</span>`;
-
-  root.innerHTML = mast() + `
-  <div class="dash">
-    <div class="card tall plotwrap">
-      <button class="acc-head" onclick="togglePanel('map')" aria-expanded="${panel.map}">
-        <span class="eyebrow">숙련도 지적도 · MASTERY MAP</span>
-        <span class="acc-right"><span class="acc-sum">${panel.map?'':pct+'% · '+totalSeen+'/'+BANK.length}</span><span class="chev ${panel.map?'':'closed'}">▾</span></span>
-      </button>
-      <div class="acc-body" ${panel.map?'':'hidden'}>
-      <div class="plot-head">
-        <div class="pct">${pct}<small>% 숙달</small></div>
-        <div style="text-align:right;font-size:12px;color:var(--muted)">학습한 문항<br><b style="font-size:15px;color:var(--ink)">${totalSeen} / ${BANK.length}</b></div>
-      </div>
-      <div class="plots">${plots}</div>
-      <div class="legend">
-        <span><i style="background:var(--b0)"></i>미학습</span>
-        <span><i style="background:var(--b1)"></i>취약</span>
-        <span><i style="background:var(--b3)"></i>학습중</span>
-        <span><i style="background:var(--b5)"></i>숙달</span>
-      </div>
-      </div>
-    </div>
-    <div class="card">
-      <button class="acc-head" onclick="togglePanel('status')" aria-expanded="${panel.status}">
-        <span class="eyebrow">현황 · STATUS</span>
-        <span class="acc-right"><span class="acc-sum">${panel.status?'':(streak?'🔥'+streak+'일 · ':'')+'복습 '+due+'題'}</span><span class="chev ${panel.status?'':'closed'}">▾</span></span>
-      </button>
-      <div class="acc-body" ${panel.status?'':'hidden'}>
-      <div style="margin-top:10px">
-        <div class="statline streak"><span class="k">연속 학습</span><span class="v">${streak}일 ${streak>=3?'🔥':''}</span></div>
-        <div class="statline"><span class="k">오늘 복습할 문항</span><span class="v">${due}題</span></div>
-        <div class="statline"><span class="k">누적 정답률</span><span class="v">${acc}%</span></div>
-        <div class="statline"><span class="k">총 푼 문항</span><span class="v mono">${P.totalAnswered}</span></div>
-      </div>
-      <div style="margin-top:16px" class="eyebrow">과목별 숙련도</div>
-      <div class="subj-bars">${bars}</div>
-      <div style="margin-top:16px" class="eyebrow">난이도별 숙련도</div>
-      <div class="subj-bars">${dbars}</div>
-      </div>
-    </div>
+  root.innerHTML = topbar() + `
+  <div class="card" style="margin-bottom:16px">
+    <div class="plot-head"><div class="pct">${pct}<small>% 숙달</small></div><div style="text-align:right;font-size:12px;color:var(--muted)">학습한 문항<br><b style="font-size:15px;color:var(--ink)">${totalSeen} / ${BANK.length}</b></div></div>
+    <div class="plots">${plots}</div>
+    <div class="legend"><span><i style="background:var(--b0)"></i>미학습</span><span><i style="background:var(--b1)"></i>취약</span><span><i style="background:var(--b3)"></i>학습중</span><span><i style="background:var(--b5)"></i>숙달</span></div>
   </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="eyebrow" style="margin-bottom:10px">과목별 숙련도</div>
+    <div class="subj-bars">${bars}</div>
+  </div>
+  <div class="card">
+    <div class="eyebrow" style="margin-bottom:10px">난이도별 숙련도</div>
+    <div class="subj-bars">${dbars}</div>
+  </div>
+  <div style="text-align:center;margin-top:16px"><button class="reset" onclick="confirmReset()">전체 기록 초기화</button></div>`;
+}
 
-  <div class="card" style="margin-top:16px;padding:14px 16px">
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span class="eyebrow" style="margin:0">난이도 필터</span>
-      <div class="difffilter">
-        <button class="df ${filterDiff===0?'on':''}" onclick="setDiff(0)">전체</button>
-        <button class="df ${filterDiff===1?'on':''}" onclick="setDiff(1)">★ 기초</button>
-        <button class="df ${filterDiff===2?'on':''}" onclick="setDiff(2)">★★ 표준</button>
-        <button class="df ${filterDiff===3?'on':''}" onclick="setDiff(3)">★★★ 심화</button>
-      </div>
-      <span style="font-size:12px;color:var(--muted);margin-left:auto">${filterDiff?['','기초','표준','심화'][filterDiff]+' 문항만 출제됩니다':'모든 난이도가 출제됩니다'}</span>
-    </div>
+function renderStatus(){
+  const due=dfilter(dueCards()).length, streak=currentStreak();
+  const acc=P.totalAnswered?Math.round(P.totalCorrect/P.totalAnswered*100):0;
+  const pct=masteryPct();
+  const r=52, circ=2*Math.PI*r, off=circ*(1-pct/100);
+  const col=pct>=80?'var(--correct)':pct>=40?'var(--gold)':'var(--seal)';
+  root.innerHTML = topbar() + `
+  <div class="card" style="margin-bottom:16px;text-align:center;padding:24px">
+    <svg style="width:120px;height:120px;margin-bottom:12px" viewBox="0 0 120 120"><circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="60" cy="60" r="${r}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/><text x="60" y="58" text-anchor="middle" font-size="24" font-weight="800" fill="var(--ink)">${pct}%</text><text x="60" y="76" text-anchor="middle" font-size="11" fill="var(--muted)">전체 숙련도</text></svg>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="statline streak"><span class="k">연속 학습</span><span class="v">${streak}일 ${streak>=3?'🔥':''}</span></div>
+    <div class="statline"><span class="k">오늘 복습할 문항</span><span class="v">${due}題</span></div>
+    <div class="statline"><span class="k">누적 정답률</span><span class="v">${acc}%</span></div>
+    <div class="statline"><span class="k">총 푼 문항</span><span class="v mono">${P.totalAnswered}</span></div>
+    <div class="statline"><span class="k">총 문항 수</span><span class="v mono">${BANK.length}</span></div>
   </div>
   <div class="modes">
-    <button class="mode primary" onclick="startMode('review')">
-      <div class="mt">오늘의 복습 ${dueBadge}</div>
-      <div class="md">간격 반복 알고리즘이 오늘 다시 볼 때가 된 문항을 골라줍니다. 틀린 문항은 곧, 맞힌 문항은 점점 뜸하게 재등장합니다.</div>
+    <button class="mode primary" onclick="startMode('review')"><div class="mt">오늘의 복습 ${due>0?`<span class="badge due">${due}題</span>`:`<span class="badge">0題</span>`}</div><div class="md">간격 반복으로 복습할 문항을 풀어보세요.</div></button>
+    <button class="mode" onclick="startMode('weak')"><div class="mt">약점 집중 <span class="badge">${dfilter(weakCards()).length}題</span></div><div class="md">취약 문항만 집중 반복합니다.</div></button>
+  </div>`;
+}
+
+function renderDash(){
+  const due=dfilter(dueCards()).length, streak=currentStreak();
+  const pct=masteryPct();
+  const acc=P.totalAnswered?Math.round(P.totalCorrect/P.totalAnswered*100):0;
+
+  root.innerHTML = topbar() + `
+  <div class="stat-compact">
+    <div class="sc-item">숙련도 <b>${pct}%</b></div>
+    <div class="sc-item">정답률 <b>${acc}%</b></div>
+    <div class="sc-item">연속 <b>${streak}일</b>${streak>=3?' 🔥':''}</div>
+    <div class="sc-item">복습 <b style="color:${due>0?'var(--seal)':'var(--correct)'}">×${due}</b></div>
+  </div>
+
+  <div class="diff-main">
+    <div class="dm-title">난이도를 선택하세요</div>
+    <div class="diff-cards">
+      <button class="diff-card ${filterDiff===0?'on':''}" onclick="setDiff(0)"><div class="dc-label">전체</div><div class="dc-sub">${BANK.length}문항</div></button>
+      <button class="diff-card ${filterDiff===1?'on':''}" onclick="setDiff(1)"><div class="dc-label">★ 기초</div><div class="dc-sub">${BANK.filter(q=>(q.diff||2)===1).length}문항</div></button>
+      <button class="diff-card ${filterDiff===2?'on':''}" onclick="setDiff(2)"><div class="dc-label">★★ 표준</div><div class="dc-sub">${BANK.filter(q=>(q.diff||2)===2).length}문항</div></button>
+      <button class="diff-card ${filterDiff===3?'on':''}" onclick="setDiff(3)"><div class="dc-label">★★★ 심화</div><div class="dc-sub">${BANK.filter(q=>(q.diff||2)===3).length}문항</div></button>
+    </div>
+  </div>
+
+  <div class="quick-grid">
+    <button class="quick-card primary" onclick="startMode('review')">
+      <div class="qc-icon">📖</div>
+      <div class="qc-title">오늘의 복습</div>
+      <div class="qc-count">${due}題</div>
+      <div class="qc-desc">간격 반복 알고리즘</div>
     </button>
-    <button class="mode" onclick="startMode('weak')">
-      <div class="mt">약점 집중 <span class="badge">${dfilter(weakCards()).length}題</span></div>
-      <div class="md">아직 취약한(레벨 1~2) 문항만 모아 집중적으로 반복합니다. 시험 직전 마무리에 유용합니다.</div>
+    <button class="quick-card" onclick="startMode('weak')">
+      <div class="qc-icon">🎯</div>
+      <div class="qc-title">약점 집중</div>
+      <div class="qc-count">${dfilter(weakCards()).length}題</div>
+      <div class="qc-desc">취약 문항 반복</div>
     </button>
-    <button class="mode" onclick="pickSubject('practice')">
-      <div class="mt">과목별 연습</div>
-      <div class="md">민법 · 부동산관계법규 · 토지보상법규 중 골라 무제한 연습. 약한 문항이 더 자주 나옵니다.</div>
-    </button>
-    <button class="mode" onclick="pickSubject('exam')">
-      <div class="mt">모의고사 <span class="badge">25題</span></div>
-      <div class="md">실전처럼 25문항을 풀고 마지막에 채점·해설. 과목당 각 4점, 100점 만점 기준입니다.</div>
+    <button class="quick-card" onclick="pickSubject('exam')">
+      <div class="qc-icon">📝</div>
+      <div class="qc-title">모의고사</div>
+      <div class="qc-count">25題</div>
+      <div class="qc-desc">실전 채점·해설</div>
     </button>
   </div>
+
+  <div class="eyebrow" style="margin-bottom:10px">과목별 연습</div>
+  <div class="subj-row">
+    ${SUBJECTS.map(s=>{const m=subjMastery(s); return `<button class="subj-chip" onclick="startSubject('practice','${s}')">${s} <span style="color:var(--faint);font-size:11px">${m.pct}%</span></button>`;}).join('')}
+    <button class="subj-chip" onclick="startSubject('practice','전체')">전체</button>
+  </div>
+
   <div id="subpick-slot"></div>
-  <div class="foot">
-    문제은행: 2022 기출 75題 + 2018 기출 60題 + 단원별 정선 98題 + 교재요약 32題 = 총 ${BANK.length}題.<br>
-    교재요약 문항은 원문에서 확인한 기한·요건·수치만으로 작성했고 ★기초/★★표준/★★★심화로 나눴습니다.
-  </div>`;
+  <div class="foot">총 ${BANK.length}문항 · 진도는 이 기기에 자동 저장됩니다</div>`;
 }
 
 function pickSubject(mode){
@@ -2237,7 +2297,7 @@ function renderStudy(){
     verdict=`<div class="actionbar"><span class="kbd-hint"><kbd>1</kbd>~<kbd>5</kbd> 로 답 선택</span></div>`;
   }
 
-  root.innerHTML = mast() + `
+  root.innerHTML = topbar() + `
   <div class="study-top">
     <button class="back" onclick="quitSession()">← 그만두기</button>
     <div class="prog"><i style="width:${Math.round(pos/total*100)}%"></i></div>
@@ -2271,14 +2331,14 @@ function next(){
   if(session.idx+1<session.queue.length){ session.idx++; renderStudy(); }
   else renderSummary();
 }
-function quitSession(){ session=null; render(); }
+function quitSession(){ session=null; curPage='home'; render(); }
 
 function renderSummary(){
   const total=session.queue.length, correct=session.correctCount;
   const acc=Math.round(correct/total*100);
   const r=52, circ=2*Math.PI*r, off=circ*(1-acc/100);
   const col=acc>=80?'var(--correct)':acc>=60?'var(--gold)':'var(--seal)';
-  root.innerHTML = mast() + `
+  root.innerHTML = topbar() + `
   <div class="card"><div class="summary">
     <div class="eyebrow">세션 완료 · SESSION COMPLETE</div>
     <svg class="ring" viewBox="0 0 120 120">
@@ -2310,7 +2370,7 @@ function renderExam(){
   const total=session.queue.length, pos=session.idx+1;
   const opts=q.opt.map((t,i)=>`<button class="opt ${chosen===i?'':''}" style="${chosen===i?'border-color:var(--ink);background:var(--surface-2)':''}" onclick="examPick(${i})">
     <span class="no" style="${chosen===i?'background:var(--ink);border-color:var(--ink);color:#fff':''}">${NUM[i]}</span><span>${t}</span></button>`).join('');
-  root.innerHTML = mast() + `
+  root.innerHTML = topbar() + `
   <div class="study-top">
     <button class="back" onclick="quitSession()">← 나가기</button>
     <div class="prog"><i style="width:${Math.round(pos/total*100)}%"></i></div>
@@ -2356,7 +2416,7 @@ function gradeExam(){
       </div></div>`;
   }).join('');
   const col=score>=80?'var(--correct)':score>=60?'var(--gold)':'var(--seal)';
-  root.innerHTML = mast() + `
+  root.innerHTML = topbar() + `
   <div class="card"><div class="summary" style="padding-bottom:8px">
     <div class="eyebrow">채점 결과 · ${session.subject}</div>
     <h2 style="margin-top:10px;font-size:40px;color:${col}">${correct*4}<span style="font-size:18px;color:var(--muted)"> / 100점</span></h2>

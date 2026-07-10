@@ -1,5 +1,5 @@
 /* 보상관리사 반복학습 - 오프라인 캐시. 파일을 바꾸면 아래 CACHE 버전 숫자를 올리세요(v1 -> v2). */
-const CACHE = 'bosang-v1';
+const CACHE = 'bosang-v2';
 const ASSETS = [
   './',
   './index.html',
