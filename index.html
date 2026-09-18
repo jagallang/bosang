@@ -174,13 +174,12 @@
 
   .diff-main{margin-bottom:18px}
   .diff-main .dm-title{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px}
-  .diff-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  @media (max-width:560px){.diff-cards{grid-template-columns:repeat(2,1fr)}}
-  .diff-card{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:14px 10px;text-align:center;transition:all .12s}
+  .diff-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .diff-card{background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 4px;text-align:center;transition:all .12s}
   .diff-card:hover{border-color:var(--ink-2)}
   .diff-card.on{border-color:var(--ink);background:var(--ink);color:#fff}
-  .diff-card .dc-label{font-size:13px;font-weight:700}
-  .diff-card .dc-sub{font-size:11px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
+  .diff-card .dc-label{font-size:12px;font-weight:700}
+  .diff-card .dc-sub{font-size:10px;color:var(--muted);margin-top:1px;font-family:var(--mono)}
   .diff-card.on .dc-sub{color:#C3CAD6}
 
   .subj-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
