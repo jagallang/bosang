@@ -500,18 +500,16 @@ function renderDash(){
   </div>
 
   <div class="diff-main">
-    <div class="dm-title">난이도를 선택하세요</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div class="dm-title" style="margin-bottom:0">난이도</div>
+      <button onclick="toggleRandom()" style="display:flex;align-items:center;gap:4px;font-size:11px;color:${randomMode?'var(--correct)':'var(--faint)'};padding:4px 8px;border:1px solid var(--line);border-radius:6px">🔀 ${randomMode?'랜덤':'순서대로'}</button>
+    </div>
     <div class="diff-cards">
       <button class="diff-card ${filterDiff===0?'on':''}" onclick="setDiff(0)"><div class="dc-label">전체</div><div class="dc-sub">${bank.length}문항</div></button>
       <button class="diff-card ${filterDiff===1?'on':''}" onclick="setDiff(1)"><div class="dc-label">★ 기초</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===1).length}문항</div></button>
       <button class="diff-card ${filterDiff===2?'on':''}" onclick="setDiff(2)"><div class="dc-label">★★ 표준</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===2).length}문항</div></button>
       <button class="diff-card ${filterDiff===3?'on':''}" onclick="setDiff(3)"><div class="dc-label">★★★ 심화</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===3).length}문항</div></button>
     </div>
-  </div>
-
-  <div class="toggle-row" onclick="toggleRandom()">
-    <div class="tl"><span class="tl-icon">🔀</span><div><div class="tl-text">랜덤 출제</div><div class="tl-sub">${randomMode?'문항이 무작위로 섞여 나옵니다':'문항이 학습 우선순위대로 나옵니다'}</div></div></div>
-    <label class="toggle" onclick="event.stopPropagation()"><input type="checkbox" ${randomMode?'checked':''} onclick="event.stopPropagation();toggleRandom()"><span class="slider"></span></label>
   </div>
 
   <div class="quick-grid">
