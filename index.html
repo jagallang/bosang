@@ -493,6 +493,12 @@ function renderDash(){
     <div class="sc-item">복습 <b style="color:${due>0?'var(--seal)':'var(--correct)'}">×${due}</b></div>
   </div>
 
+  <div class="eyebrow" style="margin-bottom:10px">과목별 연습</div>
+  <div class="subj-row">
+    ${stageSubjects().map(s=>{const m=subjMastery(s); return `<button class="subj-chip" onclick="startSubject('practice','${s}')">${s} <span style="color:var(--faint);font-size:11px">${m.pct}%</span></button>`;}).join('')}
+    <button class="subj-chip" onclick="startSubject('practice','전체')">전체</button>
+  </div>
+
   <div class="diff-main">
     <div class="dm-title">난이도를 선택하세요</div>
     <div class="diff-cards">
@@ -521,12 +527,6 @@ function renderDash(){
       <div class="qc-icon">📝</div><div class="qc-title">모의고사</div>
       <div class="qc-count">${examSize}題</div><div class="qc-desc">실전 채점·과락 경보</div>
     </button>
-  </div>
-
-  <div class="eyebrow" style="margin-bottom:10px">과목별 연습</div>
-  <div class="subj-row">
-    ${stageSubjects().map(s=>{const m=subjMastery(s); return `<button class="subj-chip" onclick="startSubject('practice','${s}')">${s} <span style="color:var(--faint);font-size:11px">${m.pct}%</span></button>`;}).join('')}
-    <button class="subj-chip" onclick="startSubject('practice','전체')">전체</button>
   </div>
 
   <div id="subpick-slot"></div>
