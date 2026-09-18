@@ -1,7 +1,7 @@
 /* 보상관리사 반복학습 - Stale-While-Revalidate 캐시.
    캐시를 즉시 내주고 뒤에서 갱신 → 다음 실행 시 새 버전 반영.
    오프라인에서도 캐시된 버전으로 즉시 로딩. */
-const CACHE = 'bosang-v5';
+const CACHE = 'bosang-v6';
 const ASSETS = [
   './',
   './index.html',

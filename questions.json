@@ -20,7 +20,9 @@
         "no": 1
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-002",
@@ -43,7 +45,9 @@
         "no": 2
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-003",
@@ -66,7 +70,9 @@
         "no": 3
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-004",
@@ -89,7 +95,9 @@
         "no": 4
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-005",
@@ -112,7 +120,9 @@
         "no": 5
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-006",
@@ -135,7 +145,9 @@
         "no": 6
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-007",
@@ -158,7 +170,9 @@
         "no": 7
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-008",
@@ -181,7 +195,9 @@
         "no": 8
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-009",
@@ -204,7 +220,9 @@
         "no": 9
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-010",
@@ -227,7 +245,9 @@
         "no": 10
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-011",
@@ -250,7 +270,9 @@
         "no": 11
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-012",
@@ -273,7 +295,9 @@
         "no": 12
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-013",
@@ -296,7 +320,9 @@
         "no": 13
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-014",
@@ -319,7 +345,9 @@
         "no": 14
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-015",
@@ -342,7 +370,9 @@
         "no": 15
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-016",
@@ -365,7 +395,9 @@
         "no": 16
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-017",
@@ -388,7 +420,9 @@
         "no": 17
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-018",
@@ -411,7 +445,9 @@
         "no": 18
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-019",
@@ -434,7 +470,9 @@
         "no": 19
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-020",
@@ -457,7 +495,9 @@
         "no": 20
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-021",
@@ -480,7 +520,9 @@
         "no": 21
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-022",
@@ -503,7 +545,9 @@
         "no": 22
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-023",
@@ -526,7 +570,9 @@
         "no": 23
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-024",
@@ -549,7 +595,9 @@
         "no": 24
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-025",
@@ -572,7 +620,9 @@
         "no": 25
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-001",
@@ -595,7 +645,9 @@
         "no": 1
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-002",
@@ -618,7 +670,9 @@
         "no": 2
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-003",
@@ -641,7 +695,9 @@
         "no": 3
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-004",
@@ -664,7 +720,9 @@
         "no": 4
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-005",
@@ -687,7 +745,9 @@
         "no": 5
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-006",
@@ -710,7 +770,9 @@
         "no": 6
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-007",
@@ -733,7 +795,9 @@
         "no": 7
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-008",
@@ -756,7 +820,9 @@
         "no": 8
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-009",
@@ -779,7 +845,9 @@
         "no": 9
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-010",
@@ -802,7 +870,9 @@
         "no": 10
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-011",
@@ -825,7 +895,9 @@
         "no": 11
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-012",
@@ -848,7 +920,9 @@
         "no": 12
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-013",
@@ -871,7 +945,9 @@
         "no": 13
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-014",
@@ -894,7 +970,9 @@
         "no": 14
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-015",
@@ -917,7 +995,9 @@
         "no": 15
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-016",
@@ -940,7 +1020,9 @@
         "no": 16
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-017",
@@ -963,7 +1045,9 @@
         "no": 17
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-018",
@@ -986,7 +1070,9 @@
         "no": 18
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-019",
@@ -1009,7 +1095,9 @@
         "no": 19
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-020",
@@ -1032,7 +1120,9 @@
         "no": 20
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-021",
@@ -1055,7 +1145,9 @@
         "no": 21
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-022",
@@ -1078,7 +1170,9 @@
         "no": 22
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-023",
@@ -1101,7 +1195,9 @@
         "no": 23
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-024",
@@ -1124,7 +1220,9 @@
         "no": 24
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-025",
@@ -1147,7 +1245,9 @@
         "no": 25
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-001",
@@ -1170,7 +1270,9 @@
         "no": 1
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-002",
@@ -1197,7 +1299,9 @@
         "origin": "정선 1"
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-003",
@@ -1220,7 +1324,9 @@
         "no": 3
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-004",
@@ -1243,7 +1349,9 @@
         "no": 4
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-005",
@@ -1266,7 +1374,9 @@
         "no": 5
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-006",
@@ -1289,7 +1399,9 @@
         "no": 6
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-007",
@@ -1312,7 +1424,9 @@
         "no": 7
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-008",
@@ -1335,7 +1449,9 @@
         "no": 8
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-009",
@@ -1358,7 +1474,9 @@
         "no": 9
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-010",
@@ -1381,7 +1499,9 @@
         "no": 10
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-011",
@@ -1404,7 +1524,9 @@
         "no": 11
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-012",
@@ -1427,7 +1549,9 @@
         "no": 12
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-013",
@@ -1450,7 +1574,9 @@
         "no": 13
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-014",
@@ -1473,7 +1599,9 @@
         "no": 14
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-015",
@@ -1496,7 +1624,9 @@
         "no": 15
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-016",
@@ -1519,7 +1649,9 @@
         "no": 16
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-017",
@@ -1542,7 +1674,9 @@
         "no": 17
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-018",
@@ -1565,7 +1699,9 @@
         "no": 18
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-019",
@@ -1588,7 +1724,9 @@
         "no": 19
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-020",
@@ -1611,7 +1749,9 @@
         "no": 20
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-021",
@@ -1634,7 +1774,9 @@
         "no": 21
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-022",
@@ -1657,7 +1799,9 @@
         "no": 22
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-023",
@@ -1680,7 +1824,9 @@
         "no": 23
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-024",
@@ -1703,7 +1849,9 @@
         "no": 24
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-025",
@@ -1726,7 +1874,9 @@
         "no": 25
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-026",
@@ -1748,7 +1898,9 @@
         "no": 2
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-027",
@@ -1770,7 +1922,9 @@
         "no": 3
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-028",
@@ -1792,7 +1946,9 @@
         "no": 4
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-029",
@@ -1814,7 +1970,9 @@
         "no": 5
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-030",
@@ -1836,7 +1994,9 @@
         "no": 6
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-031",
@@ -1858,7 +2018,9 @@
         "no": 7
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-032",
@@ -1880,7 +2042,9 @@
         "no": 8
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-033",
@@ -1902,7 +2066,9 @@
         "no": 9
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-034",
@@ -1924,7 +2090,9 @@
         "no": 10
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-035",
@@ -1946,7 +2114,9 @@
         "no": 11
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-036",
@@ -1968,7 +2138,9 @@
         "no": 12
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-037",
@@ -1990,7 +2162,9 @@
         "no": 13
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-038",
@@ -2012,7 +2186,9 @@
         "no": 14
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-039",
@@ -2034,7 +2210,9 @@
         "no": 15
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-040",
@@ -2056,7 +2234,9 @@
         "no": 16
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-041",
@@ -2078,7 +2258,9 @@
         "no": 17
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-042",
@@ -2100,7 +2282,9 @@
         "no": 18
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-043",
@@ -2122,7 +2306,9 @@
         "no": 19
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-044",
@@ -2144,7 +2330,9 @@
         "no": 20
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-045",
@@ -2166,7 +2354,9 @@
         "no": 21
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-046",
@@ -2188,7 +2378,9 @@
         "no": 22
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-047",
@@ -2210,7 +2402,9 @@
         "no": 23
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-048",
@@ -2232,7 +2426,9 @@
         "no": 24
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-049",
@@ -2254,7 +2450,9 @@
         "no": 25
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-050",
@@ -2276,7 +2474,9 @@
         "no": 26
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-051",
@@ -2298,7 +2498,9 @@
         "no": 27
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-052",
@@ -2320,7 +2522,9 @@
         "no": 30
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-053",
@@ -2342,7 +2546,9 @@
         "no": 31
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-054",
@@ -2364,7 +2570,9 @@
         "no": 32
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-055",
@@ -2386,7 +2594,9 @@
         "no": 33
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-056",
@@ -2408,7 +2618,9 @@
         "no": 34
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-057",
@@ -2430,7 +2642,9 @@
         "no": 35
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-058",
@@ -2452,7 +2666,9 @@
         "no": 36
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-059",
@@ -2474,7 +2690,9 @@
         "no": 37
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-060",
@@ -2496,7 +2714,9 @@
         "no": 38
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-061",
@@ -2518,7 +2738,9 @@
         "no": 39
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-062",
@@ -2540,7 +2762,9 @@
         "no": 40
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-063",
@@ -2562,7 +2786,9 @@
         "no": 41
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-064",
@@ -2584,7 +2810,9 @@
         "no": 42
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-065",
@@ -2606,7 +2834,9 @@
         "no": 43
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-066",
@@ -2628,7 +2858,9 @@
         "no": 44
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-067",
@@ -2650,7 +2882,9 @@
         "no": 45
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-068",
@@ -2672,7 +2906,9 @@
         "no": 46
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-069",
@@ -2694,7 +2930,9 @@
         "no": 47
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-070",
@@ -2716,7 +2954,9 @@
         "no": 48
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-071",
@@ -2738,7 +2978,9 @@
         "no": 49
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-072",
@@ -2760,7 +3002,9 @@
         "no": 50
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-073",
@@ -2782,7 +3026,9 @@
         "no": 51
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-074",
@@ -2804,7 +3050,9 @@
         "no": 52
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-075",
@@ -2826,7 +3074,9 @@
         "no": 53
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-076",
@@ -2848,7 +3098,9 @@
         "no": 54
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-077",
@@ -2870,7 +3122,9 @@
         "no": 55
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-078",
@@ -2892,7 +3146,9 @@
         "no": 56
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-079",
@@ -2914,7 +3170,9 @@
         "no": 57
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-080",
@@ -2936,7 +3194,9 @@
         "no": 58
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-081",
@@ -2958,7 +3218,9 @@
         "no": 59
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-082",
@@ -2980,7 +3242,9 @@
         "no": 60
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-083",
@@ -3002,7 +3266,9 @@
         "no": 61
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-084",
@@ -3024,7 +3290,9 @@
         "no": 62
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-085",
@@ -3046,7 +3314,9 @@
         "no": 63
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-086",
@@ -3068,7 +3338,9 @@
         "no": 64
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-087",
@@ -3090,7 +3362,9 @@
         "no": 65
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-088",
@@ -3112,7 +3386,9 @@
         "no": 66
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-089",
@@ -3134,7 +3410,9 @@
         "no": 67
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-090",
@@ -3156,7 +3434,9 @@
         "no": 68
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-091",
@@ -3178,7 +3458,9 @@
         "no": 69
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-092",
@@ -3200,7 +3482,9 @@
         "no": 70
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-093",
@@ -3222,7 +3506,9 @@
         "no": 71
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-094",
@@ -3244,7 +3530,9 @@
         "no": 72
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-095",
@@ -3266,7 +3554,9 @@
         "no": 73
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-096",
@@ -3288,7 +3578,9 @@
         "no": 74
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-097",
@@ -3310,7 +3602,9 @@
         "no": 75
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-098",
@@ -3332,7 +3626,9 @@
         "no": 76
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-099",
@@ -3354,7 +3650,9 @@
         "no": 77
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-100",
@@ -3376,7 +3674,9 @@
         "no": 78
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-101",
@@ -3398,7 +3698,9 @@
         "no": 79
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-102",
@@ -3420,7 +3722,9 @@
         "no": 80
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-103",
@@ -3442,7 +3746,9 @@
         "no": 81
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-104",
@@ -3464,7 +3770,9 @@
         "no": 82
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-105",
@@ -3486,7 +3794,9 @@
         "no": 83
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-106",
@@ -3508,7 +3818,9 @@
         "no": 84
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-107",
@@ -3530,7 +3842,9 @@
         "no": 85
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-108",
@@ -3552,7 +3866,9 @@
         "no": 86
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-109",
@@ -3574,7 +3890,9 @@
         "no": 87
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-110",
@@ -3596,7 +3914,9 @@
         "no": 88
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-111",
@@ -3618,7 +3938,9 @@
         "no": 89
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-112",
@@ -3640,7 +3962,9 @@
         "no": 90
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-113",
@@ -3662,7 +3986,9 @@
         "no": 91
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-114",
@@ -3684,7 +4010,9 @@
         "no": 92
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-115",
@@ -3706,7 +4034,9 @@
         "no": 93
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-116",
@@ -3728,7 +4058,9 @@
         "no": 94
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-117",
@@ -3750,7 +4082,9 @@
         "no": 95
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-118",
@@ -3772,7 +4106,9 @@
         "no": 96
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-119",
@@ -3794,7 +4130,9 @@
         "no": 97
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-120",
@@ -3816,7 +4154,9 @@
         "no": 98
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-121",
@@ -3838,7 +4178,9 @@
         "no": 99
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-122",
@@ -3860,7 +4202,9 @@
         "no": 100
       }
     ],
-    "revised": null
+    "revised": null,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-026",
@@ -3882,7 +4226,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-027",
@@ -3904,7 +4250,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-028",
@@ -3926,7 +4274,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-029",
@@ -3948,7 +4298,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-030",
@@ -3970,7 +4322,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-031",
@@ -3992,7 +4346,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-032",
@@ -4014,7 +4370,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-033",
@@ -4036,7 +4394,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-034",
@@ -4058,7 +4418,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-035",
@@ -4080,7 +4442,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-036",
@@ -4102,7 +4466,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-037",
@@ -4124,7 +4490,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-038",
@@ -4146,7 +4514,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-039",
@@ -4168,7 +4538,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-040",
@@ -4190,7 +4562,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-041",
@@ -4212,7 +4586,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-042",
@@ -4234,7 +4610,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-043",
@@ -4256,7 +4634,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-044",
@@ -4278,7 +4658,9 @@
       }
     ],
     "revised": null,
-    "diff": 3
+    "diff": 3,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-045",
@@ -4300,7 +4682,9 @@
       }
     ],
     "revised": null,
-    "diff": 3
+    "diff": 3,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-046",
@@ -4322,7 +4706,9 @@
       }
     ],
     "revised": null,
-    "diff": 3
+    "diff": 3,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-047",
@@ -4344,7 +4730,9 @@
       }
     ],
     "revised": null,
-    "diff": 3
+    "diff": 3,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-123",
@@ -4366,7 +4754,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-124",
@@ -4388,7 +4778,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-125",
@@ -4410,7 +4802,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-126",
@@ -4432,7 +4826,9 @@
       }
     ],
     "revised": null,
-    "diff": 1
+    "diff": 1,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-127",
@@ -4454,7 +4850,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-128",
@@ -4476,7 +4874,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-129",
@@ -4498,7 +4898,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-130",
@@ -4520,7 +4922,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-131",
@@ -4542,7 +4946,9 @@
       }
     ],
     "revised": null,
-    "diff": 3
+    "diff": 3,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-132",
@@ -4564,7 +4970,9 @@
       }
     ],
     "revised": null,
-    "diff": 3
+    "diff": 3,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-026",
@@ -4588,7 +4996,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-027",
@@ -4612,7 +5022,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-028",
@@ -4636,7 +5048,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-029",
@@ -4660,7 +5074,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-030",
@@ -4684,7 +5100,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-031",
@@ -4708,7 +5126,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-032",
@@ -4732,7 +5152,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-033",
@@ -4756,7 +5178,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-034",
@@ -4780,7 +5204,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-035",
@@ -4804,7 +5230,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-036",
@@ -4828,7 +5256,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-037",
@@ -4852,7 +5282,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-038",
@@ -4876,7 +5308,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-039",
@@ -4900,7 +5334,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-040",
@@ -4924,7 +5360,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-041",
@@ -4948,7 +5386,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-042",
@@ -4972,7 +5412,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-043",
@@ -4996,7 +5438,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-044",
@@ -5020,7 +5464,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "civ-045",
@@ -5044,7 +5490,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-048",
@@ -5068,7 +5516,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-049",
@@ -5092,7 +5542,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-050",
@@ -5116,7 +5568,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-051",
@@ -5140,7 +5594,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-052",
@@ -5164,7 +5620,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-053",
@@ -5188,7 +5646,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-054",
@@ -5212,7 +5672,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-055",
@@ -5236,7 +5698,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-056",
@@ -5260,7 +5724,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-057",
@@ -5284,7 +5750,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-058",
@@ -5308,7 +5776,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-059",
@@ -5332,7 +5802,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-060",
@@ -5356,7 +5828,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-061",
@@ -5380,7 +5854,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-062",
@@ -5404,7 +5880,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-063",
@@ -5428,7 +5906,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-064",
@@ -5452,7 +5932,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-065",
@@ -5476,7 +5958,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-066",
@@ -5500,7 +5984,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "rel-067",
@@ -5524,7 +6010,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-133",
@@ -5548,7 +6036,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-134",
@@ -5572,7 +6062,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-135",
@@ -5596,7 +6088,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-136",
@@ -5620,7 +6114,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-137",
@@ -5644,7 +6140,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-138",
@@ -5668,7 +6166,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-139",
@@ -5692,7 +6192,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-140",
@@ -5716,7 +6218,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-141",
@@ -5740,7 +6244,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-142",
@@ -5764,7 +6270,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-143",
@@ -5788,7 +6296,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-144",
@@ -5812,7 +6322,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-145",
@@ -5836,7 +6348,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-146",
@@ -5860,7 +6374,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-147",
@@ -5884,7 +6400,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-148",
@@ -5908,7 +6426,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-149",
@@ -5932,7 +6452,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-150",
@@ -5956,7 +6478,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-151",
@@ -5980,7 +6504,9 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   },
   {
     "id": "lca-152",
@@ -6004,6 +6530,8 @@
       }
     ],
     "revised": null,
-    "diff": 2
+    "diff": 2,
+    "stage": 1,
+    "type": "mcq"
   }
 ]

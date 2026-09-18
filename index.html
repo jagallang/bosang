@@ -34,29 +34,10 @@
   .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-  /* Masthead */
-  .mast{display:flex;align-items:center;gap:14px;padding-bottom:18px;border-bottom:2px solid var(--ink);margin-bottom:22px}
-  .seal-mark{flex:none;width:46px;height:46px;border:2px solid var(--seal);border-radius:8px;display:grid;place-items:center;color:var(--seal);font-weight:800;font-size:19px;letter-spacing:-1px;transform:rotate(-3deg);position:relative}
-  .seal-mark::after{content:"";position:absolute;inset:4px;border:1px solid var(--seal-soft);border-radius:5px}
-  .mast h1{font-size:19px;font-weight:800;letter-spacing:-.5px}
-  .mast .sub{font-size:12.5px;color:var(--muted);margin-top:2px;letter-spacing:.2px}
-  .mast .spacer{flex:1}
-  .mast .reset{font-size:12px;color:var(--faint);border:1px solid var(--line);border-radius:7px;padding:6px 10px}
-  .mast .reset:hover{color:var(--seal);border-color:var(--seal-soft)}
-
   .eyebrow{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--faint)}
-
-  /* Dashboard grid */
-  .dash{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
-  @media (max-width:720px){.dash{grid-template-columns:1fr}}
   .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
-  .card.tall{padding:20px}
 
-  /* Cadastral mastery grid */
-  .plotwrap{display:flex;flex-direction:column;height:100%}
-  .plot-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
-  .plot-head .pct{font-size:30px;font-weight:800;letter-spacing:-1px}
-  .plot-head .pct small{font-size:14px;color:var(--muted);font-weight:600;margin-left:3px}
+  /* Mastery grid */
   .plots{display:grid;grid-template-columns:repeat(15,1fr);gap:3px}
   .plot{aspect-ratio:1;border-radius:2px;background:var(--b0);position:relative;transition:background .4s ease}
   .plot.new{box-shadow:inset 0 0 0 1px var(--line-2)}
@@ -72,7 +53,6 @@
   .streak .v{color:var(--seal)}
 
   .subj-bars{display:flex;flex-direction:column;gap:13px;margin-top:4px}
-  .subj{}
   .subj .top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}
   .subj .top b{font-weight:700}
   .subj .top .n{color:var(--muted);font-family:var(--mono);font-size:11.5px}
@@ -98,7 +78,6 @@
   .subpick{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
   .chip{font-size:13px;font-weight:600;padding:8px 14px;border-radius:20px;background:var(--surface);border:1px solid var(--line);color:var(--ink-2)}
   .chip:hover{border-color:var(--ink-2)}
-  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 
   /* Study screen */
   .study-top{display:flex;align-items:center;gap:12px;margin-bottom:16px}
@@ -121,13 +100,6 @@
   .difffilter .df{font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:20px;background:var(--surface);border:1px solid var(--line);color:var(--ink-2)}
   .difffilter .df:hover{border-color:var(--ink-2)}
   .difffilter .df.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .acc-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:none;border:none;padding:0;text-align:left;cursor:pointer}
-  .acc-head:hover .chev{color:var(--ink)}
-  .acc-right{display:flex;align-items:center;gap:10px}
-  .acc-sum{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:600}
-  .chev{font-size:13px;color:var(--faint);transition:transform .2s ease;line-height:1}
-  .chev.closed{transform:rotate(-90deg)}
-  .acc-body{margin-top:13px}
   .boxdots{display:flex;gap:3px;margin-left:auto;align-items:center}
   .boxdots .bl{font-size:10.5px;color:var(--faint);margin-right:4px;letter-spacing:.3px}
   .boxdots i{width:9px;height:9px;border-radius:50%;background:var(--b0);box-shadow:inset 0 0 0 1px var(--line)}
@@ -174,7 +146,6 @@
 
   .empty{text-align:center;padding:40px 16px;color:var(--muted)}
   .empty .big{font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px}
-
   .foot{margin-top:26px;font-size:11.5px;color:var(--faint);text-align:center;line-height:1.6}
 
   /* Top navbar */
@@ -201,7 +172,6 @@
   .quick-card.primary .qc-desc{color:#C3CAD6}
   .quick-card.primary:hover{box-shadow:0 8px 20px -10px rgba(28,39,64,.7)}
 
-  /* Diff select main */
   .diff-main{margin-bottom:18px}
   .diff-main .dm-title{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px}
   .diff-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -213,12 +183,10 @@
   .diff-card .dc-sub{font-size:11px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
   .diff-card.on .dc-sub{color:#C3CAD6}
 
-  /* Subject chips row */
   .subj-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
   .subj-chip{font-size:13px;font-weight:600;padding:8px 16px;border-radius:20px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink-2);transition:all .12s}
   .subj-chip:hover{border-color:var(--ink-2)}
 
-  /* Stat bar compact */
   .stat-compact{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
   .sc-item{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px}
   .sc-item b{font-size:13px;color:var(--ink);font-weight:700}
@@ -236,9 +204,25 @@
   .toggle input:checked+.slider{background:var(--correct)}
   .toggle input:checked+.slider::before{transform:translateX(20px)}
 
-  /* Page views */
-  .page{display:none}
-  .page.active{display:block}
+  /* Hamburger menu */
+  .hamburger{font-size:20px;padding:6px;border-radius:8px;line-height:1}
+  .hamburger:hover{background:var(--surface-2)}
+  .menu-overlay{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.3)}
+  .menu-panel{position:fixed;top:0;right:0;z-index:100;width:260px;max-width:80vw;height:100%;background:var(--surface);box-shadow:-4px 0 24px rgba(0,0,0,.15);padding:24px 16px;overflow-y:auto;animation:slideIn .2s ease}
+  @keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
+  .menu-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 14px;border-radius:10px;font-size:14px;font-weight:600;color:var(--ink);transition:background .12s}
+  .menu-item:hover{background:var(--surface-2)}
+  .menu-item[aria-current="true"]{background:var(--ink);color:#fff}
+  .menu-divider{height:1px;background:var(--line);margin:8px 0}
+  .menu-stage-label{font-size:11px;font-weight:700;color:var(--faint);letter-spacing:1px;text-transform:uppercase;padding:8px 14px}
+
+  /* Pass/fail card */
+  .pf-card{margin:16px 0;padding:16px;border-radius:12px;border:1px solid var(--line)}
+  .pf-card.pass{background:var(--correct-bg);border-color:var(--correct)}
+  .pf-card.fail{background:var(--wrong-bg);border-color:var(--wrong)}
+  .pf-head{font-weight:800;font-size:16px;margin-bottom:10px}
+  .pf-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13px}
+  .pf-avg{border-top:1px solid var(--line);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;font-size:14px;font-weight:700}
 </style>
 
 <script>
@@ -252,140 +236,233 @@ async function loadQuestions() {
 
 <script>
 /* ============================== ENGINE ============================== */
-const SUBJECTS = ["민법","부동산관계법규","토지보상법규"];
-const SUBJ_COLOR = {"민법":"#3A5BA0","부동산관계법규":"#8A6D1F","토지보상법규":"#2E7D57"};
-const BOX_INTERVALS = [1,2,4,8,16]; // days for box 1..5
+
+/* --- 상수 --- */
+const STAGES = {
+  "1": { subjects: ["민법","부동산관계법규","토지보상법규"], label: "1차 시험", examSize: 25 },
+  "2": { subjects: ["보상실무1","보상실무2"], label: "2차 시험", examSize: 20 }
+};
+const SUBJ_COLOR = {"민법":"#3A5BA0","부동산관계법규":"#8A6D1F","토지보상법규":"#2E7D57","보상실무1":"#6B4C9A","보상실무2":"#C97539"};
+const BOX_INTERVALS = [1,2,4,8,16];
+const MAX_BOX = 5;
+const QUEUE_REVIEW = 20;
+const QUEUE_PRACTICE = 15;
 const NUM = ["①","②","③","④","⑤"];
 const STORE_KEY = "bosang:progress:v3";
+const STAGE_KEY = "bosang:curStage";
+
+/* --- 스토리지 --- */
 const mem = {};
 const store = {
-  async get(k){
-    try{ const v=localStorage.getItem(k); if(v!=null) return JSON.parse(v); }catch(e){}
-    return mem[k]||null;
-  },
-  async set(k,v){
-    mem[k]=v;
-    try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){}
-  }
+  async get(k){ try{ const v=localStorage.getItem(k); if(v!=null) return JSON.parse(v); }catch(e){} return mem[k]||null; },
+  async set(k,v){ mem[k]=v; try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 };
 const todayNum = ()=>Math.floor(Date.now()/86400000);
 
-let P = null; // progress state
-function blankProgress(){
-  const cards={};
-  BANK.forEach(q=>cards[q.id]={box:0,seen:0,correct:0,wrong:0,lastDay:null,dueDay:0});
-  return {cards, totalAnswered:0, totalCorrect:0, studyDays:[], version:4};
-}
-async function loadProgress(){
-  const saved = await store.get(STORE_KEY);
-  if(saved && saved.cards){
-    // ensure all bank ids exist
-    BANK.forEach(q=>{ if(!saved.cards[q.id]) saved.cards[q.id]={box:0,seen:0,correct:0,wrong:0,lastDay:null,dueDay:0}; });
-    P = saved;
-  } else { P = blankProgress(); }
-}
-async function saveProgress(){ await store.set(STORE_KEY, P); }
+/* --- 전역 상태 --- */
+let P = null;
+let curStage = "1";
+let curPage = 'home';
+let session = null;
+let filterDiff = 0;
+let randomMode = false;
+let menuOpen = false;
+let BANK_MAP = {};
 
-function markStudied(){
-  const d=todayNum();
-  if(!P.studyDays.includes(d)) P.studyDays.push(d);
+/* --- stage 헬퍼 --- */
+function stageSubjects(s){ return STAGES[s||curStage].subjects; }
+function stageBank(s){ const st=+(s||curStage); return BANK.filter(q=>(q.stage||1)===st); }
+function sp(s){ return P[s||curStage]; }
+
+/* --- 진도 데이터 --- */
+function blankStageProgress(stage){
+  const cards={};
+  BANK.filter(q=>(q.stage||1)===+stage).forEach(q=>cards[q.id]={box:0,seen:0,correct:0,wrong:0,lastDay:null,dueDay:0});
+  return {cards, totalAnswered:0, totalCorrect:0, studyDays:[]};
 }
+function blankProgress(){
+  return { version:5, "1":blankStageProgress("1"), "2":blankStageProgress("2") };
+}
+
+const ID_MIGRATION = {"m1":"civ-001","m2":"civ-002","m3":"civ-003","m4":"civ-004","m5":"civ-005","m6":"civ-006","m7":"civ-007","m8":"civ-008","m9":"civ-009","m10":"civ-010","m11":"civ-011","m12":"civ-012","m13":"civ-013","m14":"civ-014","m15":"civ-015","m16":"civ-016","m17":"civ-017","m18":"civ-018","m19":"civ-019","m20":"civ-020","m21":"civ-021","m22":"civ-022","m23":"civ-023","m24":"civ-024","m25":"civ-025","r1":"rel-001","r2":"rel-002","r3":"rel-003","r4":"rel-004","r5":"rel-005","r6":"rel-006","r7":"rel-007","r8":"rel-008","r9":"rel-009","r10":"rel-010","r11":"rel-011","r12":"rel-012","r13":"rel-013","r14":"rel-014","r15":"rel-015","r16":"rel-016","r17":"rel-017","r18":"rel-018","r19":"rel-019","r20":"rel-020","r21":"rel-021","r22":"rel-022","r23":"rel-023","r24":"rel-024","r25":"rel-025","t1":"lca-001","t2":"lca-002","t3":"lca-003","t4":"lca-004","t5":"lca-005","t6":"lca-006","t7":"lca-007","t8":"lca-008","t9":"lca-009","t10":"lca-010","t11":"lca-011","t12":"lca-012","t13":"lca-013","t14":"lca-014","t15":"lca-015","t16":"lca-016","t17":"lca-017","t18":"lca-018","t19":"lca-019","t20":"lca-020","t21":"lca-021","t22":"lca-022","t23":"lca-023","t24":"lca-024","t25":"lca-025","s1":"lca-002","s2":"lca-026","s3":"lca-027","s4":"lca-028","s5":"lca-029","s6":"lca-030","s7":"lca-031","s8":"lca-032","s9":"lca-033","s10":"lca-034","s11":"lca-035","s12":"lca-036","s13":"lca-037","s14":"lca-038","s15":"lca-039","s16":"lca-040","s17":"lca-041","s18":"lca-042","s19":"lca-043","s20":"lca-044","s21":"lca-045","s22":"lca-046","s23":"lca-047","s24":"lca-048","s25":"lca-049","s26":"lca-050","s27":"lca-051","s30":"lca-052","s31":"lca-053","s32":"lca-054","s33":"lca-055","s34":"lca-056","s35":"lca-057","s36":"lca-058","s37":"lca-059","s38":"lca-060","s39":"lca-061","s40":"lca-062","s41":"lca-063","s42":"lca-064","s43":"lca-065","s44":"lca-066","s45":"lca-067","s46":"lca-068","s47":"lca-069","s48":"lca-070","s49":"lca-071","s50":"lca-072","s51":"lca-073","s52":"lca-074","s53":"lca-075","s54":"lca-076","s55":"lca-077","s56":"lca-078","s57":"lca-079","s58":"lca-080","s59":"lca-081","s60":"lca-082","s61":"lca-083","s62":"lca-084","s63":"lca-085","s64":"lca-086","s65":"lca-087","s66":"lca-088","s67":"lca-089","s68":"lca-090","s69":"lca-091","s70":"lca-092","s71":"lca-093","s72":"lca-094","s73":"lca-095","s74":"lca-096","s75":"lca-097","s76":"lca-098","s77":"lca-099","s78":"lca-100","s79":"lca-101","s80":"lca-102","s81":"lca-103","s82":"lca-104","s83":"lca-105","s84":"lca-106","s85":"lca-107","s86":"lca-108","s87":"lca-109","s88":"lca-110","s89":"lca-111","s90":"lca-112","s91":"lca-113","s92":"lca-114","s93":"lca-115","s94":"lca-116","s95":"lca-117","s96":"lca-118","s97":"lca-119","s98":"lca-120","s99":"lca-121","s100":"lca-122","p1":"rel-026","p2":"rel-027","p3":"rel-028","p4":"rel-029","p5":"rel-030","p6":"rel-031","p7":"rel-032","p8":"rel-033","p9":"rel-034","p10":"rel-035","p11":"rel-036","p12":"rel-037","p13":"rel-038","p14":"rel-039","p15":"rel-040","p16":"rel-041","p17":"rel-042","p18":"rel-043","p19":"rel-044","p20":"rel-045","p21":"rel-046","p22":"rel-047","p23":"lca-123","p24":"lca-124","p25":"lca-125","p26":"lca-126","p27":"lca-127","p28":"lca-128","p29":"lca-129","p30":"lca-130","p31":"lca-131","p32":"lca-132","y18m1":"civ-026","y18m2":"civ-027","y18m3":"civ-028","y18m4":"civ-029","y18m5":"civ-030","y18m6":"civ-031","y18m7":"civ-032","y18m8":"civ-033","y18m9":"civ-034","y18m10":"civ-035","y18m11":"civ-036","y18m12":"civ-037","y18m13":"civ-038","y18m14":"civ-039","y18m15":"civ-040","y18m16":"civ-041","y18m17":"civ-042","y18m18":"civ-043","y18m19":"civ-044","y18m20":"civ-045","y18r1":"rel-048","y18r2":"rel-049","y18r3":"rel-050","y18r4":"rel-051","y18r5":"rel-052","y18r6":"rel-053","y18r7":"rel-054","y18r8":"rel-055","y18r9":"rel-056","y18r10":"rel-057","y18r11":"rel-058","y18r12":"rel-059","y18r13":"rel-060","y18r14":"rel-061","y18r15":"rel-062","y18r16":"rel-063","y18r17":"rel-064","y18r18":"rel-065","y18r19":"rel-066","y18r20":"rel-067","y18t1":"lca-133","y18t2":"lca-134","y18t3":"lca-135","y18t4":"lca-136","y18t5":"lca-137","y18t6":"lca-138","y18t7":"lca-139","y18t8":"lca-140","y18t9":"lca-141","y18t10":"lca-142","y18t11":"lca-143","y18t12":"lca-144","y18t13":"lca-145","y18t14":"lca-146","y18t15":"lca-147","y18t16":"lca-148","y18t17":"lca-149","y18t18":"lca-150","y18t19":"lca-151","y18t20":"lca-152"};
+
+function migrateIdProgress(data){
+  if(!data||!data.cards) return data;
+  const hasOld=Object.keys(data.cards).some(k=>!k.match(/^(civ|rel|lca|prc[12])-\d{3}$/));
+  if(!hasOld) return data;
+  const nc={};
+  Object.entries(data.cards).forEach(([oid,card])=>{ const nid=ID_MIGRATION[oid]; if(nid) nc[nid]=card; });
+  data.cards=nc; data.version=4;
+  return data;
+}
+function migrateToV5(data){
+  data=migrateIdProgress(data);
+  const p={version:5,
+    "1":{cards:data.cards||{},totalAnswered:data.totalAnswered||0,totalCorrect:data.totalCorrect||0,studyDays:Array.isArray(data.studyDays)?data.studyDays:[]},
+    "2":blankStageProgress("2")
+  };
+  BANK.filter(q=>(q.stage||1)===1).forEach(q=>{ if(!p["1"].cards[q.id]) p["1"].cards[q.id]={box:0,seen:0,correct:0,wrong:0,lastDay:null,dueDay:0}; });
+  return p;
+}
+
+async function loadProgress(){
+  const saved=await store.get(STORE_KEY);
+  if(saved&&saved.version>=5&&saved["1"]&&saved["2"]){
+    // 구조 검증
+    if(typeof saved["1"].cards!=='object'||saved["1"].cards===null) saved["1"]=blankStageProgress("1");
+    if(typeof saved["2"].cards!=='object'||saved["2"].cards===null) saved["2"]=blankStageProgress("2");
+    BANK.forEach(q=>{ const s=String(q.stage||1); if(!saved[s].cards[q.id]) saved[s].cards[q.id]={box:0,seen:0,correct:0,wrong:0,lastDay:null,dueDay:0}; });
+    P=saved;
+  } else if(saved&&(saved.cards||saved.version)){
+    P=migrateToV5(saved);
+  } else {
+    P=blankProgress();
+  }
+}
+async function saveProgress(){ await store.set(STORE_KEY,P); }
+
+/* --- 학습 로직 --- */
+function markStudied(){ const d=todayNum(); if(!sp().studyDays.includes(d)) sp().studyDays.push(d); }
 function currentStreak(){
-  if(!P.studyDays.length) return 0;
-  const set=new Set(P.studyDays); let d=todayNum();
-  if(!set.has(d) && !set.has(d-1)) return 0;
-  let start = set.has(d)?d:d-1, s=0;
+  const days=sp().studyDays; if(!days.length) return 0;
+  const set=new Set(days); let d=todayNum();
+  if(!set.has(d)&&!set.has(d-1)) return 0;
+  let start=set.has(d)?d:d-1,s=0;
   while(set.has(start)){s++;start--;}
   return s;
 }
-function applyResult(id, ok){
-  const c=P.cards[id]; c.seen++;
-  P.totalAnswered++;
-  if(ok){ c.correct++; P.totalCorrect++; c.box=Math.min(5,(c.box||0)+1); }
+function applyResult(id,ok){
+  const c=sp().cards[id]; if(!c) return;
+  c.seen++; sp().totalAnswered++;
+  if(ok){ c.correct++; sp().totalCorrect++; c.box=Math.min(MAX_BOX,(c.box||0)+1); }
   else { c.wrong++; c.box=1; }
   c.lastDay=todayNum();
   c.dueDay=todayNum()+BOX_INTERVALS[Math.max(0,c.box-1)];
 }
-function masteryPct(){ // weighted: box5 fully mastered
-  let sum=0; BANK.forEach(q=>sum+=(P.cards[q.id].box||0)); return Math.round((sum/(BANK.length*5))*100);
+function masteryPct(){
+  const bank=stageBank(); if(!bank.length) return 0;
+  let sum=0; bank.forEach(q=>sum+=(sp().cards[q.id]?.box||0));
+  return Math.round((sum/(bank.length*MAX_BOX))*100);
 }
 function subjMastery(s){
-  const qs=BANK.filter(q=>q.subject===s); let sum=0; qs.forEach(q=>sum+=(P.cards[q.id].box||0));
-  return {pct:Math.round((sum/(qs.length*5))*100), n:qs.length, mastered:qs.filter(q=>P.cards[q.id].box>=5).length, seen:qs.filter(q=>P.cards[q.id].seen>0).length};
+  const qs=stageBank().filter(q=>q.subject===s);
+  if(!qs.length) return {pct:0,n:0,mastered:0,seen:0};
+  let sum=0; qs.forEach(q=>sum+=(sp().cards[q.id]?.box||0));
+  return {pct:Math.round((sum/(qs.length*MAX_BOX))*100),n:qs.length,mastered:qs.filter(q=>(sp().cards[q.id]?.box||0)>=MAX_BOX).length,seen:qs.filter(q=>(sp().cards[q.id]?.seen||0)>0).length};
 }
-let filterDiff=0;
-let randomMode=false;
-let panel={map:true,status:true};
-function dfilter(a){ return filterDiff? a.filter(q=>(q.diff||2)===filterDiff):a; }
-function diffMastery(d){ const qs=BANK.filter(q=>(q.diff||2)===d); if(!qs.length)return {pct:0,n:0,mastered:0}; let s=0; qs.forEach(q=>s+=(P.cards[q.id].box||0)); return {pct:Math.round(s/(qs.length*5)*100), n:qs.length, mastered:qs.filter(q=>P.cards[q.id].box>=5).length}; }
-function dueCards(){ const t=todayNum(); return BANK.filter(q=>{const c=P.cards[q.id]; return c.seen===0 || c.dueDay<=t;}); }
-function weakCards(){ return BANK.filter(q=>{const c=P.cards[q.id]; return c.box<=2 || c.wrong>c.correct;}); }
+function dfilter(a){ return filterDiff?a.filter(q=>(q.diff||2)===filterDiff):a; }
+function diffMastery(d){ const qs=stageBank().filter(q=>(q.diff||2)===d); if(!qs.length) return {pct:0,n:0,mastered:0}; let s=0; qs.forEach(q=>s+=(sp().cards[q.id]?.box||0)); return {pct:Math.round(s/(qs.length*MAX_BOX)*100),n:qs.length,mastered:qs.filter(q=>(sp().cards[q.id]?.box||0)>=MAX_BOX).length}; }
+function dueCards(){ const t=todayNum(); return stageBank().filter(q=>{const c=sp().cards[q.id]; return !c||c.seen===0||c.dueDay<=t;}); }
+function weakCards(){ return stageBank().filter(q=>{const c=sp().cards[q.id]; return !c||c.box<=2||c.wrong>c.correct;}); }
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+/* --- 과락 계산 --- */
+function calcPassFail(answers,queue){
+  const subjects=stageSubjects();
+  const perSubj={}; subjects.forEach(s=>perSubj[s]={total:0,correct:0});
+  queue.forEach(id=>{
+    const q=BANK_MAP[id]; if(!q) return;
+    if(!perSubj[q.subject]) perSubj[q.subject]={total:0,correct:0};
+    perSubj[q.subject].total++;
+    if(answers[id]===q.a) perSubj[q.subject].correct++;
+  });
+  const results=subjects.map(s=>{
+    const d=perSubj[s]; const score=d.total?Math.round(d.correct/d.total*100):0;
+    return {subject:s,score,total:d.total,correct:d.correct,gwarak:score<40};
+  });
+  const avg=results.length?Math.round(results.reduce((s,r)=>s+r.score,0)/results.length):0;
+  const anyGwarak=results.some(r=>r.gwarak);
+  return {results,avgScore:avg,pass:avg>=60&&!anyGwarak,anyGwarak};
+}
 
 /* ============================== VIEWS ============================== */
 const root=document.getElementById('root');
-let session=null; // {queue:[...ids], idx, answers:{}, mode, subject, examMode}
-
-let curPage='home'; // 'home' | 'mastery' | 'status'
 
 function topbar(){
-  const pct=masteryPct(), due=dfilter(dueCards()).length, streak=currentStreak();
-  const acc=P.totalAnswered?Math.round(P.totalCorrect/P.totalAnswered*100):0;
+  const pct=masteryPct(), due=dfilter(dueCards()).length;
   return `<div class="topbar">
-    <div class="logo"><div class="seal-mark" style="width:34px;height:34px;font-size:15px">補</div><h1>보상관리사</h1></div>
+    <div class="logo">
+      <div style="flex:none;width:34px;height:34px;border:2px solid var(--seal);border-radius:8px;display:grid;place-items:center;color:var(--seal);font-weight:800;font-size:15px;letter-spacing:-1px;transform:rotate(-3deg)">補</div>
+      <div><h1>보상관리사</h1><div style="font-size:11px;color:var(--muted);margin-top:-2px">${STAGES[curStage].label}</div></div>
+    </div>
     <div class="nav-tabs">
       <button class="nav-tab ${curPage==='home'?'on':''}" onclick="goPage('home')">학습</button>
       <button class="nav-tab ${curPage==='mastery'?'on':''}" onclick="goPage('mastery')">숙련도 <span style="font-size:10px">${pct}%</span></button>
       <button class="nav-tab ${curPage==='status'?'on':''}" onclick="goPage('status')">현황${due>0?` <span class="tab-badge">${due}</span>`:''}</button>
     </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="메뉴 열기">☰</button>
+  </div>${menuOpen?renderMenu():''}`;
+}
+
+function renderMenu(){
+  return `<div class="menu-overlay" onclick="toggleMenu()"></div>
+  <div class="menu-panel" role="menu">
+    <div class="menu-stage-label">시험 선택</div>
+    <button class="menu-item" role="menuitem" aria-current="${curStage==='1'}" onclick="switchStage('1')">📝 1차 시험 <span style="margin-left:auto;font-size:11px;color:var(--faint)">${stageBank('1').length}문항</span></button>
+    <button class="menu-item" role="menuitem" aria-current="${curStage==='2'}" onclick="switchStage('2')">📝 2차 시험 <span style="margin-left:auto;font-size:11px;color:var(--faint)">${stageBank('2').length||'준비중'}</span></button>
+    <div class="menu-divider"></div>
+    <button class="menu-item" role="menuitem" onclick="toggleMenu();confirmReset()" style="color:var(--seal)">🗑️ 진도 초기화</button>
   </div>`;
+}
+
+function toggleMenu(){ menuOpen=!menuOpen; render(); }
+function switchStage(s){
+  if(curStage===s){toggleMenu();return;}
+  curStage=s; session=null; curPage='home'; menuOpen=false;
+  store.set(STAGE_KEY,curStage); render();
 }
 
 function goPage(p){ curPage=p; render(); }
 function render(){ if(session) renderStudy(); else if(curPage==='mastery') renderMastery(); else if(curPage==='status') renderStatus(); else renderDash(); }
 
+/* --- 빈 상태 (작업 5) --- */
+function renderEmpty(){
+  root.innerHTML=topbar()+`
+  <div class="card" style="text-align:center;padding:48px 24px">
+    <div style="font-size:48px;margin-bottom:16px">📚</div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:8px">${STAGES[curStage].label}</div>
+    <div style="font-size:14px;color:var(--muted);line-height:1.6">문항 준비 중입니다.<br>곧 학습할 수 있도록 문항을 추가할 예정입니다.</div>
+  </div>`;
+}
+
 function renderMastery(){
+  const bank=stageBank(); if(!bank.length){renderEmpty();return;}
   const pct=masteryPct();
-  const totalSeen=BANK.filter(q=>P.cards[q.id].seen>0).length;
-  const plots = BANK.map(q=>{
-    const b=P.cards[q.id].box||0;
-    const cls = b===0?'plot new':'plot';
-    const col = ['var(--b0)','var(--b1)','var(--b2)','var(--b3)','var(--b4)','var(--b5)'][b];
-    return `<div class="${cls}" style="background:${col}" title="${q.subject} ${q.o}번 · 레벨 ${b}/5"></div>`;
+  const totalSeen=bank.filter(q=>(sp().cards[q.id]?.seen||0)>0).length;
+  const plots=bank.map(q=>{
+    const b=sp().cards[q.id]?.box||0;
+    const cls=b===0?'plot new':'plot';
+    const col=['var(--b0)','var(--b1)','var(--b2)','var(--b3)','var(--b4)','var(--b5)'][b];
+    return `<div class="${cls}" style="background:${col}" title="${q.subject} · 레벨 ${b}/${MAX_BOX}"></div>`;
   }).join('');
-  const bars = SUBJECTS.map(s=>{
+  const bars=stageSubjects().map(s=>{
     const m=subjMastery(s);
-    return `<div class="subj"><div class="top"><b>${s}</b><span class="n">${m.mastered}/${m.n} 숙달 · ${m.pct}%</span></div><div class="track"><div class="fill" style="width:${m.pct}%;background:${SUBJ_COLOR[s]}"></div></div></div>`;
+    return `<div class="subj"><div class="top"><b>${s}</b><span class="n">${m.mastered}/${m.n} 숙달 · ${m.pct}%</span></div><div class="track"><div class="fill" style="width:${m.pct}%;background:${SUBJ_COLOR[s]||'var(--ink)'}"></div></div></div>`;
   }).join('');
   const DCOL={1:'#3A5BA0',2:'#8A6D1F',3:'#B23A3A'};
-  const dbars = [[1,'★ 기초'],[2,'★★ 표준'],[3,'★★★ 심화']].map(([lv,nm])=>{
+  const dbars=[[1,'★ 기초'],[2,'★★ 표준'],[3,'★★★ 심화']].map(([lv,nm])=>{
     const m=diffMastery(lv);
     return `<div class="subj"><div class="top"><b>${nm}</b><span class="n">${m.mastered}/${m.n} 숙달 · ${m.pct}%</span></div><div class="track"><div class="fill" style="width:${m.pct}%;background:${DCOL[lv]}"></div></div></div>`;
   }).join('');
-  root.innerHTML = topbar() + `
+  root.innerHTML=topbar()+`
   <div class="card" style="margin-bottom:16px">
-    <div class="plot-head"><div class="pct">${pct}<small>% 숙달</small></div><div style="text-align:right;font-size:12px;color:var(--muted)">학습한 문항<br><b style="font-size:15px;color:var(--ink)">${totalSeen} / ${BANK.length}</b></div></div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px"><div style="font-size:30px;font-weight:800;letter-spacing:-1px">${pct}<small style="font-size:14px;color:var(--muted);font-weight:600;margin-left:3px">% 숙달</small></div><div style="text-align:right;font-size:12px;color:var(--muted)">학습한 문항<br><b style="font-size:15px;color:var(--ink)">${totalSeen} / ${bank.length}</b></div></div>
     <div class="plots">${plots}</div>
     <div class="legend"><span><i style="background:var(--b0)"></i>미학습</span><span><i style="background:var(--b1)"></i>취약</span><span><i style="background:var(--b3)"></i>학습중</span><span><i style="background:var(--b5)"></i>숙달</span></div>
   </div>
-  <div class="card" style="margin-bottom:16px">
-    <div class="eyebrow" style="margin-bottom:10px">과목별 숙련도</div>
-    <div class="subj-bars">${bars}</div>
-  </div>
-  <div class="card">
-    <div class="eyebrow" style="margin-bottom:10px">난이도별 숙련도</div>
-    <div class="subj-bars">${dbars}</div>
-  </div>
-  <div style="text-align:center;margin-top:16px"><button class="reset" onclick="confirmReset()">전체 기록 초기화</button></div>`;
+  <div class="card" style="margin-bottom:16px"><div class="eyebrow" style="margin-bottom:10px">과목별 숙련도</div><div class="subj-bars">${bars}</div></div>
+  <div class="card"><div class="eyebrow" style="margin-bottom:10px">난이도별 숙련도</div><div class="subj-bars">${dbars}</div></div>
+  <div style="text-align:center;margin-top:16px"><button style="font-size:12px;color:var(--faint);border:1px solid var(--line);border-radius:7px;padding:6px 10px" onclick="confirmReset()">전체 기록 초기화</button></div>`;
 }
 
 function renderStatus(){
+  const bank=stageBank(); if(!bank.length){renderEmpty();return;}
   const due=dfilter(dueCards()).length, streak=currentStreak();
-  const acc=P.totalAnswered?Math.round(P.totalCorrect/P.totalAnswered*100):0;
+  const acc=sp().totalAnswered?Math.round(sp().totalCorrect/sp().totalAnswered*100):0;
   const pct=masteryPct();
-  const r=52, circ=2*Math.PI*r, off=circ*(1-pct/100);
+  const r=52,circ=2*Math.PI*r,off=circ*(1-pct/100);
   const col=pct>=80?'var(--correct)':pct>=40?'var(--gold)':'var(--seal)';
-  root.innerHTML = topbar() + `
+  root.innerHTML=topbar()+`
   <div class="card" style="margin-bottom:16px;text-align:center;padding:24px">
     <svg style="width:120px;height:120px;margin-bottom:12px" viewBox="0 0 120 120"><circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--line)" stroke-width="10"/><circle cx="60" cy="60" r="${r}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/><text x="60" y="58" text-anchor="middle" font-size="24" font-weight="800" fill="var(--ink)">${pct}%</text><text x="60" y="76" text-anchor="middle" font-size="11" fill="var(--muted)">전체 숙련도</text></svg>
   </div>
@@ -393,8 +470,8 @@ function renderStatus(){
     <div class="statline streak"><span class="k">연속 학습</span><span class="v">${streak}일 ${streak>=3?'🔥':''}</span></div>
     <div class="statline"><span class="k">오늘 복습할 문항</span><span class="v">${due}題</span></div>
     <div class="statline"><span class="k">누적 정답률</span><span class="v">${acc}%</span></div>
-    <div class="statline"><span class="k">총 푼 문항</span><span class="v mono">${P.totalAnswered}</span></div>
-    <div class="statline"><span class="k">총 문항 수</span><span class="v mono">${BANK.length}</span></div>
+    <div class="statline"><span class="k">총 푼 문항</span><span class="v mono">${sp().totalAnswered}</span></div>
+    <div class="statline"><span class="k">총 문항 수</span><span class="v mono">${bank.length}</span></div>
   </div>
   <div class="modes">
     <button class="mode primary" onclick="startMode('review')"><div class="mt">오늘의 복습 ${due>0?`<span class="badge due">${due}題</span>`:`<span class="badge">0題</span>`}</div><div class="md">간격 반복으로 복습할 문항을 풀어보세요.</div></button>
@@ -403,11 +480,13 @@ function renderStatus(){
 }
 
 function renderDash(){
-  const due=dfilter(dueCards()).length, streak=currentStreak();
+  const bank=stageBank(); if(!bank.length){renderEmpty();return;}
+  const due=dfilter(dueCards()).length,streak=currentStreak();
   const pct=masteryPct();
-  const acc=P.totalAnswered?Math.round(P.totalCorrect/P.totalAnswered*100):0;
+  const acc=sp().totalAnswered?Math.round(sp().totalCorrect/sp().totalAnswered*100):0;
+  const examSize=STAGES[curStage].examSize;
 
-  root.innerHTML = topbar() + `
+  root.innerHTML=topbar()+`
   <div class="stat-compact">
     <div class="sc-item">숙련도 <b>${pct}%</b></div>
     <div class="sc-item">정답률 <b>${acc}%</b></div>
@@ -418,10 +497,10 @@ function renderDash(){
   <div class="diff-main">
     <div class="dm-title">난이도를 선택하세요</div>
     <div class="diff-cards">
-      <button class="diff-card ${filterDiff===0?'on':''}" onclick="setDiff(0)"><div class="dc-label">전체</div><div class="dc-sub">${BANK.length}문항</div></button>
-      <button class="diff-card ${filterDiff===1?'on':''}" onclick="setDiff(1)"><div class="dc-label">★ 기초</div><div class="dc-sub">${BANK.filter(q=>(q.diff||2)===1).length}문항</div></button>
-      <button class="diff-card ${filterDiff===2?'on':''}" onclick="setDiff(2)"><div class="dc-label">★★ 표준</div><div class="dc-sub">${BANK.filter(q=>(q.diff||2)===2).length}문항</div></button>
-      <button class="diff-card ${filterDiff===3?'on':''}" onclick="setDiff(3)"><div class="dc-label">★★★ 심화</div><div class="dc-sub">${BANK.filter(q=>(q.diff||2)===3).length}문항</div></button>
+      <button class="diff-card ${filterDiff===0?'on':''}" onclick="setDiff(0)"><div class="dc-label">전체</div><div class="dc-sub">${bank.length}문항</div></button>
+      <button class="diff-card ${filterDiff===1?'on':''}" onclick="setDiff(1)"><div class="dc-label">★ 기초</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===1).length}문항</div></button>
+      <button class="diff-card ${filterDiff===2?'on':''}" onclick="setDiff(2)"><div class="dc-label">★★ 표준</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===2).length}문항</div></button>
+      <button class="diff-card ${filterDiff===3?'on':''}" onclick="setDiff(3)"><div class="dc-label">★★★ 심화</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===3).length}문항</div></button>
     </div>
   </div>
 
@@ -432,125 +511,121 @@ function renderDash(){
 
   <div class="quick-grid">
     <button class="quick-card primary" onclick="startMode('review')">
-      <div class="qc-icon">📖</div>
-      <div class="qc-title">오늘의 복습</div>
-      <div class="qc-count">${due}題</div>
-      <div class="qc-desc">간격 반복 알고리즘</div>
+      <div class="qc-icon">📖</div><div class="qc-title">오늘의 복습</div>
+      <div class="qc-count">${due}題</div><div class="qc-desc">간격 반복 알고리즘</div>
     </button>
     <button class="quick-card" onclick="startMode('weak')">
-      <div class="qc-icon">🎯</div>
-      <div class="qc-title">약점 집중</div>
-      <div class="qc-count">${dfilter(weakCards()).length}題</div>
-      <div class="qc-desc">취약 문항 반복</div>
+      <div class="qc-icon">🎯</div><div class="qc-title">약점 집중</div>
+      <div class="qc-count">${dfilter(weakCards()).length}題</div><div class="qc-desc">취약 문항 반복</div>
     </button>
-    <button class="quick-card" onclick="pickSubject('exam')">
-      <div class="qc-icon">📝</div>
-      <div class="qc-title">모의고사</div>
-      <div class="qc-count">25題</div>
-      <div class="qc-desc">실전 채점·해설</div>
+    <button class="quick-card" onclick="startExam()">
+      <div class="qc-icon">📝</div><div class="qc-title">모의고사</div>
+      <div class="qc-count">${examSize}題</div><div class="qc-desc">실전 채점·과락 경보</div>
     </button>
   </div>
 
   <div class="eyebrow" style="margin-bottom:10px">과목별 연습</div>
   <div class="subj-row">
-    ${SUBJECTS.map(s=>{const m=subjMastery(s); return `<button class="subj-chip" onclick="startSubject('practice','${s}')">${s} <span style="color:var(--faint);font-size:11px">${m.pct}%</span></button>`;}).join('')}
+    ${stageSubjects().map(s=>{const m=subjMastery(s); return `<button class="subj-chip" onclick="startSubject('practice','${s}')">${s} <span style="color:var(--faint);font-size:11px">${m.pct}%</span></button>`;}).join('')}
     <button class="subj-chip" onclick="startSubject('practice','전체')">전체</button>
   </div>
 
   <div id="subpick-slot"></div>
-  <div class="foot">총 ${BANK.length}문항 · 진도는 이 기기에 자동 저장됩니다</div>`;
+  <div class="foot">총 ${bank.length}문항 · 진도는 이 기기에 자동 저장됩니다</div>`;
 }
 
-function pickSubject(mode){
-  const slot=document.getElementById('subpick-slot');
-  const chips = SUBJECTS.map(s=>{
-    const m=subjMastery(s);
-    return `<button class="chip" onclick="startSubject('${mode}','${s}')">${s} <span style="color:var(--faint);font-size:11px">${m.pct}%</span></button>`;
-  }).join('');
-  const allChip = mode==='exam'?'':`<button class="chip" onclick="startSubject('${mode}','전체')">전체</button>`;
-  slot.innerHTML = `<div class="card" style="margin-top:16px">
-    <div class="eyebrow">${mode==='exam'?'모의고사 과목 선택':'연습 과목 선택'}</div>
-    <div class="subpick">${chips}${allChip}</div>
-  </div>`;
-  slot.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
 function setDiff(d){ filterDiff=d; renderDash(); }
-function togglePanel(k){ panel[k]=!panel[k]; renderDash(); }
+function toggleRandom(){ randomMode=!randomMode; renderDash(); }
 
-function buildQueue(mode, subject){
+/* --- 큐 빌드 --- */
+function buildQueue(mode,subject){
   let pool;
-  if(mode==='review'){ pool=dfilter(dueCards()); if(randomMode) pool=shuffle(pool); else pool.sort((a,b)=>(P.cards[a.id].box)-(P.cards[b.id].box)); pool=pool.slice(0,20); }
-  else if(mode==='weak'){ pool=dfilter(weakCards()); pool=randomMode?shuffle(pool).slice(0,Math.min(20,pool.length)):weightedPick(pool, Math.min(20,pool.length||1)); }
-  else if(mode==='practice'){ let p=dfilter(subject==='전체'?BANK:BANK.filter(q=>q.subject===subject)); pool=randomMode?shuffle(p).slice(0,Math.min(15,p.length)):weightedPick(p, Math.min(15,p.length)); }
-  else if(mode==='exam'){ let p=dfilter(BANK.filter(q=>q.subject===subject)); pool=shuffle(p).slice(0,25); }
+  if(mode==='review'){ pool=dfilter(dueCards()); if(randomMode) pool=shuffle(pool); else pool.sort((a,b)=>(sp().cards[a.id]?.box||0)-(sp().cards[b.id]?.box||0)); pool=pool.slice(0,QUEUE_REVIEW); }
+  else if(mode==='weak'){ pool=dfilter(weakCards()); pool=randomMode?shuffle(pool).slice(0,Math.min(QUEUE_REVIEW,pool.length)):weightedPick(pool,Math.min(QUEUE_REVIEW,pool.length||1)); }
+  else if(mode==='practice'){ let p=dfilter(subject==='전체'?stageBank():stageBank().filter(q=>q.subject===subject)); pool=randomMode?shuffle(p).slice(0,Math.min(QUEUE_PRACTICE,p.length)):weightedPick(p,Math.min(QUEUE_PRACTICE,p.length)); }
   return pool.map(q=>q.id);
 }
-function toggleRandom(){ randomMode=!randomMode; renderDash(); }
-function weightedPick(pool, n){
-  // weight = 6 - box (weaker => more likely), sample without replacement
-  let items=pool.map(q=>({q,w:6-(P.cards[q.id].box||0)})); let out=[];
-  for(let k=0;k<n && items.length;k++){
-    let tot=items.reduce((s,i)=>s+i.w,0), r=Math.random()*tot, acc=0, pick=0;
-    for(let i=0;i<items.length;i++){acc+=items[i].w; if(r<=acc){pick=i;break;}}
-    out.push(items[pick].q); items.splice(pick,1);
+function weightedPick(pool,n){
+  let items=pool.map(q=>({q,w:MAX_BOX+1-(sp().cards[q.id]?.box||0)})); let out=[];
+  for(let k=0;k<n&&items.length;k++){
+    let tot=items.reduce((s,i)=>s+i.w,0),r=Math.random()*tot,acc=0,pick=0;
+    for(let i=0;i<items.length;i++){acc+=items[i].w;if(r<=acc){pick=i;break;}}
+    out.push(items[pick].q);items.splice(pick,1);
   }
   return out;
+}
+
+/* --- 모의고사 균등 추출 (작업 7) --- */
+function buildBalancedExam(){
+  const subjects=stageSubjects();
+  const total=STAGES[curStage].examSize;
+  const base=Math.floor(total/subjects.length);
+  const remainder=total%subjects.length;
+  let insufficient=false;
+  const pool=[];
+  subjects.forEach((s,i)=>{
+    const available=dfilter(stageBank().filter(q=>q.subject===s));
+    const want=base+(i<remainder?1:0);
+    const take=Math.min(want,available.length);
+    if(take<want) insufficient=true;
+    pool.push(...shuffle(available).slice(0,take));
+  });
+  return {pool:shuffle(pool),insufficient};
 }
 
 function startMode(mode){
   const q=buildQueue(mode);
   if(!q.length){ toastEmpty(mode); return; }
-  session={queue:q, idx:0, answers:{}, mode, examMode:false, correctCount:0, levelUp:0, levelDown:0};
+  session={queue:q,idx:0,answers:{},mode,examMode:false,correctCount:0,levelUp:0,levelDown:0};
   render();
 }
-function startSubject(mode, subject){
-  const q=buildQueue(mode, subject);
+function startSubject(mode,subject){
+  const q=buildQueue(mode,subject);
   if(!q.length){ toastEmpty(mode); return; }
-  session={queue:q, idx:0, answers:{}, mode, subject, examMode:(mode==='exam'), correctCount:0, levelUp:0, levelDown:0};
+  session={queue:q,idx:0,answers:{},mode,subject,examMode:false,correctCount:0,levelUp:0,levelDown:0};
+  render();
+}
+function startExam(){
+  const {pool,insufficient}=buildBalancedExam();
+  if(!pool.length){ toastEmpty('exam'); return; }
+  session={queue:pool.map(q=>q.id),idx:0,answers:{},mode:'exam',subject:STAGES[curStage].label,examMode:true,correctCount:0,levelUp:0,levelDown:0,insufficient};
   render();
 }
 function toastEmpty(mode){
-  const slot=document.getElementById('subpick-slot')||root;
-  const msg = mode==='review'?'오늘 복습할 문항이 없습니다. 모든 문항을 예정대로 학습했습니다 — 약점 집중이나 과목별 연습을 해보세요.':'해당하는 문항이 없습니다.';
+  const msg=mode==='review'?'오늘 복습할 문항이 없습니다. 모든 문항을 예정대로 학습했습니다 — 약점 집중이나 과목별 연습을 해보세요.':'해당하는 문항이 없습니다.';
   alert(msg);
 }
 
+/* --- 학습 화면 --- */
 function renderStudy(){
   if(session.examMode) return renderExam();
-  const id=session.queue[session.idx], q=BANK_MAP[id], c=P.cards[id];
+  const id=session.queue[session.idx],q=BANK_MAP[id],c=sp().cards[id]||{box:0};
+  // type 분기점: mcq만 구현, fill/essay는 추후
+  if(q.type&&q.type!=='mcq') return;
   const answered=session.answers[id]!==undefined;
   const chosen=session.answers[id];
-  const total=session.queue.length, pos=session.idx+1;
+  const total=session.queue.length,pos=session.idx+1;
 
-  const boxdots = Array.from({length:5},(_,i)=>`<i class="${i<c.box?'on':''}" style="${i<c.box?`background:${['','var(--b1)','var(--b2)','var(--b3)','var(--b4)','var(--b5)'][i+1]}`:''}"></i>`).join('');
+  const boxdots=Array.from({length:MAX_BOX},(_,i)=>`<i class="${i<c.box?'on':''}" style="${i<c.box?`background:${['','var(--b1)','var(--b2)','var(--b3)','var(--b4)','var(--b5)'][i+1]}`:''}"></i>`).join('');
 
-  const opts = q.opt.map((t,i)=>{
+  const opts=q.opt.map((t,i)=>{
     let cls='opt';
-    if(answered){
-      if(i===q.a) cls+=' correct';
-      else if(i===chosen) cls+=' wrong';
-      else cls+=' dim';
-    }
-    return `<button class="${cls}" ${answered?'disabled':''} onclick="answer(${i})">
-      <span class="no">${NUM[i]}</span><span>${t}</span></button>`;
+    if(answered){ if(i===q.a) cls+=' correct'; else if(i===chosen) cls+=' wrong'; else cls+=' dim'; }
+    return `<button class="${cls}" ${answered?'disabled':''} onclick="answer(${i})"><span class="no">${NUM[i]}</span><span>${t}</span></button>`;
   }).join('');
 
   let verdict='';
   if(answered){
     const ok=chosen===q.a;
-    verdict=`<div class="verdict ${ok?'ok':'no'}">
-      <div class="vh">${ok?'✓ 정답':'✕ 오답'} · 정답은 ${NUM[q.a]}</div>
-      <div class="ex">${q.ex}</div>
-    </div>
-    <div class="actionbar">
-      <button class="btn" onclick="next()">${session.idx+1<total?'다음 문항 →':'세션 마치기'}</button>
-      <span class="kbd-hint"><kbd>Enter</kbd> 다음</span>
-    </div>`;
+    verdict=`<div class="verdict ${ok?'ok':'no'}"><div class="vh">${ok?'✓ 정답':'✕ 오답'} · 정답은 ${NUM[q.a]}</div><div class="ex">${q.ex}</div></div>
+    <div class="actionbar"><button class="btn" onclick="next()">${session.idx+1<total?'다음 문항 →':'세션 마치기'}</button><span class="kbd-hint"><kbd>Enter</kbd> 다음</span></div>`;
   } else {
     verdict=`<div class="actionbar"><span class="kbd-hint"><kbd>1</kbd>~<kbd>5</kbd> 로 답 선택</span></div>`;
   }
 
-  root.innerHTML = topbar() + `
+  const srcTag=q.source&&q.source[0]?(q.source[0].year?`기출 ${q.source[0].year} ${q.source[0].no||''}번`:q.source[0].type):'';
+
+  root.innerHTML=topbar()+`
   <div class="study-top">
     <button class="back" onclick="quitSession()">← 그만두기</button>
     <div class="prog"><i style="width:${Math.round(pos/total*100)}%"></i></div>
@@ -560,7 +635,7 @@ function renderStudy(){
     <div class="qmeta">
       <span class="tag subj">${q.subject}</span>
       <span class="tag diff d${q.diff||2}">${'★'.repeat(q.diff||2)} ${['','기초','표준','심화'][q.diff||2]}</span>
-      <span class="tag origin">${(typeof q.o==='number'||/^\d+$/.test(q.o))?('기출 '+q.o+'번'):q.o}</span>
+      ${srcTag?`<span class="tag origin">${srcTag}</span>`:''}
       <div class="boxdots"><span class="bl">숙련도</span>${boxdots}</div>
     </div>
     <div class="qtext">${q.q}</div>
@@ -570,34 +645,33 @@ function renderStudy(){
 }
 
 function answer(i){
-  const id=session.queue[session.idx], q=BANK_MAP[id];
+  const id=session.queue[session.idx],q=BANK_MAP[id];
   if(session.answers[id]!==undefined) return;
   session.answers[id]=i;
-  const before=P.cards[id].box, ok=i===q.a;
-  applyResult(id, ok);
-  if(ok){session.correctCount++; if(P.cards[id].box>before)session.levelUp++;}
-  else { if(P.cards[id].box<before)session.levelDown++; }
-  markStudied(); saveProgress();
+  const before=sp().cards[id]?.box||0,ok=i===q.a;
+  applyResult(id,ok);
+  if(ok){session.correctCount++;if((sp().cards[id]?.box||0)>before)session.levelUp++;}
+  else {if((sp().cards[id]?.box||0)<before)session.levelDown++;}
+  markStudied();saveProgress();
   renderStudy();
 }
 function next(){
-  if(session.idx+1<session.queue.length){ session.idx++; renderStudy(); }
+  if(session.idx+1<session.queue.length){session.idx++;renderStudy();}
   else renderSummary();
 }
-function quitSession(){ session=null; curPage='home'; render(); }
+function quitSession(){ session=null;curPage='home';render(); }
 
 function renderSummary(){
-  const total=session.queue.length, correct=session.correctCount;
+  const total=session.queue.length,correct=session.correctCount;
   const acc=Math.round(correct/total*100);
-  const r=52, circ=2*Math.PI*r, off=circ*(1-acc/100);
+  const r=52,circ=2*Math.PI*r,off=circ*(1-acc/100);
   const col=acc>=80?'var(--correct)':acc>=60?'var(--gold)':'var(--seal)';
-  root.innerHTML = topbar() + `
+  root.innerHTML=topbar()+`
   <div class="card"><div class="summary">
     <div class="eyebrow">세션 완료 · SESSION COMPLETE</div>
     <svg class="ring" viewBox="0 0 120 120">
       <circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--line)" stroke-width="10"/>
-      <circle cx="60" cy="60" r="${r}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round"
-        stroke-dasharray="${circ}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
+      <circle cx="60" cy="60" r="${r}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
       <text x="60" y="58" text-anchor="middle" font-size="26" font-weight="800" fill="var(--ink)">${acc}%</text>
       <text x="60" y="76" text-anchor="middle" font-size="11" fill="var(--muted)">정답률</text>
     </svg>
@@ -609,28 +683,30 @@ function renderSummary(){
       <div class="sbox down"><div class="n">▼ ${session.levelDown}</div><div class="l">1레벨로 하락</div></div>
     </div>
     <div class="actionbar" style="justify-content:center">
-      <button class="btn" onclick="quitSession()">지적도 확인하기</button>
+      <button class="btn" onclick="quitSession()">돌아가기</button>
       <button class="btn ghost" onclick="repeat()">한 번 더</button>
     </div>
   </div></div>`;
 }
-function repeat(){ const {mode,subject}=session; session=null; if(subject) startSubject(mode,subject); else startMode(mode); }
+function repeat(){ const {mode,subject}=session; session=null; if(mode==='exam') startExam(); else if(subject) startSubject(mode,subject); else startMode(mode); }
 
 /* -------- Exam mode -------- */
 function renderExam(){
-  const id=session.queue[session.idx], q=BANK_MAP[id];
+  const id=session.queue[session.idx],q=BANK_MAP[id];
   const chosen=session.answers[id];
-  const total=session.queue.length, pos=session.idx+1;
-  const opts=q.opt.map((t,i)=>`<button class="opt ${chosen===i?'':''}" style="${chosen===i?'border-color:var(--ink);background:var(--surface-2)':''}" onclick="examPick(${i})">
+  const total=session.queue.length,pos=session.idx+1;
+  const ptsPer=Math.round(100/total);
+  const opts=q.opt.map((t,i)=>`<button class="opt" style="${chosen===i?'border-color:var(--ink);background:var(--surface-2)':''}" onclick="examPick(${i})">
     <span class="no" style="${chosen===i?'background:var(--ink);border-color:var(--ink);color:#fff':''}">${NUM[i]}</span><span>${t}</span></button>`).join('');
-  root.innerHTML = topbar() + `
+  root.innerHTML=topbar()+`
   <div class="study-top">
     <button class="back" onclick="quitSession()">← 나가기</button>
     <div class="prog"><i style="width:${Math.round(pos/total*100)}%"></i></div>
     <div class="prog-txt">${pos}/${total}</div>
   </div>
+  ${session.insufficient&&pos===1?`<div style="padding:8px 12px;background:var(--wrong-bg);border:1px solid var(--wrong);border-radius:8px;font-size:12px;color:var(--wrong);margin-bottom:12px">일부 과목의 문항 수가 부족하여 ${total}문항으로 출제됩니다.</div>`:''}
   <div class="qcard">
-    <div class="qmeta"><span class="tag subj">${q.subject}</span><span class="tag origin">모의고사 · 4점</span></div>
+    <div class="qmeta"><span class="tag subj">${q.subject}</span><span class="tag origin">모의고사 · ${ptsPer}점</span></div>
     <div class="qtext">${q.q}</div>
     <div class="opts">${opts}</div>
     <div class="actionbar">
@@ -648,16 +724,26 @@ function examNext(){
   else gradeExam();
 }
 function gradeExam(){
-  let correct=0, lu=0;
+  let correct=0,lu=0;
   session.queue.forEach(id=>{
-    const q=BANK_MAP[id], ok=session.answers[id]===q.a;
-    const before=P.cards[id].box; applyResult(id,ok);
-    if(ok){correct++; if(P.cards[id].box>before)lu++;}
+    const q=BANK_MAP[id],ok=session.answers[id]===q.a;
+    const before=sp().cards[id]?.box||0; applyResult(id,ok);
+    if(ok){correct++;if((sp().cards[id]?.box||0)>before)lu++;}
   });
-  markStudied(); saveProgress();
-  const total=session.queue.length, score=Math.round(correct/total*100);
+  markStudied();saveProgress();
+  const total=session.queue.length,score=Math.round(correct/total*100);
+  const ptsPer=Math.round(100/total);
+
+  // 과락 경보 (작업 6)
+  const pf=calcPassFail(session.answers,session.queue);
+  const pfHtml=`<div class="pf-card ${pf.pass?'pass':'fail'}">
+    <div class="pf-head" style="color:${pf.pass?'var(--correct)':'var(--wrong)'}">${pf.pass?'합격 (PASS)':'불합격 (FAIL)'}${pf.anyGwarak&&pf.avgScore>=60?' — 과락 과목 있음':''}</div>
+    ${pf.results.map(r=>`<div class="pf-row"><span>${r.subject}</span><span style="font-weight:700;color:${r.gwarak?'var(--wrong)':'var(--ink)'}">${r.score}점 ${r.gwarak?'(과락 위험 — 40점 미만)':''}</span></div>`).join('')}
+    <div class="pf-avg"><span>평균</span><span style="color:${pf.avgScore>=60?'var(--correct)':'var(--wrong)'}">${pf.avgScore}점 ${pf.avgScore>=60?'(60점 이상)':'(60점 미만)'}</span></div>
+  </div>`;
+
   const rows=session.queue.map((id,n)=>{
-    const q=BANK_MAP[id], ch=session.answers[id], ok=ch===q.a;
+    const q=BANK_MAP[id],ch=session.answers[id],ok=ch===q.a;
     return `<div style="padding:12px 0;border-bottom:1px solid var(--line-2)">
       <div style="display:flex;gap:8px;align-items:flex-start">
         <span class="mono" style="color:${ok?'var(--correct)':'var(--wrong)'};font-weight:800;flex:none">${ok?'✓':'✕'} ${n+1}.</span>
@@ -669,15 +755,16 @@ function gradeExam(){
       </div></div>`;
   }).join('');
   const col=score>=80?'var(--correct)':score>=60?'var(--gold)':'var(--seal)';
-  root.innerHTML = topbar() + `
+  root.innerHTML=topbar()+`
   <div class="card"><div class="summary" style="padding-bottom:8px">
     <div class="eyebrow">채점 결과 · ${session.subject}</div>
-    <h2 style="margin-top:10px;font-size:40px;color:${col}">${correct*4}<span style="font-size:18px;color:var(--muted)"> / 100점</span></h2>
+    <h2 style="margin-top:10px;font-size:40px;color:${col}">${correct*ptsPer}<span style="font-size:18px;color:var(--muted)"> / 100점</span></h2>
     <div class="sline">${total}문항 중 ${correct}문항 정답 · ${score}%</div>
+    ${pfHtml}
   </div>
   <div style="margin-top:6px"><div class="eyebrow" style="margin-bottom:6px">문항별 해설</div>${rows}</div>
   <div class="actionbar" style="justify-content:center;margin-top:20px">
-    <button class="btn" onclick="quitSession()">지적도로 돌아가기</button>
+    <button class="btn" onclick="quitSession()">돌아가기</button>
   </div></div>`;
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -688,57 +775,34 @@ document.addEventListener('keydown',e=>{
   if(session.examMode){
     const id=session.queue[session.idx];
     if(e.key>='1'&&e.key<='5') examPick(+e.key-1);
-    else if(e.key==='Enter'){ if(session.answers[id]!==undefined) examNext(); }
+    else if(e.key==='Enter'){if(session.answers[id]!==undefined) examNext();}
     return;
   }
   const id=session.queue[session.idx];
   const answered=session.answers[id]!==undefined;
-  if(!answered && e.key>='1'&&e.key<='5') answer(+e.key-1);
-  else if(answered && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); next(); }
+  if(!answered&&e.key>='1'&&e.key<='5') answer(+e.key-1);
+  else if(answered&&(e.key==='Enter'||e.key===' ')){e.preventDefault();next();}
 });
 
 function confirmReset(){
-  if(confirm('모든 학습 기록(숙련도·통계)을 초기화합니다. 계속할까요?')){
-    P=blankProgress(); saveProgress(); session=null; render();
+  if(confirm(`${STAGES[curStage].label}의 모든 학습 기록을 초기화합니다. 계속할까요?`)){
+    P[curStage]=blankStageProgress(curStage); saveProgress(); session=null; render();
   }
 }
 
 /* -------- boot -------- */
-let BANK_MAP = {};
-const ID_MIGRATION = {"m1":"civ-001","m2":"civ-002","m3":"civ-003","m4":"civ-004","m5":"civ-005","m6":"civ-006","m7":"civ-007","m8":"civ-008","m9":"civ-009","m10":"civ-010","m11":"civ-011","m12":"civ-012","m13":"civ-013","m14":"civ-014","m15":"civ-015","m16":"civ-016","m17":"civ-017","m18":"civ-018","m19":"civ-019","m20":"civ-020","m21":"civ-021","m22":"civ-022","m23":"civ-023","m24":"civ-024","m25":"civ-025","r1":"rel-001","r2":"rel-002","r3":"rel-003","r4":"rel-004","r5":"rel-005","r6":"rel-006","r7":"rel-007","r8":"rel-008","r9":"rel-009","r10":"rel-010","r11":"rel-011","r12":"rel-012","r13":"rel-013","r14":"rel-014","r15":"rel-015","r16":"rel-016","r17":"rel-017","r18":"rel-018","r19":"rel-019","r20":"rel-020","r21":"rel-021","r22":"rel-022","r23":"rel-023","r24":"rel-024","r25":"rel-025","t1":"lca-001","t2":"lca-002","t3":"lca-003","t4":"lca-004","t5":"lca-005","t6":"lca-006","t7":"lca-007","t8":"lca-008","t9":"lca-009","t10":"lca-010","t11":"lca-011","t12":"lca-012","t13":"lca-013","t14":"lca-014","t15":"lca-015","t16":"lca-016","t17":"lca-017","t18":"lca-018","t19":"lca-019","t20":"lca-020","t21":"lca-021","t22":"lca-022","t23":"lca-023","t24":"lca-024","t25":"lca-025","s2":"lca-026","s3":"lca-027","s4":"lca-028","s5":"lca-029","s6":"lca-030","s7":"lca-031","s8":"lca-032","s9":"lca-033","s10":"lca-034","s11":"lca-035","s12":"lca-036","s13":"lca-037","s14":"lca-038","s15":"lca-039","s16":"lca-040","s17":"lca-041","s18":"lca-042","s19":"lca-043","s20":"lca-044","s21":"lca-045","s22":"lca-046","s23":"lca-047","s24":"lca-048","s25":"lca-049","s26":"lca-050","s27":"lca-051","s30":"lca-052","s31":"lca-053","s32":"lca-054","s33":"lca-055","s34":"lca-056","s35":"lca-057","s36":"lca-058","s37":"lca-059","s38":"lca-060","s39":"lca-061","s40":"lca-062","s41":"lca-063","s42":"lca-064","s43":"lca-065","s44":"lca-066","s45":"lca-067","s46":"lca-068","s47":"lca-069","s48":"lca-070","s49":"lca-071","s50":"lca-072","s51":"lca-073","s52":"lca-074","s53":"lca-075","s54":"lca-076","s55":"lca-077","s56":"lca-078","s57":"lca-079","s58":"lca-080","s59":"lca-081","s60":"lca-082","s61":"lca-083","s62":"lca-084","s63":"lca-085","s64":"lca-086","s65":"lca-087","s66":"lca-088","s67":"lca-089","s68":"lca-090","s69":"lca-091","s70":"lca-092","s71":"lca-093","s72":"lca-094","s73":"lca-095","s74":"lca-096","s75":"lca-097","s76":"lca-098","s77":"lca-099","s78":"lca-100","s79":"lca-101","s80":"lca-102","s81":"lca-103","s82":"lca-104","s83":"lca-105","s84":"lca-106","s85":"lca-107","s86":"lca-108","s87":"lca-109","s88":"lca-110","s89":"lca-111","s90":"lca-112","s91":"lca-113","s92":"lca-114","s93":"lca-115","s94":"lca-116","s95":"lca-117","s96":"lca-118","s97":"lca-119","s98":"lca-120","s99":"lca-121","s100":"lca-122","p1":"rel-026","p2":"rel-027","p3":"rel-028","p4":"rel-029","p5":"rel-030","p6":"rel-031","p7":"rel-032","p8":"rel-033","p9":"rel-034","p10":"rel-035","p11":"rel-036","p12":"rel-037","p13":"rel-038","p14":"rel-039","p15":"rel-040","p16":"rel-041","p17":"rel-042","p18":"rel-043","p19":"rel-044","p20":"rel-045","p21":"rel-046","p22":"rel-047","p23":"lca-123","p24":"lca-124","p25":"lca-125","p26":"lca-126","p27":"lca-127","p28":"lca-128","p29":"lca-129","p30":"lca-130","p31":"lca-131","p32":"lca-132","y18m1":"civ-026","y18m2":"civ-027","y18m3":"civ-028","y18m4":"civ-029","y18m5":"civ-030","y18m6":"civ-031","y18m7":"civ-032","y18m8":"civ-033","y18m9":"civ-034","y18m10":"civ-035","y18m11":"civ-036","y18m12":"civ-037","y18m13":"civ-038","y18m14":"civ-039","y18m15":"civ-040","y18m16":"civ-041","y18m17":"civ-042","y18m18":"civ-043","y18m19":"civ-044","y18m20":"civ-045","y18r1":"rel-048","y18r2":"rel-049","y18r3":"rel-050","y18r4":"rel-051","y18r5":"rel-052","y18r6":"rel-053","y18r7":"rel-054","y18r8":"rel-055","y18r9":"rel-056","y18r10":"rel-057","y18r11":"rel-058","y18r12":"rel-059","y18r13":"rel-060","y18r14":"rel-061","y18r15":"rel-062","y18r16":"rel-063","y18r17":"rel-064","y18r18":"rel-065","y18r19":"rel-066","y18r20":"rel-067","y18t1":"lca-133","y18t2":"lca-134","y18t3":"lca-135","y18t4":"lca-136","y18t5":"lca-137","y18t6":"lca-138","y18t7":"lca-139","y18t8":"lca-140","y18t9":"lca-141","y18t10":"lca-142","y18t11":"lca-143","y18t12":"lca-144","y18t13":"lca-145","y18t14":"lca-146","y18t15":"lca-147","y18t16":"lca-148","y18t17":"lca-149","y18t18":"lca-150","y18t19":"lca-151","y18t20":"lca-152","s1":"lca-002"};
-
-function migrateProgress(data) {
-  if (!data || !data.cards) return data;
-  const hasOldIds = Object.keys(data.cards).some(k => !k.match(/^(civ|rel|lca)-\d{3}$/));
-  if (!hasOldIds) return data; // 이미 마이그레이션 됨
-  const newCards = {};
-  Object.entries(data.cards).forEach(([oldId, card]) => {
-    const newId = ID_MIGRATION[oldId];
-    if (newId) newCards[newId] = card;
-    // 매핑 없는 ID는 삭제 (병합됨)
-  });
-  data.cards = newCards;
-  data.version = 4; // 마이그레이션 완료 표시
-  return data;
-}
-
 (async()=>{
   await loadQuestions();
-  BANK_MAP = Object.fromEntries(BANK.map(q=>[q.id,q]));
+  BANK_MAP=Object.fromEntries(BANK.map(q=>[q.id,q]));
+  const savedStage=await store.get(STAGE_KEY);
+  if(savedStage==="1"||savedStage==="2") curStage=savedStage;
   await loadProgress();
-  // 진도 마이그레이션
-  if (P && P.version < 4) {
-    P = migrateProgress(P);
-    // 새 문항 ID가 없으면 추가
-    BANK.forEach(q=>{ if(!P.cards[q.id]) P.cards[q.id]={box:0,seen:0,correct:0,wrong:0,lastDay:null,dueDay:0}; });
-    await saveProgress();
-  }
+  await saveProgress();
   render();
 })();
 </script>
 
 <script>
-/* PWA: 서비스워커 등록 (오프라인 지원). 상대경로라 GitHub Pages 프로젝트 페이지에서도 동작 */
 if('serviceWorker' in navigator){
   window.addEventListener('load',function(){
     navigator.serviceWorker.register('service-worker.js').catch(function(){});
