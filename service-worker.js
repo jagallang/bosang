@@ -1,8 +1,11 @@
-/* 보상관리사 반복학습 - 오프라인 캐시. 파일을 바꾸면 아래 CACHE 버전 숫자를 올리세요(v1 -> v2). */
-const CACHE = 'bosang-v3';
+/* 보상관리사 반복학습 - Stale-While-Revalidate 캐시.
+   캐시를 즉시 내주고 뒤에서 갱신 → 다음 실행 시 새 버전 반영.
+   오프라인에서도 캐시된 버전으로 즉시 로딩. */
+const CACHE = 'bosang-v5';
 const ASSETS = [
   './',
   './index.html',
+  './questions.json',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
@@ -21,13 +24,13 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   if (e.request.method !== 'GET') return;
   e.respondWith(
-    caches.match(e.request).then((cached) =>
-      cached ||
-      fetch(e.request).then((resp) => {
+    caches.match(e.request).then((cached) => {
+      const fetchPromise = fetch(e.request).then((resp) => {
         const copy = resp.clone();
         caches.open(CACHE).then((c) => { try { c.put(e.request, copy); } catch (_) {} });
         return resp;
-      }).catch(() => caches.match('./index.html'))
-    )
+      });
+      return cached || fetchPromise;
+    })
   );
 });
