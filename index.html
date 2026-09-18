@@ -182,8 +182,8 @@
   .diff-card .dc-sub{font-size:10px;color:var(--muted);margin-top:1px;font-family:var(--mono)}
   .diff-card.on .dc-sub{color:#C3CAD6}
 
-  .subj-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-  .subj-chip{font-size:13px;font-weight:600;padding:8px 16px;border-radius:20px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink-2);transition:all .12s}
+  .subj-row{display:flex;gap:6px;flex-wrap:nowrap;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .subj-chip{flex:none;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink-2);transition:all .12s;white-space:nowrap}
   .subj-chip:hover{border-color:var(--ink-2)}
 
   .stat-compact{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
