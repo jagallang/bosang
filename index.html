@@ -8,9 +8,28 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1C2740">
 <title>보상관리사 반복학습</title>
+<!-- Open Graph (카카오톡 공유 미리보기) -->
+<meta property="og:title" content="보상관리사 반복학습">
+<meta property="og:description" content="1차·2차 시험 기출·예상문제 324문항 간격반복 학습">
+<meta property="og:image" content="https://jagallang.github.io/bosang/icons/icon-512.png">
+<meta property="og:url" content="https://jagallang.github.io/bosang/">
+<meta property="og:type" content="website">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<!-- 카카오톡 인앱브라우저 → 외부 브라우저 이동 -->
+<script>
+(function(){
+  var ua=navigator.userAgent||'';
+  if(!/KAKAOTALK/i.test(ua)) return;
+  var url=location.href;
+  if(/Android/i.test(ua)){
+    location.href='intent://'+url.replace(/https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end';
+  } else if(/iPhone|iPad/i.test(ua)){
+    location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(url);
+  }
+})();
+</script>
 </head>
 <body>
 <div id="root"></div>
