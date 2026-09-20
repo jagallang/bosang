@@ -173,15 +173,15 @@
   .quick-card.primary .qc-desc{color:#C3CAD6}
   .quick-card.primary:hover{box-shadow:0 8px 20px -10px rgba(28,39,64,.7)}
 
-  .diff-main{margin-bottom:18px}
-  .diff-main .dm-title{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px}
-  .diff-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-  .diff-card{background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 4px;text-align:center;transition:all .12s}
+  .diff-main{margin-bottom:14px}
+  .diff-main .dm-title{font-size:12px;font-weight:600;color:var(--faint);margin-bottom:8px}
+  .diff-cards{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto}
+  .diff-card{flex:none;display:inline-flex;align-items:center;gap:4px;background:none;border:1px solid var(--line);border-radius:20px;padding:5px 12px;text-align:center;transition:all .12s;cursor:pointer}
   .diff-card:hover{border-color:var(--ink-2)}
   .diff-card.on{border-color:var(--ink);background:var(--ink);color:#fff}
-  .diff-card .dc-label{font-size:12px;font-weight:700}
-  .diff-card .dc-sub{font-size:10px;color:var(--muted);margin-top:1px;font-family:var(--mono)}
-  .diff-card.on .dc-sub{color:#C3CAD6}
+  .diff-card .dc-label{font-size:12px;font-weight:600}
+  .diff-card .dc-sub{font-size:10px;color:var(--faint);font-family:var(--mono)}
+  .diff-card.on .dc-sub{color:rgba(255,255,255,.7)}
 
   .subj-row{display:flex;gap:6px;flex-wrap:nowrap;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
   .subj-chip{flex:none;font-size:12px;font-weight:600;padding:6px 12px;border-radius:20px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink-2);transition:all .12s;white-space:nowrap}
@@ -534,18 +534,18 @@ function renderDash(){
       <button onclick="toggleRandom()" style="display:flex;align-items:center;gap:4px;font-size:11px;color:${randomMode?'var(--correct)':'var(--faint)'};padding:4px 8px;border:1px solid var(--line);border-radius:6px">🔀 ${randomMode?'랜덤':'순서대로'}</button>
     </div>
     <div class="diff-cards">
-      <button class="diff-card ${filterDiff===0?'on':''}" onclick="setDiff(0)"><div class="dc-label">전체</div><div class="dc-sub">${bank.length}문항</div></button>
-      <button class="diff-card ${filterDiff===1?'on':''}" onclick="setDiff(1)"><div class="dc-label">★ 기초</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===1).length}문항</div></button>
-      <button class="diff-card ${filterDiff===2?'on':''}" onclick="setDiff(2)"><div class="dc-label">★★ 표준</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===2).length}문항</div></button>
-      <button class="diff-card ${filterDiff===3?'on':''}" onclick="setDiff(3)"><div class="dc-label">★★★ 심화</div><div class="dc-sub">${bank.filter(q=>(q.diff||2)===3).length}문항</div></button>
+      <button class="diff-card ${filterDiff===0?'on':''}" onclick="setDiff(0)"><span class="dc-label">전체</span><span class="dc-sub">${bank.length}</span></button>
+      <button class="diff-card ${filterDiff===1?'on':''}" onclick="setDiff(1)"><span class="dc-label">★ 기초</span><span class="dc-sub">${bank.filter(q=>(q.diff||2)===1).length}</span></button>
+      <button class="diff-card ${filterDiff===2?'on':''}" onclick="setDiff(2)"><span class="dc-label">★★ 표준</span><span class="dc-sub">${bank.filter(q=>(q.diff||2)===2).length}</span></button>
+      <button class="diff-card ${filterDiff===3?'on':''}" onclick="setDiff(3)"><span class="dc-label">★★★ 심화</span><span class="dc-sub">${bank.filter(q=>(q.diff||2)===3).length}</span></button>
     </div>
   </div>
 
   <div class="diff-main">
-    <div class="dm-title" style="margin-bottom:10px">과목별 연습</div>
-    <div class="diff-cards" style="grid-template-columns:repeat(${stageSubjects().length+1},1fr)">
-      <button class="diff-card" onclick="startSubject('practice','전체')"><div class="dc-label">전체</div><div class="dc-sub">${bank.length}문항</div></button>
-      ${stageSubjects().map(s=>{const m=subjMastery(s); return `<button class="diff-card" onclick="startSubject('practice','${s}')"><div class="dc-label">${s}</div><div class="dc-sub">${m.pct}%</div></button>`;}).join('')}
+    <div class="dm-title" style="margin-bottom:8px">과목별 연습</div>
+    <div class="diff-cards">
+      <button class="diff-card" onclick="startSubject('practice','전체')"><span class="dc-label">전체</span><span class="dc-sub">${bank.length}</span></button>
+      ${stageSubjects().map(s=>{const m=subjMastery(s); return `<button class="diff-card" onclick="startSubject('practice','${s}')"><span class="dc-label">${s}</span><span class="dc-sub">${m.pct}%</span></button>`;}).join('')}
     </div>
   </div>
 
