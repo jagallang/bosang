@@ -7,10 +7,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1C2740">
-<title>보상관리사 반복학습</title>
+<title>보상드림 — 보상관리사 학습</title>
 <!-- Open Graph (카카오톡 공유 미리보기) -->
-<meta property="og:title" content="보상관리사 반복학습">
-<meta property="og:description" content="1차·2차 시험 기출·예상문제 324문항 간격반복 학습">
+<meta property="og:title" content="보상드림 — 보상관리사 학습">
+<meta property="og:description" content="보상관리사 1차·2차 시험 324문항 간격반복 학습">
 <meta property="og:image" content="https://jagallang.github.io/bosang/icons/og-image.png">
 <meta property="og:url" content="https://jagallang.github.io/bosang/">
 <meta property="og:type" content="website">
@@ -436,8 +436,8 @@ function topbar(){
   const pct=masteryPct(), due=dfilter(dueCards()).length;
   return `<div class="topbar">
     <div class="logo">
-      <div style="flex:none;width:34px;height:34px;border:2px solid rgba(255,255,255,.4);border-radius:8px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;letter-spacing:-1px;transform:rotate(-3deg)">補</div>
-      <div><h1>보상관리사</h1><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:-2px">${STAGES[curStage].label}</div></div>
+      <div style="flex:none;font-size:20px">💎</div>
+      <div><h1>보상드림</h1><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:-2px">${STAGES[curStage].label}</div></div>
     </div>
     <div class="nav-tabs">
       <button class="nav-tab ${curPage==='home'?'on':''}" onclick="goPage('home')">학습</button>
@@ -460,7 +460,7 @@ function renderMenu(){
     <button class="menu-item" role="menuitem" onclick="toggleMenu();goPage('feedback')">💬 의견 보내기</button>
     <div class="menu-divider"></div>
     <button class="menu-item" role="menuitem" onclick="toggleMenu();confirmReset()" style="color:var(--seal)">🗑️ 진도 초기화</button>
-    <div style="margin-top:16px;font-size:10px;color:var(--faint);text-align:center">v6.2.0</div>
+    <div style="margin-top:16px;font-size:10px;color:var(--faint);text-align:center">보상드림 v7.0.0</div>
   </div>`;
 }
 
@@ -1031,8 +1031,8 @@ function sendFeedback(){
   const text=document.getElementById('fb-text').value;
   if(!text.trim()){alert('내용을 작성해주세요.');return;}
   const typeLabel={'bug':'버그/오류','wrong':'문제/정답 오류','idea':'기능 제안','etc':'기타'}[type];
-  const subject=encodeURIComponent('[보상관리사 앱] '+typeLabel);
-  const body=encodeURIComponent('유형: '+typeLabel+'\n단계: '+STAGES[curStage].label+'\n버전: v6.3.1\n\n'+text);
+  const subject=encodeURIComponent('[보상드림] '+typeLabel);
+  const body=encodeURIComponent('유형: '+typeLabel+'\n단계: '+STAGES[curStage].label+'\n버전: v7.0.0\n\n'+text);
   location.href='mailto:episode0611@gmail.com?subject='+subject+'&body='+body;
 }
 

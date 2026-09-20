@@ -1,6 +1,6 @@
-# 보상관리사 반복학습 (설치형 웹앱 / PWA)
+# 보상드림 — 보상관리사 학습 (설치형 웹앱 / PWA)
 
-보상관리사 시험 1차·2차 기출·교재 문제은행을 간격 반복으로 학습하는 오프라인 지원 웹앱입니다.
+보상관리사 자격시험 1차·2차 기출·교재 문제은행을 간격 반복으로 학습하는 오프라인 지원 웹앱입니다.
 휴대폰 홈 화면에 설치해 앱처럼 쓸 수 있습니다.
 
 ## 시험 구조
@@ -87,7 +87,7 @@ scripts/                   변환·분석 스크립트 (개발용)
 ```bash
 git init
 git add .
-git commit -m "보상관리사 학습 PWA"
+git commit -m "보상드림 PWA"
 git branch -M main
 git remote add origin https://github.com/<사용자명>/<저장소명>.git
 git push -u origin main
