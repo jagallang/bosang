@@ -241,6 +241,19 @@
   .essay-score{margin-top:16px;padding:14px;border-radius:12px;text-align:center;font-weight:800;font-size:15px}
   .essay-score.pass{background:var(--correct-bg);color:var(--correct);border:1px solid var(--correct)}
   .essay-score.fail{background:var(--wrong-bg);color:var(--wrong);border:1px solid var(--wrong)}
+  /* Answer sheet */
+  .ans-sheet{margin-top:18px}
+  .ans-title{font-size:14px;font-weight:800;margin-bottom:4px}
+  .ans-sub{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .ans-list{display:flex;flex-direction:column;gap:6px}
+  .ans-slot{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border:1.5px dashed var(--line);border-radius:10px;cursor:pointer;transition:all .15s;min-height:46px}
+  .ans-slot:hover{border-color:var(--ink-2)}
+  .ans-slot.shown{border-style:solid;border-color:var(--correct);background:var(--correct-bg)}
+  .ans-no{flex:none;width:24px;height:24px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted)}
+  .ans-slot.shown .ans-no{background:var(--correct);border-color:var(--correct);color:#fff}
+  .ans-blank{font-size:13px;color:var(--faint);font-style:italic}
+  .ans-kw{font-size:14px;font-weight:600;color:var(--correct)}
+
   .qtext table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
   .qtext th,.qtext td{border:1px solid var(--line);padding:6px 8px;text-align:center}
   .qtext th{background:var(--surface-2);font-weight:700}
@@ -717,20 +730,37 @@ function renderSummary(){
 function repeat(){ const {mode,subject}=session; session=null; if(mode==='exam') startExam(); else if(subject) startSubject(mode,subject); else startMode(mode); }
 
 /* -------- Essay mode -------- */
+// 상태: undefined(답안지 단계) → 'pending'(힌트 진행중) → 'revealed'(정답 확인) → 숫자(채점 완료)
 function renderEssay(){
   const id=session.queue[session.idx],q=BANK_MAP[id],c=sp().cards[id]||{box:0};
   const total=session.queue.length,pos=session.idx+1;
-  const revealed=session.answers[id]!==undefined;
+  const phase=session.answers[id]; // undefined | 'pending' | 'revealed' | number
+  const kws=q.keywords||[];
+  const hints=session._essayHints||(session._essayHints=new Set());
   const boxdots=Array.from({length:MAX_BOX},(_,i)=>`<i class="${i<c.box?'on':''}" style="${i<c.box?`background:${['','var(--b1)','var(--b2)','var(--b3)','var(--b4)','var(--b5)'][i+1]}`:''}"></i>`).join('');
 
   let body='';
-  if(!revealed){
-    body=`<div class="essay-prompt">
-      <div class="ep-msg">머릿속으로 답안의 핵심 키워드를 떠올린 뒤<br>아래 버튼을 눌러 모범답안을 확인하세요.</div>
-      <button class="btn" onclick="showEssayAnswer()">모범답안 확인</button>
+  if(phase===undefined||phase==='pending'){
+    // 답안지 UI: 번호가 매겨진 빈 항목, 클릭하면 힌트 키워드 표시
+    const answerSheet=kws.map((kw,i)=>{
+      const shown=hints.has(i);
+      return `<div class="ans-slot ${shown?'shown':''}" onclick="revealHint(${i})">
+        <span class="ans-no">${i+1}</span>
+        ${shown?`<span class="ans-kw">${kw.term}</span>`:`<span class="ans-blank">탭하여 힌트 확인</span>`}
+      </div>`;
+    }).join('');
+    const allRevealed=hints.size>=kws.length;
+    body=`<div class="ans-sheet">
+      <div class="ans-title">📝 답안지 — 핵심 키워드를 떠올려 보세요</div>
+      <div class="ans-sub">항목을 탭하면 힌트가 표시됩니다 (${hints.size}/${kws.length})</div>
+      <div class="ans-list">${answerSheet}</div>
+      <div class="actionbar" style="margin-top:14px">
+        <button class="btn" onclick="showFullAnswer()">정답 확인</button>
+        ${!allRevealed?`<span class="kbd-hint">${kws.length-hints.size}개 항목 남음</span>`:''}
+      </div>
     </div>`;
-  } else {
-    const kws=q.keywords||[];
+  } else if(phase==='revealed'){
+    // 정답 확인: 모범답안 + 자가 채점
     const checks=session._essayChecks||{};
     const kwHtml=kws.map((kw,i)=>{
       const st=checks[i]||'none';
@@ -740,25 +770,25 @@ function renderEssay(){
         ${kw.weight>1?`<span class="kw-weight">×${kw.weight}</span>`:''}
       </div>`;
     }).join('');
-    const graded=session.answers[id]!==undefined&&session.answers[id]!=='pending';
-    let scoreHtml='';
-    if(graded){
-      const sc=session.answers[id];
-      scoreHtml=`<div class="essay-score ${sc>=80?'pass':'fail'}">${sc>=80?'✓ 숙달':'✕ 복습 필요'} · 키워드 달성률 ${sc}%</div>
-      <div class="actionbar"><button class="btn" onclick="next()">${pos<total?'다음 문항 →':'세션 마치기'}</button></div>`;
-    } else {
-      scoreHtml=`<div class="actionbar">
-        <button class="btn" onclick="gradeEssay()">채점하기</button>
-        <span class="kbd-hint">알고 있던 키워드만 체크하세요</span>
-      </div>`;
-    }
     body=`<div class="model-answer">
       <div class="ma-title">모범답안</div>
       <div class="ma-body">${q.model||''}</div>
     </div>
     <div class="kw-title">키워드 자가 채점 (확실히 알고 있던 항목만 체크)</div>
     <div class="kw-list">${kwHtml}</div>
-    ${scoreHtml}`;
+    <div class="actionbar">
+      <button class="btn" onclick="gradeEssay()">채점하기</button>
+      <span class="kbd-hint">알고 있던 키워드만 체크하세요</span>
+    </div>`;
+  } else {
+    // 채점 완료
+    const sc=phase;
+    body=`<div class="model-answer">
+      <div class="ma-title">모범답안</div>
+      <div class="ma-body">${q.model||''}</div>
+    </div>
+    <div class="essay-score ${sc>=80?'pass':'fail'}">${sc>=80?'✓ 숙달':'✕ 복습 필요'} · 키워드 달성률 ${sc}%</div>
+    <div class="actionbar"><button class="btn" onclick="next()">${pos<total?'다음 문항 →':'세션 마치기'}</button></div>`;
   }
 
   root.innerHTML=topbar()+`
@@ -779,9 +809,16 @@ function renderEssay(){
   </div>`;
 }
 
-function showEssayAnswer(){
+function revealHint(i){
+  if(!session._essayHints) session._essayHints=new Set();
+  session._essayHints.add(i);
+  if(!session.answers[session.queue[session.idx]]) session.answers[session.queue[session.idx]]='pending';
+  renderEssay();
+}
+
+function showFullAnswer(){
   const id=session.queue[session.idx];
-  session.answers[id]='pending';
+  session.answers[id]='revealed';
   session._essayChecks={};
   renderEssay();
 }
