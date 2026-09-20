@@ -530,8 +530,8 @@ function renderDash(){
   <div class="diff-main">
     <div class="dm-title" style="margin-bottom:10px">과목별 연습</div>
     <div class="diff-cards" style="grid-template-columns:repeat(${stageSubjects().length+1},1fr)">
-      ${stageSubjects().map(s=>{const m=subjMastery(s); return `<button class="diff-card" onclick="startSubject('practice','${s}')"><div class="dc-label">${s}</div><div class="dc-sub">${m.pct}%</div></button>`;}).join('')}
       <button class="diff-card" onclick="startSubject('practice','전체')"><div class="dc-label">전체</div><div class="dc-sub">${bank.length}문항</div></button>
+      ${stageSubjects().map(s=>{const m=subjMastery(s); return `<button class="diff-card" onclick="startSubject('practice','${s}')"><div class="dc-label">${s}</div><div class="dc-sub">${m.pct}%</div></button>`;}).join('')}
     </div>
   </div>
 
