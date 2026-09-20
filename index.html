@@ -528,10 +528,10 @@ function renderDash(){
     <div class="sc-item">복습 <b style="color:${due>0?'var(--seal)':'var(--correct)'}">×${due}</b></div>
   </div>
 
+  <!-- 난이도 필터: 문항 난이도 분류 완료 후 복원 예정
   <div class="diff-main">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
       <div class="dm-title" style="margin-bottom:0">난이도</div>
-      <button onclick="toggleRandom()" style="display:flex;align-items:center;gap:4px;font-size:11px;color:${randomMode?'var(--correct)':'var(--faint)'};padding:4px 8px;border:1px solid var(--line);border-radius:6px">🔀 ${randomMode?'랜덤':'순서대로'}</button>
     </div>
     <div class="diff-cards">
       <button class="diff-card ${filterDiff===0?'on':''}" onclick="setDiff(0)"><span class="dc-label">전체</span><span class="dc-sub">${bank.length}</span></button>
@@ -540,9 +540,13 @@ function renderDash(){
       <button class="diff-card ${filterDiff===3?'on':''}" onclick="setDiff(3)"><span class="dc-label">★★★ 심화</span><span class="dc-sub">${bank.filter(q=>(q.diff||2)===3).length}</span></button>
     </div>
   </div>
+  -->
 
   <div class="diff-main">
-    <div class="dm-title" style="margin-bottom:8px">과목별 연습</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div class="dm-title" style="margin-bottom:0">과목별 연습</div>
+      <button onclick="toggleRandom()" style="display:flex;align-items:center;gap:4px;font-size:11px;color:${randomMode?'var(--correct)':'var(--faint)'};padding:4px 8px;border:1px solid var(--line);border-radius:6px">🔀 ${randomMode?'랜덤':'순서대로'}</button>
+    </div>
     <div class="diff-cards">
       <button class="diff-card" onclick="startSubject('practice','전체')"><span class="dc-label">전체</span><span class="dc-sub">${bank.length}</span></button>
       ${stageSubjects().map(s=>{const m=subjMastery(s); return `<button class="diff-card" onclick="startSubject('practice','${s}')"><span class="dc-label">${s}</span><span class="dc-sub">${m.pct}%</span></button>`;}).join('')}
