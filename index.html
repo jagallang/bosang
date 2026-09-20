@@ -1019,25 +1019,20 @@ function renderFeedback(){
       <option value="etc">📝 기타 의견</option>
     </select>
     <textarea id="fb-text" rows="5" placeholder="내용을 작성해주세요..." style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:14px;resize:vertical;font-family:var(--sans)"></textarea>
-    <div style="margin-top:12px;display:flex;gap:8px">
-      <button class="btn" onclick="copyFeedback()">📋 클립보드 복사</button>
+    <div style="margin-top:12px">
+      <button class="btn" onclick="sendFeedback()">✉️ 메일 보내기</button>
     </div>
-    <div id="fb-result" style="margin-top:10px;font-size:13px;color:var(--correct);display:none">✓ 복사되었습니다. 카카오톡 등에 붙여넣기 해주세요.</div>
   </div>`;
 }
 
-function copyFeedback(){
+function sendFeedback(){
   const type=document.getElementById('fb-type').value;
   const text=document.getElementById('fb-text').value;
+  if(!text.trim()){alert('내용을 작성해주세요.');return;}
   const typeLabel={'bug':'버그/오류','wrong':'문제/정답 오류','idea':'기능 제안','etc':'기타'}[type];
-  const body=`[보상관리사 학습앱 피드백]\n유형: ${typeLabel}\n단계: ${STAGES[curStage].label}\n버전: v6.2.0\n---\n${text}`;
-  navigator.clipboard.writeText(body).then(()=>{
-    document.getElementById('fb-result').style.display='block';
-  }).catch(()=>{
-    // fallback
-    const ta=document.createElement('textarea');ta.value=body;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-    document.getElementById('fb-result').style.display='block';
-  });
+  const subject=encodeURIComponent('[보상관리사 앱] '+typeLabel);
+  const body=encodeURIComponent('유형: '+typeLabel+'\n단계: '+STAGES[curStage].label+'\n버전: v6.3.1\n\n'+text);
+  location.href='mailto:episode0611@gmail.com?subject='+subject+'&body='+body;
 }
 
 function confirmReset(){
