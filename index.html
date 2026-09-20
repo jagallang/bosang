@@ -222,6 +222,27 @@
   .pf-head{font-weight:800;font-size:16px;margin-bottom:10px}
   .pf-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:13px}
   .pf-avg{border-top:1px solid var(--line);margin-top:8px;padding-top:8px;display:flex;justify-content:space-between;font-size:14px;font-weight:700}
+
+  /* Essay mode */
+  .essay-prompt{padding:20px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;margin-top:18px;text-align:center}
+  .essay-prompt .ep-msg{font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.5}
+  .model-answer{margin-top:18px;padding:16px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px}
+  .model-answer .ma-title{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:10px}
+  .model-answer .ma-body{font-size:14px;line-height:1.7;color:var(--ink);white-space:pre-line;word-break:keep-all}
+  .kw-title{font-size:13px;font-weight:700;color:var(--muted);margin:16px 0 10px}
+  .kw-list{display:flex;flex-direction:column;gap:8px}
+  .kw-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:10px;font-size:13.5px;cursor:pointer;transition:border-color .12s}
+  .kw-item:hover{border-color:var(--ink-2)}
+  .kw-item.checked{border-color:var(--correct);background:var(--correct-bg)}
+  .kw-item.unsure{border-color:var(--gold);background:#FDF6E3}
+  .kw-item input{width:16px;height:16px;accent-color:var(--correct)}
+  .kw-weight{font-size:10px;color:var(--faint);margin-left:auto;font-family:var(--mono)}
+  .essay-score{margin-top:16px;padding:14px;border-radius:12px;text-align:center;font-weight:800;font-size:15px}
+  .essay-score.pass{background:var(--correct-bg);color:var(--correct);border:1px solid var(--correct)}
+  .essay-score.fail{background:var(--wrong-bg);color:var(--wrong);border:1px solid var(--wrong)}
+  .qtext table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+  .qtext th,.qtext td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+  .qtext th{background:var(--surface-2);font-weight:700}
 </style>
 
 <script>
@@ -523,10 +544,13 @@ function renderDash(){
       <div class="qc-icon">🎯</div><div class="qc-title">약점 집중</div>
       <div class="qc-count">${dfilter(weakCards()).length}題</div><div class="qc-desc">취약 문항 반복</div>
     </button>
-    <button class="quick-card" onclick="startExam()">
+    ${stageBank().some(q=>q.type==='mcq')?`<button class="quick-card" onclick="startExam()">
       <div class="qc-icon">📝</div><div class="qc-title">모의고사</div>
       <div class="qc-count">${examSize}題</div><div class="qc-desc">실전 채점·과락 경보</div>
-    </button>
+    </button>`:`<div class="quick-card" style="opacity:.5;cursor:default">
+      <div class="qc-icon">📝</div><div class="qc-title">모의고사</div>
+      <div class="qc-count">—</div><div class="qc-desc">객관식 문항 추가 시 지원</div>
+    </div>`}
   </div>
 
   <div id="subpick-slot"></div>
@@ -599,8 +623,10 @@ function toastEmpty(mode){
 function renderStudy(){
   if(session.examMode) return renderExam();
   const id=session.queue[session.idx],q=BANK_MAP[id],c=sp().cards[id]||{box:0};
-  // type 분기점: mcq만 구현, fill/essay는 추후
-  if(q.type&&q.type!=='mcq') return;
+  // type 분기점
+  if(q.type==='essay') return renderEssay();
+  // fill은 추후 구현
+  if(q.type&&q.type!=='mcq'&&q.type!=='essay') return;
   const answered=session.answers[id]!==undefined;
   const chosen=session.answers[id];
   const total=session.queue.length,pos=session.idx+1;
@@ -688,6 +714,104 @@ function renderSummary(){
   </div></div>`;
 }
 function repeat(){ const {mode,subject}=session; session=null; if(mode==='exam') startExam(); else if(subject) startSubject(mode,subject); else startMode(mode); }
+
+/* -------- Essay mode -------- */
+function renderEssay(){
+  const id=session.queue[session.idx],q=BANK_MAP[id],c=sp().cards[id]||{box:0};
+  const total=session.queue.length,pos=session.idx+1;
+  const revealed=session.answers[id]!==undefined;
+  const boxdots=Array.from({length:MAX_BOX},(_,i)=>`<i class="${i<c.box?'on':''}" style="${i<c.box?`background:${['','var(--b1)','var(--b2)','var(--b3)','var(--b4)','var(--b5)'][i+1]}`:''}"></i>`).join('');
+
+  let body='';
+  if(!revealed){
+    body=`<div class="essay-prompt">
+      <div class="ep-msg">머릿속으로 답안의 핵심 키워드를 떠올린 뒤<br>아래 버튼을 눌러 모범답안을 확인하세요.</div>
+      <button class="btn" onclick="showEssayAnswer()">모범답안 확인</button>
+    </div>`;
+  } else {
+    const kws=q.keywords||[];
+    const checks=session._essayChecks||{};
+    const kwHtml=kws.map((kw,i)=>{
+      const st=checks[i]||'none';
+      return `<div class="kw-item ${st==='checked'?'checked':st==='unsure'?'unsure':''}" onclick="toggleKw(${i})">
+        <input type="checkbox" ${st==='checked'?'checked':''} onclick="event.stopPropagation();toggleKw(${i})">
+        <span>${kw.term}</span>
+        ${kw.weight>1?`<span class="kw-weight">×${kw.weight}</span>`:''}
+      </div>`;
+    }).join('');
+    const graded=session.answers[id]!==undefined&&session.answers[id]!=='pending';
+    let scoreHtml='';
+    if(graded){
+      const sc=session.answers[id];
+      scoreHtml=`<div class="essay-score ${sc>=80?'pass':'fail'}">${sc>=80?'✓ 숙달':'✕ 복습 필요'} · 키워드 달성률 ${sc}%</div>
+      <div class="actionbar"><button class="btn" onclick="next()">${pos<total?'다음 문항 →':'세션 마치기'}</button></div>`;
+    } else {
+      scoreHtml=`<div class="actionbar">
+        <button class="btn" onclick="gradeEssay()">채점하기</button>
+        <span class="kbd-hint">알고 있던 키워드만 체크하세요</span>
+      </div>`;
+    }
+    body=`<div class="model-answer">
+      <div class="ma-title">모범답안</div>
+      <div class="ma-body">${q.model||''}</div>
+    </div>
+    <div class="kw-title">키워드 자가 채점 (확실히 알고 있던 항목만 체크)</div>
+    <div class="kw-list">${kwHtml}</div>
+    ${scoreHtml}`;
+  }
+
+  root.innerHTML=topbar()+`
+  <div class="study-top">
+    <button class="back" onclick="quitSession()">← 그만두기</button>
+    <div class="prog"><i style="width:${Math.round(pos/total*100)}%"></i></div>
+    <div class="prog-txt">${pos}/${total}</div>
+  </div>
+  <div class="qcard">
+    <div class="qmeta">
+      <span class="tag subj">${q.subject}</span>
+      <span class="tag diff d${q.diff||2}">${'★'.repeat(q.diff||2)} ${['','기초','표준','심화'][q.diff||2]}</span>
+      <span class="tag origin">서술형</span>
+      <div class="boxdots"><span class="bl">숙련도</span>${boxdots}</div>
+    </div>
+    <div class="qtext">${q.q}</div>
+    ${body}
+  </div>`;
+}
+
+function showEssayAnswer(){
+  const id=session.queue[session.idx];
+  session.answers[id]='pending';
+  session._essayChecks={};
+  renderEssay();
+}
+
+function toggleKw(i){
+  if(!session._essayChecks) session._essayChecks={};
+  const cur=session._essayChecks[i]||'none';
+  session._essayChecks[i]=cur==='none'?'checked':cur==='checked'?'unsure':'none';
+  renderEssay();
+}
+
+function gradeEssay(){
+  const id=session.queue[session.idx],q=BANK_MAP[id];
+  const kws=q.keywords||[];
+  const checks=session._essayChecks||{};
+  // 가중 합계 채점: checked만 점수, unsure는 제외
+  let earned=0,total=0;
+  kws.forEach((kw,i)=>{
+    total+=kw.weight||1;
+    if(checks[i]==='checked') earned+=kw.weight||1;
+  });
+  const score=total?Math.round(earned/total*100):0;
+  session.answers[id]=score;
+  const ok=score>=80;
+  const before=sp().cards[id]?.box||0;
+  applyResult(id,ok);
+  if(ok){session.correctCount++;if((sp().cards[id]?.box||0)>before)session.levelUp++;}
+  else {if((sp().cards[id]?.box||0)<before)session.levelDown++;}
+  markStudied();saveProgress();
+  renderEssay();
+}
 
 /* -------- Exam mode -------- */
 function renderExam(){
