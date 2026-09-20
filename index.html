@@ -429,13 +429,18 @@ function topbar(){
 }
 
 function renderMenu(){
+  const wrongCount=stageBank().filter(q=>{const c=sp().cards[q.id];return c&&c.wrong>0&&c.wrong>=c.correct;}).length;
   return `<div class="menu-overlay" onclick="toggleMenu()"></div>
   <div class="menu-panel" role="menu">
     <div class="menu-stage-label">시험 선택</div>
     <button class="menu-item" role="menuitem" aria-current="${curStage==='1'}" onclick="switchStage('1')">📝 1차 시험 <span style="margin-left:auto;font-size:11px;color:var(--faint)">${stageBank('1').length}문항</span></button>
     <button class="menu-item" role="menuitem" aria-current="${curStage==='2'}" onclick="switchStage('2')">📝 2차 시험 <span style="margin-left:auto;font-size:11px;color:var(--faint)">${stageBank('2').length||'준비중'}</span></button>
     <div class="menu-divider"></div>
+    <button class="menu-item" role="menuitem" onclick="toggleMenu();goPage('wrong')">📕 오답노트 ${wrongCount?`<span style="margin-left:auto;font-size:11px;color:var(--wrong)">${wrongCount}문항</span>`:''}</button>
+    <button class="menu-item" role="menuitem" onclick="toggleMenu();goPage('feedback')">💬 의견 보내기</button>
+    <div class="menu-divider"></div>
     <button class="menu-item" role="menuitem" onclick="toggleMenu();confirmReset()" style="color:var(--seal)">🗑️ 진도 초기화</button>
+    <div style="margin-top:16px;font-size:10px;color:var(--faint);text-align:center">v6.2.0</div>
   </div>`;
 }
 
@@ -447,7 +452,7 @@ function switchStage(s){
 }
 
 function goPage(p){ curPage=p; render(); }
-function render(){ document.body.dataset.stage=curStage; if(session) renderStudy(); else if(curPage==='mastery') renderMastery(); else if(curPage==='status') renderStatus(); else renderDash(); }
+function render(){ document.body.dataset.stage=curStage; if(session) renderStudy(); else if(curPage==='mastery') renderMastery(); else if(curPage==='status') renderStatus(); else if(curPage==='wrong') renderWrong(); else if(curPage==='feedback') renderFeedback(); else renderDash(); }
 
 /* --- 빈 상태 (작업 5) --- */
 function renderEmpty(){
@@ -948,6 +953,73 @@ document.addEventListener('keydown',e=>{
   if(!answered&&e.key>='1'&&e.key<='5') answer(+e.key-1);
   else if(answered&&(e.key==='Enter'||e.key===' ')){e.preventDefault();next();}
 });
+
+/* -------- 오답노트 -------- */
+function renderWrong(){
+  const bank=stageBank();
+  const wrongs=bank.filter(q=>{const c=sp().cards[q.id];return c&&c.wrong>0;})
+    .sort((a,b)=>{const ca=sp().cards[a.id],cb=sp().cards[b.id];return (cb.wrong-cb.correct)-(ca.wrong-ca.correct);});
+  root.innerHTML=topbar()+`
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div class="eyebrow">📕 오답노트 · ${wrongs.length}문항</div>
+    <button class="btn ghost" style="padding:6px 12px;font-size:12px" onclick="goPage('home')">← 돌아가기</button>
+  </div>
+  ${wrongs.length?wrongs.map(q=>{
+    const c=sp().cards[q.id];
+    const acc=c.seen?Math.round(c.correct/c.seen*100):0;
+    const srcTag=q.source&&q.source[0]?(q.source[0].year?q.source[0].year+'년':''):'';
+    return `<div class="card" style="margin-bottom:8px;padding:14px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:11px;color:var(--muted)">${q.subject} ${srcTag}</span>
+        <span style="font-size:12px;font-weight:700;color:${acc>=50?'var(--gold)':'var(--wrong)'}">${c.correct}✓ ${c.wrong}✕ (${acc}%)</span>
+      </div>
+      <div style="font-size:14px;font-weight:600;line-height:1.5;word-break:keep-all;color:var(--ink)">${q.q.substring(0,80)}${q.q.length>80?'...':''}</div>
+      <div style="margin-top:8px"><button style="font-size:12px;color:var(--correct);font-weight:600" onclick="startWrongItem('${q.id}')">다시 풀기 →</button></div>
+    </div>`;
+  }).join(''):`<div class="empty"><div class="big">오답이 없습니다</div>틀린 문항이 생기면 여기에 표시됩니다.</div>`}`;
+}
+
+function startWrongItem(id){
+  session={queue:[id],idx:0,answers:{},mode:'wrong',examMode:false,correctCount:0,levelUp:0,levelDown:0};
+  render();
+}
+
+/* -------- 피드백 -------- */
+function renderFeedback(){
+  root.innerHTML=topbar()+`
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div class="eyebrow">💬 의견 보내기</div>
+    <button class="btn ghost" style="padding:6px 12px;font-size:12px" onclick="goPage('home')">← 돌아가기</button>
+  </div>
+  <div class="card" style="padding:20px">
+    <div style="font-size:14px;font-weight:700;margin-bottom:12px">앱 사용 중 의견이나 오류를 알려주세요</div>
+    <select id="fb-type" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:14px;margin-bottom:10px;background:var(--surface)">
+      <option value="bug">🐛 버그/오류 신고</option>
+      <option value="wrong">❌ 문제/정답 오류</option>
+      <option value="idea">💡 기능 제안</option>
+      <option value="etc">📝 기타 의견</option>
+    </select>
+    <textarea id="fb-text" rows="5" placeholder="내용을 작성해주세요..." style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:14px;resize:vertical;font-family:var(--sans)"></textarea>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn" onclick="copyFeedback()">📋 클립보드 복사</button>
+    </div>
+    <div id="fb-result" style="margin-top:10px;font-size:13px;color:var(--correct);display:none">✓ 복사되었습니다. 카카오톡 등에 붙여넣기 해주세요.</div>
+  </div>`;
+}
+
+function copyFeedback(){
+  const type=document.getElementById('fb-type').value;
+  const text=document.getElementById('fb-text').value;
+  const typeLabel={'bug':'버그/오류','wrong':'문제/정답 오류','idea':'기능 제안','etc':'기타'}[type];
+  const body=`[보상관리사 학습앱 피드백]\n유형: ${typeLabel}\n단계: ${STAGES[curStage].label}\n버전: v6.2.0\n---\n${text}`;
+  navigator.clipboard.writeText(body).then(()=>{
+    document.getElementById('fb-result').style.display='block';
+  }).catch(()=>{
+    // fallback
+    const ta=document.createElement('textarea');ta.value=body;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    document.getElementById('fb-result').style.display='block';
+  });
+}
 
 function confirmReset(){
   if(confirm(`${STAGES[curStage].label}의 모든 학습 기록을 초기화합니다. 계속할까요?`)){
