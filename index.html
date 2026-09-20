@@ -27,6 +27,7 @@
     --sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",Pretendard,"Segoe UI",Roboto,sans-serif;
     --mono:"SF Mono",ui-monospace,"D2Coding",Menlo,Consolas,monospace;
   }
+  body[data-stage="2"]{--bg:#EBE7E0;--surface:#FFFDF9;--surface-2:#F5F1EB;--line:#DDD8D0;--line-2:#E8E3DC;--ink:#2D2518;--ink-2:#4A3F2F;--seal:#8A5A1F}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-font-smoothing:antialiased}
   #root{max-width:940px;margin:0 auto;padding:22px 18px 64px}
@@ -433,7 +434,7 @@ function switchStage(s){
 }
 
 function goPage(p){ curPage=p; render(); }
-function render(){ if(session) renderStudy(); else if(curPage==='mastery') renderMastery(); else if(curPage==='status') renderStatus(); else renderDash(); }
+function render(){ document.body.dataset.stage=curStage; if(session) renderStudy(); else if(curPage==='mastery') renderMastery(); else if(curPage==='status') renderStatus(); else renderDash(); }
 
 /* --- 빈 상태 (작업 5) --- */
 function renderEmpty(){
