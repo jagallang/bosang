@@ -578,6 +578,15 @@ function renderDash(){
     </div>
   </div>
 
+  ${(stageBank().some(q=>q.type==='mcq')&&stageBank().some(q=>q.type==='essay'))?`<div class="diff-main">
+    <div class="dm-title" style="margin-bottom:8px">유형별 연습</div>
+    <div class="diff-cards">
+      <button class="diff-card" onclick="startType('all')"><span class="dc-label">전체</span><span class="dc-sub">${bank.length}</span></button>
+      <button class="diff-card" onclick="startType('mcq')"><span class="dc-label">객관식</span><span class="dc-sub">${bank.filter(q=>q.type==='mcq').length}</span></button>
+      <button class="diff-card" onclick="startType('essay')"><span class="dc-label">서술형</span><span class="dc-sub">${bank.filter(q=>q.type==='essay').length}</span></button>
+    </div>
+  </div>`:''}
+
   <div class="quick-grid">
     <button class="quick-card primary" onclick="startMode('review')">
       <div class="qc-icon">📖</div><div class="qc-title">오늘의 복습</div>
@@ -602,6 +611,14 @@ function renderDash(){
 
 function setDiff(d){ filterDiff=d; renderDash(); }
 function toggleRandom(){ randomMode=!randomMode; renderDash(); }
+function startType(t){
+  let pool=stageBank();
+  if(t!=='all') pool=pool.filter(q=>q.type===t);
+  pool=randomMode?shuffle(pool).slice(0,QUEUE_PRACTICE):weightedPick(pool,Math.min(QUEUE_PRACTICE,pool.length));
+  if(!pool.length){alert('해당하는 문항이 없습니다.');return;}
+  session={queue:pool.map(q=>q.id),idx:0,answers:{},mode:'practice',examMode:false,correctCount:0,levelUp:0,levelDown:0};
+  render();
+}
 
 /* --- 큐 빌드 --- */
 function buildQueue(mode,subject){
