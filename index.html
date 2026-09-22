@@ -460,7 +460,7 @@ function renderMenu(){
     <button class="menu-item" role="menuitem" onclick="toggleMenu();goPage('feedback')">💬 의견 보내기</button>
     <div class="menu-divider"></div>
     <button class="menu-item" role="menuitem" onclick="toggleMenu();confirmReset()" style="color:var(--seal)">🗑️ 진도 초기화</button>
-    <div style="margin-top:16px;font-size:10px;color:var(--faint);text-align:center">보상드림 v7.0.0</div>
+    <div style="margin-top:16px;font-size:10px;color:var(--faint);text-align:center">보상드림 v7.1.0</div>
   </div>`;
 }
 
@@ -1032,7 +1032,7 @@ function sendFeedback(){
   if(!text.trim()){alert('내용을 작성해주세요.');return;}
   const typeLabel={'bug':'버그/오류','wrong':'문제/정답 오류','idea':'기능 제안','etc':'기타'}[type];
   const subject=encodeURIComponent('[보상드림] '+typeLabel);
-  const body=encodeURIComponent('유형: '+typeLabel+'\n단계: '+STAGES[curStage].label+'\n버전: v7.0.0\n\n'+text);
+  const body=encodeURIComponent('유형: '+typeLabel+'\n단계: '+STAGES[curStage].label+'\n버전: v7.1.0\n\n'+text);
   location.href='mailto:episode0611@gmail.com?subject='+subject+'&body='+body;
 }
 
