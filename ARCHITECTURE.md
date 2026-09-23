@@ -1,12 +1,12 @@
 # 아키텍처
 
-보상드림(보상관리사 학습) PWA의 기술 구조 문서. v7.0.0 기준.
+보상드림(보상관리사 학습) PWA의 기술 구조 문서. v7.2.0 기준.
 
 ## 파일 구조
 
 ```
-index.html              앱 전체 (UI + 로직, 1,064줄)
-questions.json          문제은행 (323문항: 1차 264 + 2차 59)
+index.html              앱 전체 (UI + 로직, 1,082줄)
+questions.json          문제은행 (400문항: 1차 264 + 2차 136)
 service-worker.js       오프라인 캐시 (stale-while-revalidate)
 manifest.webmanifest    PWA 메타데이터
 icons/                  앱 아이콘 4종 + OG 미리보기 이미지
@@ -128,6 +128,7 @@ QUEUE_PRACTICE = 15                 // 연습 세션 최대 문항
 | `weakCards()` | 취약 문항 필터 (box≤2 또는 오답>정답) |
 | `weightedPick(pool, n)` | 가중 랜덤 샘플링 (약한 문항 우선) |
 | `calcPassFail(answers, queue)` | 과락 판정 (40점/60점 기준) |
+| `startType(t)` | 유형별 연습 (mcq/essay/all) |
 
 ### 큐 빌드
 | 함수 | 설명 |
@@ -138,13 +139,13 @@ QUEUE_PRACTICE = 15                 // 연습 세션 최대 문항
 ### 뷰
 | 함수 | 설명 |
 |------|------|
-| `topbar()` | 상단 네비 + 단계 표시 + 햄버거 |
+| `topbar()` | 상단 네비 (네이비 배경) + 단계 표시 + 햄버거 |
 | `renderMenu()` | 햄버거 메뉴 (단계 전환·오답노트·피드백·초기화) |
-| `renderDash()` | 홈 대시보드 |
+| `renderDash()` | 홈 대시보드 (과목별·유형별 연습, 퀵카드) |
 | `renderMastery()` | 숙련도 히트맵 |
 | `renderStatus()` | 통계 현황 |
 | `renderStudy()` | 학습 카드 — type 분기 (mcq/essay) |
-| `renderExam()` | 모의고사 (채점 후 표시) |
+| `renderExam()` | 모의고사 (채점 후 표시 + 과락 경보) |
 | `renderEssay()` | 서술형 학습 (답안지→힌트→정답→채점) |
 | `renderEmpty()` | 빈 상태 안내 |
 | `renderWrong()` | 오답노트 |
@@ -160,25 +161,25 @@ QUEUE_PRACTICE = 15                 // 연습 세션 최대 문항
 
 ## questions.json 스키마
 
-### mcq (선택형, 1차)
+### mcq (선택형)
 ```javascript
 {
   id: "civ-001",        // <과목코드>-<3자리>, 재사용 금지
   stage: 1,             // 1 또는 2
-  type: "mcq",          // mcq | fill(예정) | essay
+  type: "mcq",
   q: "문제 본문",
   opt: ["①","②","③","④","⑤"],
   a: 3,                 // 0-based 인덱스. 3 = ④번
   ex: "해설 (<b>강조</b> 가능)",
   subject: "민법",
-  article: null,        // { law, no, clause } 또는 null
+  article: null,
   source: [{ type: "기출", year: 2022, no: 1 }],
-  revised: null,        // ISO 날짜 또는 null
-  diff: 2               // 1=기초, 2=표준(기본값), 3=심화 (현재 비활성)
+  revised: null,
+  diff: 2               // 현재 비활성
 }
 ```
 
-### essay (서술형, 2차)
+### essay (서술형)
 ```javascript
 {
   id: "prc1-001",
@@ -205,8 +206,22 @@ QUEUE_PRACTICE = 15                 // 연습 세션 최대 문항
 | 민법 | civ | 45 | mcq |
 | 부동산관계법규 | rel | 67 | mcq |
 | 토지보상법규 | lca | 152 | mcq |
-| 보상실무1 | prc1 | 59 | essay |
+| 보상실무1 | prc1 | 136 | mcq 77 + essay 59 |
 | 보상실무2 | prc2 | 0 | — |
+
+## 대시보드 UI 구성
+
+### 1차 시험
+```
+통계 바 → 과목별 연습(전체/민법/부동산관계법규/토지보상법규) → 퀵카드(복습/약점/모의고사)
+```
+
+### 2차 시험
+```
+통계 바 → 과목별 연습(전체/보상실무1) → 유형별 연습(전체/객관식/서술형) → 퀵카드(복습/약점/모의고사)
+```
+
+유형별 연습은 mcq+essay가 모두 있을 때만 표시.
 
 ## 간격 반복 (Leitner Box)
 
@@ -225,6 +240,7 @@ box 5: 16일 후 (숙달)
 숙련도 = `sum(모든 box) / (문항수 × 5) × 100`
 
 ### essay 채점
+- 답안지 UI: 빈 슬롯 → 탭하면 힌트 키워드 공개 → 정답 확인 → 자가 채점
 - 가중 합계: `score = sum(체크한 weight) / sum(전체 weight) × 100`
 - 80% 이상 → 정답 (box +1)
 - 80% 미만 → 오답 (box = 1)
@@ -243,7 +259,7 @@ box 5: 16일 후 (숙달)
 ## 모의고사
 
 1차 25문항: 과목별 8+8+9 (3과목 균등 분배, mcq만)
-2차: mcq 문항이 없으면 모의고사 비활성화
+2차 20문항: mcq에서만 추출
 
 특정 과목 문항이 부족하면 가능한 만큼만 추출 + 안내 표시.
 
@@ -272,7 +288,7 @@ box 5: 16일 후 (숙달)
 - 다음 실행 시 새 버전 반영
 - 오프라인에서도 캐시로 동작
 
-**캐시 버전**: `bosang-v7`
+**캐시 버전**: `bosang-v9`
 
 ## 부팅 순서
 
