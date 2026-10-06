@@ -1,11 +1,11 @@
 # 아키텍처
 
-보상드림(보상관리사 학습) PWA의 기술 구조 문서. v7.2.0 기준.
+보상드림(보상관리사 학습) PWA의 기술 구조 문서. v7.3.0 기준.
 
 ## 파일 구조
 
 ```
-index.html              앱 전체 (UI + 로직, 1,082줄)
+index.html              앱 전체 (UI + 로직, 1,087줄)
 questions.json          문제은행 (400문항: 1차 264 + 2차 136)
 service-worker.js       오프라인 캐시 (stale-while-revalidate)
 manifest.webmanifest    PWA 메타데이터
@@ -18,10 +18,10 @@ scripts/                개발용 변환·분석 스크립트
 ## 데이터 흐름
 
 ```
-questions.json ──fetch──▶ BANK[] ──filter──▶ stageBank()
-                              │                    │
-                              ▼                    ▼
-                          BANK_MAP           dueCards() / weakCards()
+questions.json ──fetch──▶ BANK[] ──filter(cached)──▶ stageBank()
+                              │                            │
+                              ▼                            ▼
+                          BANK_MAP              dueCards() / weakCards()
                           (id→obj)                 │
                               │                    ▼
                               ▼              buildQueue() / buildBalancedExam()
@@ -52,7 +52,9 @@ questions.json ──fetch──▶ BANK[] ──filter──▶ stageBank()
 | `session` | object\|null | 진행 중인 학습 세션 |
 | `filterDiff` | `0` | 난이도 필터 (현재 비활성, 항상 전체) |
 | `randomMode` | bool | 랜덤/순서 토글 |
-| `menuOpen` | bool | 햄버거 메뉴 열림 |
+| `menuOpen` | bool | 햄버거 메뉴 열림 (Esc 키로 닫기 지원) |
+| `_stageBankCache` | object | stageBank() 메모이제이션 캐시 |
+| `_storageWarned` | bool | localStorage 실패 경고 표시 여부 |
 
 ## 진도 데이터 구조 (v5)
 
@@ -115,7 +117,8 @@ QUEUE_PRACTICE = 15                 // 연습 세션 최대 문항
 | 함수 | 설명 |
 |------|------|
 | `stageSubjects(s)` | 해당 stage의 과목 목록 |
-| `stageBank(s)` | 해당 stage의 문항 배열 |
+| `stageBank(s)` | 해당 stage의 문항 배열 (메모이제이션 적용) |
+| `invalidateStageCache()` | stageBank 캐시 무효화 (부팅 시 호출) |
 | `sp(s)` | 해당 stage의 progress 객체 |
 
 ### 학습 로직
@@ -125,7 +128,7 @@ QUEUE_PRACTICE = 15                 // 연습 세션 최대 문항
 | `masteryPct()` | 전체 숙련도 % |
 | `subjMastery(s)` | 과목별 숙련도 |
 | `dueCards()` | 복습할 문항 필터 |
-| `weakCards()` | 취약 문항 필터 (box≤2 또는 오답>정답) |
+| `weakCards()` | 취약 문항 필터 (box≤2 또는 오답≥정답 且 오답>0) |
 | `weightedPick(pool, n)` | 가중 랜덤 샘플링 (약한 문항 우선) |
 | `calcPassFail(answers, queue)` | 과락 판정 (40점/60점 기준) |
 | `startType(t)` | 유형별 연습 (mcq/essay/all) |
@@ -296,10 +299,11 @@ box 5: 16일 후 (숙달)
 1. 카카오톡 인앱브라우저 감지 → 외부 브라우저 이동
 2. fetch('questions.json') → BANK
 3. BANK_MAP 생성 (O(1) 조회)
-4. localStorage에서 curStage 복원
-5. loadProgress() — 마이그레이션 자동 실행
-6. saveProgress() — v5 형식 보장
-7. render() — body[data-stage] 설정
+4. invalidateStageCache() — stageBank 캐시 초기화
+5. localStorage에서 curStage 복원
+6. loadProgress() — 마이그레이션 자동 실행
+7. saveProgress() — v5 형식 보장
+8. render() — body[data-stage] 설정
 ```
 
 ## 배포

@@ -17,8 +17,8 @@
 
 ## 폴더 구성
 ```
-index.html                 학습 앱 (UI·로직, 813줄)
-questions.json             문제은행 (264문항, 1차 3과목)
+index.html                 학습 앱 (UI·로직, 1,087줄)
+questions.json             문제은행 (400문항: 1차 264 + 2차 136)
 manifest.webmanifest       앱 정보(이름·아이콘·색상)
 service-worker.js          오프라인 캐시 (stale-while-revalidate)
 icons/                     앱 아이콘 (192·512·maskable·apple)
@@ -35,7 +35,7 @@ scripts/                   변환·분석 스크립트 (개발용)
 | 민법 | `civ` | 45 |
 | 부동산관계법규 | `rel` | 67 |
 | 토지보상법규 | `lca` | 152 |
-| 보상실무1 | `prc1` | 0 (준비중) |
+| 보상실무1 | `prc1` | 136 (mcq 77 + essay 59) |
 | 보상실무2 | `prc2` | 0 (준비중) |
 
 문항을 추가할 때는 `questions.json`만 편집하면 됩니다. `index.html`을 건드릴 필요가 없습니다.
@@ -61,7 +61,7 @@ scripts/                   변환·분석 스크립트 (개발용)
 ### 문제 유형 (type)
 - `mcq` — 선택형 (구현됨)
 - `fill` — 기입형 (분기점 준비됨, 구현 예정)
-- `essay` — 논문형 (분기점 준비됨, 구현 예정)
+- `essay` — 논문형 (구현됨, 키워드 자가채점)
 
 ## 주요 기능
 
