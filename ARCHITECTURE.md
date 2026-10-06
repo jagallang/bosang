@@ -1,6 +1,6 @@
 # 아키텍처
 
-보상드림(보상관리사 학습) PWA의 기술 구조 문서. v7.3.0 기준.
+보상드림(보상관리사 학습) PWA의 기술 구조 문서. v7.4.0 기준.
 
 ## 파일 구조
 
@@ -11,6 +11,10 @@ service-worker.js       오프라인 캐시 (stale-while-revalidate)
 manifest.webmanifest    PWA 메타데이터
 icons/                  앱 아이콘 4종 + OG 미리보기 이미지
 scripts/                개발용 변환·분석 스크립트
+  tts_pipeline.py       TTS 음성 생성 파이프라인 (Gemini 3.8)
+  26_서술형예제_책자판_음성대본.json  44문항 음성 대본
+  TTS_개발문서.md       TTS API 명세·실행·검수 가이드
+audio/                  TTS 생성 결과 (.gitignore, 로컬 전용)
 ```
 
 빌드 도구, 프레임워크, 외부 의존성 없음. 순수 Vanilla JS + CSS.
@@ -314,6 +318,20 @@ URL: https://jagallang.github.io/bosang/
 ```
 questions.json 편집 → git push → SW가 다음 실행 시 자동 갱신
 ```
+
+## TTS 음성 생성
+
+Gemini 3.8 TTS API로 2차 서술형 44문항의 문제·답안 음성을 생성하는 파이프라인.
+
+```
+python scripts/tts_pipeline.py test 2        # 2번 문항만 생성
+python scripts/tts_pipeline.py generate      # 전체 88개 WAV (문항별 문제+답안)
+python scripts/tts_pipeline.py build --mp3   # 합본 44개 + 묶음 5개, MP3 포함
+python scripts/tts_pipeline.py voices        # 한국어 음성 목록 조회
+```
+
+- 사전 준비: `pip install -U google-genai`, `export GEMINI_API_KEY=...`
+- 상세 명세: `scripts/TTS_개발문서.md`
 
 ## 현재 비활성 기능
 
