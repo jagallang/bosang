@@ -37,9 +37,13 @@ BUNDLE_SIZE = 10
 RATE, CHANNELS, WIDTH = 24000, 1, 2     # 3.8 TTS 기본 출력: 24kHz, 모노, 16비트
 
 
+_client = None
 def client():
-    from google import genai
-    return genai.Client()               # GEMINI_API_KEY 환경변수 사용
+    global _client
+    if _client is None:
+        from google import genai
+        _client = genai.Client()        # GEMINI_API_KEY 환경변수 사용
+    return _client
 
 
 def synthesize(text: str) -> bytes:
