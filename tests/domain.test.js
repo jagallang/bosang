@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 
 import { QuestionBank, sourceLabel } from '../public/src/domain/question.js';
 import {
-  applyResult, blankStageProgress, currentStreak, masteryOf, weakQuestions, dueQuestions, wrongNoteQuestions,
+  applyResult, blankStageProgress, currentStreak, examSummary, recordExam, MAX_EXAM_RECORDS, masteryOf, weakQuestions, dueQuestions, wrongNoteQuestions,
 } from '../public/src/domain/progress.js';
 import { SessionMode, buildBalancedExam, buildQueue, shuffle, weightedPick } from '../public/src/domain/selection.js';
 import { KeywordCheck, essayScore, examPoints, nextKeywordCheck, passFail } from '../public/src/domain/grading.js';
@@ -149,4 +149,26 @@ test('출처 표기', () => {
   assert.equal(sourceLabel({ source: [{ type: '기출' }] }), '출제 유형');
   assert.equal(sourceLabel({ source: [{ type: '정선', no: 1 }] }), '정선');
   assert.equal(QuestionBank.merge([mcq('civ-002', '민법')], [mcq('civ-001', '민법')]).all[0].id, 'civ-001');
+});
+
+test('모의고사 기록: 최근 30회만 남기고 최고·최근 평균을 낸다', () => {
+  const sp = blankStageProgress([]);
+  const res = (avg) => ({ avgScore: avg, pass: avg >= 60, results: [{ subject: '민법', score: avg, total: 9 }, { subject: '토지보상법규', score: avg, total: 8 }] });
+  for (let i = 0; i < MAX_EXAM_RECORDS + 5; i++) recordExam(sp, res(40 + i), 20000 + i);
+  assert.equal(sp.exams.length, MAX_EXAM_RECORDS);
+  assert.equal(sp.exams[0].avg, 45);
+  assert.equal(sp.exams[0].n, 17);
+  const sum = examSummary(sp, 3);
+  assert.equal(sum.count, MAX_EXAM_RECORDS);
+  assert.equal(sum.last.avg, 74);
+  assert.equal(sum.best.avg, 74);
+  assert.deepEqual(sum.recent.map((r) => r.avg), [74, 73, 72]);
+  assert.deepEqual(examSummary(blankStageProgress([])), { count: 0, last: null, best: null, recent: [] });
+});
+
+test('기존 진도(exams 없음)도 정규화하면 빈 기록이 생긴다', () => {
+  const bank = new QuestionBank([]);
+  const old = { version: 5, 1: { cards: {}, totalAnswered: 0, totalCorrect: 0, studyDays: [] }, 2: { cards: {}, totalAnswered: 0, totalCorrect: 0, studyDays: [] } };
+  const p = normalizeProgress(old, bank);
+  assert.deepEqual(p['1'].exams, []);
 });

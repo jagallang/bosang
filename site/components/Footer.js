@@ -19,6 +19,9 @@ export default function Footer() {
           <a href="/exam/">시험 안내</a><a href="/info/">보상정보</a><a href="/business/">기관 도입</a><a href="/pro/">행정사·중개사</a><a href="/books/">교재·이용권</a>
         </p>
         <p>문의 <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+        <p className="footer-links small">
+          <a href="/terms/">이용약관</a><a href="/privacy/"><strong>개인정보처리방침</strong></a><a href="/refund/">환불 규정</a>
+        </p>
         <p className="footer-note">
           보상드림의 정보는 학습·참고용이며 법률 자문이 아닙니다. 개별 사건은 변호사·감정평가사 등 전문가와 상담하세요.
         </p>

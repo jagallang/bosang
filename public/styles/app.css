@@ -276,3 +276,18 @@
   .quick-card .qc-count{font-family:var(--serif)}
   .opt .no{font-family:var(--serif);font-weight:500}
   .menu-item{border-radius:3px}
+
+  /* 모의고사 기록 */
+  .exam-hist .eh-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .exam-hist .eh-meta{font-size:12.5px;color:var(--muted)}
+  .exam-hist .eh-empty{font-size:13.5px;color:var(--muted);margin-bottom:12px}
+  .eh-table{width:100%;border-collapse:collapse;font-size:13px}
+  .eh-table th{font-size:11.5px;font-weight:600;color:var(--muted);text-align:left;padding:6px 8px;border-bottom:1.5px solid var(--ink)}
+  .eh-table td{padding:9px 8px;border-bottom:1px solid var(--line-2);vertical-align:top}
+  .eh-table td.mono{font-family:var(--serif);font-weight:700;font-size:15px}
+  .eh-tag{font-size:11.5px;font-weight:600;padding:2px 7px;border-radius:3px}
+  .eh-tag.pass{background:var(--correct-bg);color:var(--correct)}
+  .eh-tag.fail{background:var(--wrong-bg);color:var(--wrong)}
+  .eh-subj{display:flex;flex-wrap:wrap;gap:4px 10px;color:var(--muted);font-size:12px}
+  .eh-subj .low{color:var(--wrong);font-weight:600}
+  @media (max-width:560px){.eh-table th:nth-child(4),.eh-table td:nth-child(4){display:none}}

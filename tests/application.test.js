@@ -67,6 +67,10 @@ test('2차 모의고사는 선택형만 내고, 보상실무2 없이도 합격 �
   assert.equal(report.points, 100);
   assert.equal(report.passFail.pass, true);
   assert.deepEqual(report.passFail.results.map((x) => x.subject), ['보상실무1']);
+  const o = svc.overview();
+  assert.equal(o.exams.count, 1);
+  assert.equal(o.exams.last.avg, 100);
+  assert.equal(o.exams.last.pass, true);
 });
 
 test('서술형: 키워드 체크 → 채점 → 상자 반영', async () => {

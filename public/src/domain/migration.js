@@ -46,6 +46,7 @@ export function normalizeProgress(saved, bank) {
     for (const s of ['1', '2']) {
       if (!validStage(p[s])) p[s] = blankStageProgress([]);
       if (!Array.isArray(p[s].studyDays)) p[s].studyDays = [];
+      if (!Array.isArray(p[s].exams)) p[s].exams = [];
       p[s].totalAnswered ||= 0;
       p[s].totalCorrect ||= 0;
     }

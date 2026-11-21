@@ -309,3 +309,13 @@ p { margin: 0; }
   .nav .btn { position: absolute; top: 10px; right: 18px; margin: 0; }
   .nav { gap: 16px; }
 }
+
+/* ── 약관 ── */
+.legal h2 { font-size: 18px; margin: 36px 0 10px; }
+.legal p, .legal li { color: #3a4254; }
+.legal ol { padding-left: 22px; margin: 0 0 10px; }
+.legal li { margin-bottom: 6px; }
+.legal p + p { margin-top: 10px; }
+.legal .table { margin: 8px 0 12px; font-size: 15px; }
+.legal .table tbody th { white-space: normal; width: 38%; font-family: var(--sans); font-size: 15px; font-weight: 600; }
+.footer-links.small { font-size: 12.5px; }

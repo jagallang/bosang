@@ -2,7 +2,7 @@
    같은 출처의 GET만 캐시한다. Firebase·Firestore 같은 외부 요청은 손대지 않는다
    (Firestore 실시간 채널을 캐시하면 동작이 깨지고, 유료 문항이 기기 캐시에 남는다).
    파일 목록이나 코드를 바꾸면 CACHE 이름의 숫자를 올린다. */
-const CACHE = 'bosang-v13';
+const CACHE = 'bosang-v14';
 const ASSETS = [
   './',
   './index.html',

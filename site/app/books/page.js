@@ -55,7 +55,7 @@ export default function Books() {
           <li>신청 버튼으로 로그인한 이메일과 입금자명을 보냅니다.</li>
           <li>안내받은 계좌로 입금하면 확인 후 이용권이 열립니다.</li>
         </ol>
-        <p className="note">샘플 문항은 로그인 없이 바로 풀 수 있습니다.</p>
+        <p className="note">샘플 문항은 로그인 없이 바로 풀 수 있습니다. 환불은 <a href="/refund/">환불 규정</a>을 따릅니다.</p>
       </section>
     </div>
   );

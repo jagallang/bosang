@@ -4,7 +4,8 @@
 import { DEFAULT_STAGE, STAGES, STAGE_IDS, isStageId } from '../domain/constants.js';
 import { QuestionBank, isEssay, isMcq } from '../domain/question.js';
 import {
-  accuracyPct, applyResult, blankStageProgress, currentStreak, dueQuestions, markStudied,
+  accuracyPct, applyResult, blankStageProgress, currentStreak, dueQuestions, examSummary, markStudied,
+  recordExam,
   masteryOf, unresolvedWrongQuestions, weakQuestions, wrongNoteQuestions,
 } from '../domain/progress.js';
 import { normalizeProgress } from '../domain/migration.js';
@@ -86,6 +87,7 @@ export class StudyService {
       typeCounts: { mcq: qs.filter(isMcq).length, essay: qs.filter(isEssay).length },
       hasMcq: qs.some(isMcq),
       hasEssay: qs.some(isEssay),
+      exams: examSummary(sp),
     };
   }
 
@@ -182,13 +184,15 @@ export class StudyService {
     }
     markStudied(sp, today);
     session.finished = true;
-    await this._save();
     const total = questions.length;
+    const result = passFail({ subjects: this.bank.subjects(this.stage), questions, answers: session.answers });
+    recordExam(sp, result, today);
+    await this._save();
     return {
       correct, total,
       points: examPoints(correct, total),
       percent: Math.round((correct / total) * 100),
-      passFail: passFail({ subjects: this.bank.subjects(this.stage), questions, answers: session.answers }),
+      passFail: result,
       rows: questions.map((q) => ({ question: q, chosen: session.answerOf(q.id), ok: isCorrectChoice(q, session.answerOf(q.id)) })),
     };
   }

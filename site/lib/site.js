@@ -5,6 +5,11 @@ export const SITE = {
   description: '보상관리사 시험 대비 교재·학습앱과 전국 토지보상 정보를 제공하는 보상드림',
   email: 'episode0611@gmail.com',
   appPath: '/app/',
+  // 배포 주소 (sitemap·robots용). 빌드 시 SITE_URL 환경변수로 넣는다. 비어 있으면 sitemap을 만들지 않는다
+  url: (process.env.SITE_URL || '').replace(/\/$/, ''),
+  // 약관·개인정보처리방침이 아직 법률 검토 전이면 true → 페이지 위에 초안 표시
+  legalDraft: true,
+  legalUpdated: '2026-11-21',
   // 사업자 정보 (통신판매 전 반드시 채울 것)
   business: {
     company: '',      // 상호

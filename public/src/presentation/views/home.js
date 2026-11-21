@@ -119,8 +119,37 @@ export function status(vm) {
     <div class="statline"><span class="k">총 푼 문항</span><span class="v mono">${o.totalAnswered}</span></div>
     <div class="statline"><span class="k">총 문항 수</span><span class="v mono">${o.total}</span></div>
   </div>
+  ${examHistory(o)}
   <div class="modes">
     <button class="mode primary" ${act('start', { mode: 'review' })}><div class="mt">오늘의 복습 <span class="badge ${o.dueCount > 0 ? 'due' : ''}">${o.dueCount}題</span></div><div class="md">간격 반복으로 복습할 문항을 풀어보세요.</div></button>
     <button class="mode" ${act('start', { mode: 'weak' })}><div class="mt">약점 집중 <span class="badge">${o.weakCount}題</span></div><div class="md">취약 문항만 집중 반복합니다.</div></button>
+  </div>`;
+}
+
+const dayLabel = (day) => {
+  const d = new Date(day * 86400000);
+  return `${d.getUTCMonth() + 1}/${d.getUTCDate()}`;
+};
+
+/** 모의고사 기록 카드 (최근 5회) */
+function examHistory(o) {
+  const ex = o.exams;
+  if (!ex || !ex.count) {
+    return o.hasMcq
+      ? `<div class="card exam-hist" style="margin-bottom:16px"><div class="eyebrow" style="margin-bottom:8px">모의고사 기록</div>
+         <p class="eh-empty">아직 응시 기록이 없습니다. 모의고사를 보면 점수가 여기에 쌓입니다.</p>
+         <button class="btn" ${act('start-exam')}>모의고사 보기</button></div>`
+      : '';
+  }
+  const rows = ex.recent.map((r) => `
+    <tr>
+      <td>${dayLabel(r.day)}</td>
+      <td class="mono">${r.avg}</td>
+      <td><span class="eh-tag ${r.pass ? 'pass' : 'fail'}">${r.pass ? '합격' : '불합격'}</span></td>
+      <td class="eh-subj">${Object.entries(r.subjects).map(([k, v]) => `<span class="${v < 40 ? 'low' : ''}">${esc(k)} ${v}</span>`).join('')}</td>
+    </tr>`).join('');
+  return `<div class="card exam-hist" style="margin-bottom:16px">
+    <div class="eh-head"><span class="eyebrow">모의고사 기록</span><span class="eh-meta">${ex.count}회 · 최고 평균 ${ex.best.avg}점</span></div>
+    <table class="eh-table"><thead><tr><th>날짜</th><th>평균</th><th>결과</th><th>과목별</th></tr></thead><tbody>${rows}</tbody></table>
   </div>`;
 }

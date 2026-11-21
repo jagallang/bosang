@@ -4,7 +4,8 @@
  *
  * 진도 구조 (v5):
  * { version: 5, "1": StageProgress, "2": StageProgress }
- * StageProgress = { cards: { [id]: Card }, totalAnswered, totalCorrect, studyDays: number[] }
+ * StageProgress = { cards: { [id]: Card }, totalAnswered, totalCorrect, studyDays: number[], exams: ExamRecord[] }
+ * ExamRecord = { day, n, avg, pass, subjects: { [과목]: 점수 } }   // 최근 MAX_EXAM_RECORDS개
  * Card = { box 0~5, seen, correct, wrong, lastDay, dueDay }   // day = Unix 일수
  */
 import { BOX_INTERVALS, MAX_BOX, STAGE_IDS } from './constants.js';
@@ -18,7 +19,7 @@ export const blankCard = () => ({ box: 0, seen: 0, correct: 0, wrong: 0, lastDay
 export function blankStageProgress(questions = []) {
   const cards = {};
   for (const q of questions) cards[q.id] = blankCard();
-  return { cards, totalAnswered: 0, totalCorrect: 0, studyDays: [] };
+  return { cards, totalAnswered: 0, totalCorrect: 0, studyDays: [], exams: [] };
 }
 
 export function blankProgress(bank) {
@@ -65,6 +66,28 @@ export function applyResult(sp, id, ok, today) {
 
 export function markStudied(sp, today) {
   if (!sp.studyDays.includes(today)) sp.studyDays.push(today);
+}
+
+export const MAX_EXAM_RECORDS = 30;
+
+/** 모의고사 결과(passFail)를 기록한다. 오래된 것부터 버린다 */
+export function recordExam(sp, result, today) {
+  if (!Array.isArray(sp.exams)) sp.exams = [];
+  const subjects = Object.fromEntries(result.results.map((r) => [r.subject, r.score]));
+  const n = result.results.reduce((a, r) => a + r.total, 0);
+  const rec = { day: today, n, avg: result.avgScore, pass: result.pass, subjects };
+  sp.exams.push(rec);
+  if (sp.exams.length > MAX_EXAM_RECORDS) sp.exams.splice(0, sp.exams.length - MAX_EXAM_RECORDS);
+  return rec;
+}
+
+/** 모의고사 요약: 횟수, 최근·최고 평균, 최근 n개(최신순) */
+export function examSummary(sp, recent = 5) {
+  const ex = Array.isArray(sp.exams) ? sp.exams : [];
+  if (!ex.length) return { count: 0, last: null, best: null, recent: [] };
+  const last = ex[ex.length - 1];
+  const best = ex.reduce((a, b) => (b.avg > a.avg ? b : a));
+  return { count: ex.length, last, best, recent: ex.slice(-recent).reverse() };
 }
 
 /** 오늘 또는 어제까지 이어진 연속 학습 일수 */

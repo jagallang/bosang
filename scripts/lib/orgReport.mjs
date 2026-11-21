@@ -20,12 +20,15 @@ export function summarizeProgress(progress, today) {
       seenQuestions: seen,
       lastStudy: last === null ? '' : new Date(last * 86400000).toISOString().slice(0, 10),
       idleDays: last === null || today == null ? null : today - last,
+      examCount: (sp.exams || []).length,
+      lastExamAvg: sp.exams?.length ? sp.exams[sp.exams.length - 1].avg : null,
+      bestExamAvg: sp.exams?.length ? Math.max(...sp.exams.map((e) => e.avg)) : null,
     };
   }
   return out;
 }
 
-const HEADER = ['이메일', '이용권 만료', '단계', '학습일수', '푼 문항', '정답률(%)', '숙련도(%)', '마지막 학습일', '미학습 일수'];
+const HEADER = ['이메일', '이용권 만료', '단계', '학습일수', '푼 문항', '정답률(%)', '숙련도(%)', '마지막 학습일', '미학습 일수', '모의고사 횟수', '최근 모의고사 평균', '최고 모의고사 평균'];
 
 const cell = (v) => {
   const t = v == null ? '' : String(v);
@@ -39,9 +42,9 @@ export function toCsv(rows) {
     for (const s of STAGES) {
       const x = r.summary?.[s];
       if (!x || !x.answered) continue;
-      lines.push([r.email, r.until || '무기한', `${s}차`, x.studyDays, x.answered, x.accuracy, x.mastery, x.lastStudy, x.idleDays ?? ''].map(cell).join(','));
+      lines.push([r.email, r.until || '무기한', `${s}차`, x.studyDays, x.answered, x.accuracy, x.mastery, x.lastStudy, x.idleDays ?? '', x.examCount, x.lastExamAvg ?? '', x.bestExamAvg ?? ''].map(cell).join(','));
     }
-    if (!STAGES.some((s) => r.summary?.[s]?.answered)) lines.push([r.email, r.until || '무기한', '-', 0, 0, '', '', '', ''].map(cell).join(','));
+    if (!STAGES.some((s) => r.summary?.[s]?.answered)) lines.push([r.email, r.until || '무기한', '-', 0, 0, '', '', '', '', 0, '', ''].map(cell).join(','));
   }
   return '﻿' + lines.join('\n') + '\n';
 }
