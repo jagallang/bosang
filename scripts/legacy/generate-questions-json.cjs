@@ -90,7 +90,7 @@ function parseSource(origin, id) {
 
 // 저장
 fs.writeFileSync(
-  path.join(__dirname, '..', 'questions.json'),
+  path.join(__dirname, '..', '..', 'content', 'questions.json'),
   JSON.stringify(output, null, 2),
   'utf8'
 );

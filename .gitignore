@@ -1,2 +1,13 @@
 audio/
 audio_mnemonic/
+node_modules/
+.firebase/
+*.log
+
+# 전체 문항은 배포본에 넣지 않는다 (로컬 테스트용)
+public/data/questions.json
+# Firestore 업로드용 생성물
+content/out/
+# 서비스 계정 키
+*service-account*.json
+*-admin*.json

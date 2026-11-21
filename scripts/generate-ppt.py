@@ -20,7 +20,7 @@ ACCENT = RGBColor(0x1A, 0x3C, 0xA8)    # 상단 바
 NUM = ["①", "②", "③", "④", "⑤"]
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(script_dir, '..', 'questions.json'), 'r', encoding='utf-8') as f:
+with open(os.path.join(script_dir, '..', 'content', 'questions.json'), 'r', encoding='utf-8') as f:
     all_q = json.load(f)
 mcq2 = [q for q in all_q if q.get('stage') == 2 and q.get('type') == 'mcq']
 print(f"2차 mcq: {len(mcq2)}문항")

@@ -271,9 +271,9 @@ questions.forEach(q => {
 });
 
 // 기존 questions.json에 추가
-const existing = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'questions.json'), 'utf8'));
+const existing = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'content', 'questions.json'), 'utf8'));
 const merged = [...existing, ...questions];
-fs.writeFileSync(path.join(__dirname, '..', 'questions.json'), JSON.stringify(merged, null, 2), 'utf8');
+fs.writeFileSync(path.join(__dirname, '..', '..', 'content', 'questions.json'), JSON.stringify(merged, null, 2), 'utf8');
 
 console.log(`✓ ${questions.length}개 essay 문항 추가`);
 console.log(`  총 문항: ${merged.length} (기존 ${existing.length} + 신규 ${questions.length})`);

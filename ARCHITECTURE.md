@@ -1,340 +1,145 @@
-# 아키텍처
+# 아키텍처 (v8.0.0)
 
-보상드림(보상관리사 학습) PWA의 기술 구조 문서. v7.4.0 기준.
+보상드림(보상관리사 학습) PWA. 1,087줄짜리 단일 `index.html`을 클린 아키텍처 4계층으로 나눴다.
+빌드 도구 없이 브라우저 ES 모듈로 돌아가며, 정적 호스팅(Firebase Hosting, GitHub Pages) 어디든 올라간다.
 
-## 파일 구조
+## 계층과 의존 방향
 
 ```
-index.html              앱 전체 (UI + 로직, 1,087줄)
-questions.json          문제은행 (400문항: 1차 264 + 2차 136)
-service-worker.js       오프라인 캐시 (stale-while-revalidate)
-manifest.webmanifest    PWA 메타데이터
-icons/                  앱 아이콘 4종 + OG 미리보기 이미지
-scripts/                개발용 변환·분석 스크립트
-  tts_pipeline.py       TTS 음성 생성 파이프라인 (Gemini 3.8)
-  26_서술형예제_책자판_음성대본.json  44문항 음성 대본
-  TTS_개발문서.md       TTS API 명세·실행·검수 가이드
-audio/                  TTS 생성 결과 (.gitignore, 로컬 전용)
+presentation ─┐
+              ├──▶ application ──▶ domain
+infrastructure┘
+main.js (조립 지점)이 위 셋을 연결한다
 ```
 
-빌드 도구, 프레임워크, 외부 의존성 없음. 순수 Vanilla JS + CSS.
+| 계층 | 폴더 | 하는 일 | 모르는 것 |
+|---|---|---|---|
+| domain | `public/src/domain/` | 시험 규칙, Leitner 간격반복, 출제, 채점·과락, 세션, 진도 마이그레이션 | DOM, 저장소, 네트워크, 현재 시각 |
+| application | `public/src/application/` | 유스케이스(`StudyService`), 접근 권한(`AccessService`), 포트 정의(`ports.js`) | 저장 방식, 화면 |
+| infrastructure | `public/src/infrastructure/` | localStorage, 정적 JSON, Firebase 로그인·이용권·Firestore | 화면 |
+| presentation | `public/src/presentation/` | UI 상태, 클릭·키보드 → 유스케이스 호출, 뷰(순수 함수) | 저장 방식, 채점 규칙 |
+
+규칙: 안쪽 계층은 바깥 계층을 import하지 않는다. 날짜(`clock`)와 난수(`rng`)도 밖에서 주입해 도메인·유스케이스를 Node에서 그대로 테스트한다.
+
+## 파일 구성
+
+```
+public/                       배포 루트 (Firebase Hosting public)
+  index.html                  셸: 메타, 카카오 인앱 이동, 모듈 로드, SW 등록
+  styles/app.css              스타일 (기존과 동일)
+  data/questions.free.json    무료 샘플 (scripts/build-content.mjs가 생성)
+  data/questions.json         전체 문항 — 로컬 테스트 전용, gitignore·배포 제외
+  src/
+    config.js                 동작 모드(local|firebase), Firebase 설정, 이용권 안내
+    main.js                   조립 지점
+    domain/
+      constants.js            단계·과목·상자 간격·합격 기준
+      question.js             QuestionBank, 유형·출처 헬퍼
+      progress.js             카드, applyResult, 숙련도·복습·취약·오답 조회
+      selection.js            학습 큐, 가중 추출, 균등 모의고사
+      grading.js              서술형 키워드 채점, 과락 판정, 100점 환산
+      session.js              StudySession (서술형 상태는 문항별로 분리)
+      migration.js            v3 → v4 → v5 진도 변환
+      legacyIdMap.js          옛 문항 ID 표
+    application/
+      ports.js                저장소·인증·이용권·시계 계약 (JSDoc)
+      StudyService.js         불러오기, 조회, 세션 시작, 풀이, 채점, 초기화
+      AccessService.js        로그인·이용권 상태
+    infrastructure/
+      browser.js              SafeLocalStorage, 시계, 대화상자
+      repositories.js         Local/Http/Composite/Hybrid 저장소, 인증 없음 어댑터
+      firebase/
+        firebaseClient.js     SDK 지연 로드 (firebase 모드에서만)
+        firebaseAdapters.js   구글 로그인, 이용권, 유료 문항, 클라우드 진도
+    presentation/
+      App.js                  UI 상태, data-action 이벤트 위임, 키보드
+      views/                  common, home, study, pages (데이터 → HTML)
+  service-worker.js           같은 출처 GET만 SWR 캐시
+content/questions.json        문제은행 원본 (편집은 여기서). 배포되지 않음
+scripts/build-content.mjs     형식 검사 + 무료 샘플·업로드 묶음 생성
+scripts/admin.mjs             유료 문항 업로드, 이용권 부여·해제 (firebase-admin)
+scripts/legacy/               예전 변환·중복탐지 스크립트 (.cjs)
+tests/                        node:test (도메인·유스케이스·저장소)
+firestore.rules               유료 문항·이용권·진도 접근 규칙
+firebase.json                 Hosting(public/) + Firestore 규칙
+```
+
+## 동작 모드 (`public/src/config.js`)
+
+| | local | firebase |
+|---|---|---|
+| 로그인 | 없음 | 구글 로그인 (설치형 앱은 리다이렉트) |
+| 문항 | `data/questions.json` 있으면 전체, 없으면 무료 샘플 | 무료 샘플 + 이용권 있으면 Firestore `questionChunks` |
+| 진도 | 기기 localStorage | 로그인 시 Firestore `progress/{uid}` + 기기 사본 (원격 저장 3초 몰아쓰기) |
+
+Firebase SDK는 firebase 모드에서만 내려받는다. 초기화에 실패하면 무료 샘플로 계속 동작한다.
+
+## Firestore 구조
+
+| 경로 | 내용 | 읽기 | 쓰기 |
+|---|---|---|---|
+| `questionChunks/{civ,rel,lca,prc1,prc2}` | `{items: Question[]}` | 이용권 유효자·관리자 | 관리자 |
+| `entitlements/{uid}` | `{paid, until?, email}` | 본인·관리자 | 관리자 |
+| `progress/{uid}` | `{data: 진도 v5, updatedAt}` | 본인 | 본인 |
+| `admins/{uid}` | 빈 문서 | 본인 | 콘솔에서만 |
+
+과목별 묶음 문서라 문항 전체를 읽어도 4~5회 읽기로 끝난다.
 
 ## 데이터 흐름
 
 ```
-questions.json ──fetch──▶ BANK[] ──filter(cached)──▶ stageBank()
-                              │                            │
-                              ▼                            ▼
-                          BANK_MAP              dueCards() / weakCards()
-                          (id→obj)                 │
-                              │                    ▼
-                              ▼              buildQueue() / buildBalancedExam()
-                  renderStudy() ──type분기──▶ renderEssay() (서술형)
-                              │                    │
-                              ▼                    ▼
-                         applyResult()       gradeEssay() (키워드 자가채점)
-                              │
-                              ▼
-                     gradeExam() → calcPassFail()
-                              │
-                              ▼
-                          sp().cards
-                              │
-                              ▼
-                     localStorage (STORE_KEY)
+main.js ─ AccessService.refresh() ─▶ 상태(user, paid)
+        ─ repositoriesFor(상태)   ─▶ 문항·진도 저장소 선택
+        ─ StudyService.load()     ─▶ QuestionBank + normalizeProgress(저장값)
+App.dispatch(action) ─▶ StudyService 유스케이스 ─▶ domain 규칙 ─▶ ProgressRepository.save
+App.render() ─▶ StudyService.overview() 등 조회 ─▶ views (HTML 문자열)
 ```
 
-## 전역 상태
+## 진도 데이터 (v5, 기존과 동일)
 
-| 변수 | 타입 | 용도 |
-|------|------|------|
-| `BANK` | array | 전체 문항 (questions.json에서 로드) |
-| `BANK_MAP` | object | ID→문항 O(1) 조회 |
-| `P` | object | 진도 데이터 (v5, stage별 분리) |
-| `curStage` | `"1"\|"2"` | 현재 선택된 시험 단계 |
-| `curPage` | `"home"\|"mastery"\|"status"\|"wrong"\|"feedback"` | 현재 화면 |
-| `session` | object\|null | 진행 중인 학습 세션 |
-| `filterDiff` | `0` | 난이도 필터 (현재 비활성, 항상 전체) |
-| `randomMode` | bool | 랜덤/순서 토글 |
-| `menuOpen` | bool | 햄버거 메뉴 열림 (Esc 키로 닫기 지원) |
-| `_stageBankCache` | object | stageBank() 메모이제이션 캐시 |
-| `_storageWarned` | bool | localStorage 실패 경고 표시 여부 |
+```js
+{ version: 5,
+  "1": { cards: { "civ-001": { box, seen, correct, wrong, lastDay, dueDay } }, totalAnswered, totalCorrect, studyDays: [] },
+  "2": { ... } }
+```
+저장 키 `bosang:progress:v3`, 단계 키 `bosang:curStage`는 그대로라 기존 사용자의 진도가 이어진다.
 
-## 진도 데이터 구조 (v5)
+## 학습 규칙
 
-```javascript
-{
-  version: 5,
-  "1": {                              // 1차 시험
-    cards: {
-      "civ-001": {
-        box: 0,        // 0-5 (Leitner box 레벨)
-        seen: 0,       // 학습 횟수
-        correct: 0,    // 정답 횟수
-        wrong: 0,      // 오답 횟수
-        lastDay: null, // 마지막 학습일 (Unix day)
-        dueDay: 0      // 다음 복습일 (Unix day)
-      },
-      ...
-    },
-    totalAnswered: 0,
-    totalCorrect: 0,
-    studyDays: []      // 학습한 날짜 배열 (Unix day)
-  },
-  "2": { ... }                        // 2차 시험 (동일 구조)
-}
+- Leitner 5상자: 정답 상자 +1(최대 5), 오답 상자 1. 다음 복습 1/2/4/8/16일 뒤
+- 숙련도 = 상자 합 / (문항 수 × 5)
+- 모의고사: 선택형만, 과목 균등 (1차 9+8+8). 문항 없는 과목은 몫에서 빼고 부족 안내
+- 과락: 과목 40점 미만이면 불합격, 평균 60점 이상이면 합격. 출제되지 않은 과목은 판정 제외
+- 서술형: 키워드 가중 합계, '확신 없음'은 0점, 80% 이상이면 정답
+
+## v7 → v8에서 고친 동작
+
+1. 2차 모의고사에 서술형이 섞여 화면이 멈추던 문제 — 선택형만 출제
+2. 2차 모의고사가 문항 없는 보상실무2를 0점 과락으로 처리해 늘 불합격이던 문제 — 출제 과목만 판정
+3. 서술형 힌트가 다음 문항으로 넘어가도 남던 문제 — 문항별 상태
+4. 서술형에서 채점 전에 Enter를 누르면 채점 없이 넘어가던 문제 — 채점 후에만 이동
+5. 모의고사 점수를 `정답 수 × round(100/문항 수)`로 계산해 문항이 부족하면 만점이 100이 아니던 문제 — 100점 환산
+6. 서비스 워커가 외부 요청까지 캐시하던 문제 — 같은 출처만
+7. 옛 ID 마이그레이션에서 이미 새 형식인 카드가 지워지던 문제 — 보존
+
+## 문항 편집과 배포
+
+```bash
+# 1) content/questions.json 편집
+npm test                      # 도메인·유스케이스 테스트 + 문제은행 형식 검사
+npm run content               # 무료 샘플·업로드 묶음 생성 (형식 오류면 중단)
+npm run content:local         # 로컬 테스트용 전체 문항까지
+npm run serve                 # http://localhost:8080
+
+# 2) firebase 모드 배포 (최초 1회 firebase init, admins/{내 uid} 문서 생성)
+node scripts/admin.mjs upload-questions
+node scripts/admin.mjs grant buyer@gmail.com 365
+firebase deploy
 ```
 
-**저장 위치**: `localStorage` 키 `"bosang:progress:v3"`
-**단계 선택**: `localStorage` 키 `"bosang:curStage"`
+## 다음 단계
 
-## 마이그레이션 체인
-
-```
-v3 (초기, 평면 cards)
-  ↓ migrateIdProgress()
-v4 (새 ID 체계: civ-001, rel-001, lca-001)
-  ↓ migrateToV5()
-v5 (stage별 분리: P["1"], P["2"])
-```
-
-- `ID_MIGRATION` 맵(264엔트리)이 index.html에 내장
-- 부팅 시 `loadProgress()`에서 자동 감지·실행
-- 멱등: 이미 마이그레이션된 데이터는 건너뜀
-
-## 상수
-
-```javascript
-STAGES = {
-  "1": { subjects: ["민법","부동산관계법규","토지보상법규"], examSize: 25 },
-  "2": { subjects: ["보상실무1","보상실무2"], examSize: 20 }
-}
-BOX_INTERVALS = [1, 2, 4, 8, 16]   // 일 단위
-MAX_BOX = 5                         // 최대 숙련도 레벨
-QUEUE_REVIEW = 20                   // 복습 세션 최대 문항
-QUEUE_PRACTICE = 15                 // 연습 세션 최대 문항
-```
-
-## 핵심 함수
-
-### Stage 헬퍼
-| 함수 | 설명 |
-|------|------|
-| `stageSubjects(s)` | 해당 stage의 과목 목록 |
-| `stageBank(s)` | 해당 stage의 문항 배열 (메모이제이션 적용) |
-| `invalidateStageCache()` | stageBank 캐시 무효화 (부팅 시 호출) |
-| `sp(s)` | 해당 stage의 progress 객체 |
-
-### 학습 로직
-| 함수 | 설명 |
-|------|------|
-| `applyResult(id, ok)` | 정답/오답 처리, box 이동 |
-| `masteryPct()` | 전체 숙련도 % |
-| `subjMastery(s)` | 과목별 숙련도 |
-| `dueCards()` | 복습할 문항 필터 |
-| `weakCards()` | 취약 문항 필터 (box≤2 또는 오답≥정답 且 오답>0) |
-| `weightedPick(pool, n)` | 가중 랜덤 샘플링 (약한 문항 우선) |
-| `calcPassFail(answers, queue)` | 과락 판정 (40점/60점 기준) |
-| `startType(t)` | 유형별 연습 (mcq/essay/all) |
-
-### 큐 빌드
-| 함수 | 설명 |
-|------|------|
-| `buildQueue(mode, subject)` | 모드별 학습 큐 생성 |
-| `buildBalancedExam()` | 과목 균등 모의고사 (1차: 8+8+9) |
-
-### 뷰
-| 함수 | 설명 |
-|------|------|
-| `topbar()` | 상단 네비 (네이비 배경) + 단계 표시 + 햄버거 |
-| `renderMenu()` | 햄버거 메뉴 (단계 전환·오답노트·피드백·초기화) |
-| `renderDash()` | 홈 대시보드 (과목별·유형별 연습, 퀵카드) |
-| `renderMastery()` | 숙련도 히트맵 |
-| `renderStatus()` | 통계 현황 |
-| `renderStudy()` | 학습 카드 — type 분기 (mcq/essay) |
-| `renderExam()` | 모의고사 (채점 후 표시 + 과락 경보) |
-| `renderEssay()` | 서술형 학습 (답안지→힌트→정답→채점) |
-| `renderEmpty()` | 빈 상태 안내 |
-| `renderWrong()` | 오답노트 |
-| `renderFeedback()` | 의견 보내기 (이메일) |
-
-### 서술형 (essay) 전용
-| 함수 | 설명 |
-|------|------|
-| `revealHint(i)` | 답안지 슬롯 탭 → 키워드 힌트 공개 |
-| `showFullAnswer()` | 모범답안 + 자가채점 체크리스트 표시 |
-| `toggleKw(i)` | 키워드 체크/확신없음/미체크 3단계 토글 |
-| `gradeEssay()` | 가중 합계 채점 (80% 이상 → 정답) |
-
-## questions.json 스키마
-
-### mcq (선택형)
-```javascript
-{
-  id: "civ-001",        // <과목코드>-<3자리>, 재사용 금지
-  stage: 1,             // 1 또는 2
-  type: "mcq",
-  q: "문제 본문",
-  opt: ["①","②","③","④","⑤"],
-  a: 3,                 // 0-based 인덱스. 3 = ④번
-  ex: "해설 (<b>강조</b> 가능)",
-  subject: "민법",
-  article: null,
-  source: [{ type: "기출", year: 2022, no: 1 }],
-  revised: null,
-  diff: 2               // 현재 비활성
-}
-```
-
-### essay (서술형)
-```javascript
-{
-  id: "prc1-001",
-  stage: 2,
-  type: "essay",
-  q: "문제 본문",
-  model: "모범답안 전문 (줄바꿈 포함)",
-  keywords: [
-    { term: "핵심 키워드", weight: 1 }
-  ],
-  subject: "보상실무1",
-  diff: 2,
-  source: [{ type: "예상문제집", no: 1 }],
-  article: null,
-  revised: null
-}
-```
-
-**과목 코드**: `civ`(민법), `rel`(부동산관계법규), `lca`(토지보상법규), `prc1`(보상실무1), `prc2`(보상실무2)
-
-**현재 문항 분포**:
-| 과목 | 코드 | 문항 수 | 타입 |
-|------|------|---------|------|
-| 민법 | civ | 45 | mcq |
-| 부동산관계법규 | rel | 67 | mcq |
-| 토지보상법규 | lca | 152 | mcq |
-| 보상실무1 | prc1 | 136 | mcq 77 + essay 59 |
-| 보상실무2 | prc2 | 0 | — |
-
-## 대시보드 UI 구성
-
-### 1차 시험
-```
-통계 바 → 과목별 연습(전체/민법/부동산관계법규/토지보상법규) → 퀵카드(복습/약점/모의고사)
-```
-
-### 2차 시험
-```
-통계 바 → 과목별 연습(전체/보상실무1) → 유형별 연습(전체/객관식/서술형) → 퀵카드(복습/약점/모의고사)
-```
-
-유형별 연습은 mcq+essay가 모두 있을 때만 표시.
-
-## 간격 반복 (Leitner Box)
-
-```
-정답 → box +1 (최대 5)
-오답 → box = 1 (리셋)
-
-box 0: 미학습 (즉시 복습 대상)
-box 1: 1일 후 복습
-box 2: 2일 후
-box 3: 4일 후
-box 4: 8일 후
-box 5: 16일 후 (숙달)
-```
-
-숙련도 = `sum(모든 box) / (문항수 × 5) × 100`
-
-### essay 채점
-- 답안지 UI: 빈 슬롯 → 탭하면 힌트 키워드 공개 → 정답 확인 → 자가 채점
-- 가중 합계: `score = sum(체크한 weight) / sum(전체 weight) × 100`
-- 80% 이상 → 정답 (box +1)
-- 80% 미만 → 오답 (box = 1)
-- 체크/확신없음/미체크 3단계 (확신없음은 점수 미산입)
-
-## 과락 판정
-
-```
-과목별 점수 = correct / total × 100
-과락 = 어느 한 과목이 40점 미만
-불합격 = 과락 OR 평균 60점 미만
-```
-
-1차·2차 동일 규칙. `calcPassFail()` 함수 하나로 양쪽에 사용.
-
-## 모의고사
-
-1차 25문항: 과목별 8+8+9 (3과목 균등 분배, mcq만)
-2차 20문항: mcq에서만 추출
-
-특정 과목 문항이 부족하면 가능한 만큼만 추출 + 안내 표시.
-
-## 1차/2차 테마
-
-- 1차: 차가운 회색 (`--bg:#E7EBEE`)
-- 2차: 따뜻한 베이지 (`--bg:#EBE7E0`)
-- `body[data-stage="2"]` CSS 오버라이드로 배경·카드·텍스트 톤 변경
-
-## 카카오톡 대응
-
-- **인앱브라우저 → 외부 브라우저**: User-Agent `KAKAOTALK` 감지 시 Android는 `intent://`로 크롬, iOS는 `kakaotalk://web/openExternal`로 Safari 이동
-- **OG 미리보기**: `og:title`, `og:description`, `og:image`(1200×630) 메타태그
-
-## 추가 기능
-
-- **오답노트**: 틀린 문항 목록 (오답 많은 순), "다시 풀기" 버튼
-- **피드백**: 유형 선택 + 텍스트 → `mailto:` 이메일 발송
-- **버전 표시**: 메뉴 하단에 현재 버전
-
-## Service Worker
-
-**전략**: Stale-While-Revalidate
-- 캐시된 버전을 즉시 반환
-- 백그라운드에서 네트워크 갱신
-- 다음 실행 시 새 버전 반영
-- 오프라인에서도 캐시로 동작
-
-**캐시 버전**: `bosang-v9`
-
-## 부팅 순서
-
-```
-1. 카카오톡 인앱브라우저 감지 → 외부 브라우저 이동
-2. fetch('questions.json') → BANK
-3. BANK_MAP 생성 (O(1) 조회)
-4. invalidateStageCache() — stageBank 캐시 초기화
-5. localStorage에서 curStage 복원
-6. loadProgress() — 마이그레이션 자동 실행
-7. saveProgress() — v5 형식 보장
-8. render() — body[data-stage] 설정
-```
-
-## 배포
-
-GitHub Pages 정적 배포. 서버 불필요.
-URL: https://jagallang.github.io/bosang/
-
-```
-questions.json 편집 → git push → SW가 다음 실행 시 자동 갱신
-```
-
-## TTS 음성 생성
-
-Gemini 3.8 TTS API로 2차 서술형 44문항의 문제·답안 음성을 생성하는 파이프라인.
-
-```
-python scripts/tts_pipeline.py test 2        # 2번 문항만 생성
-python scripts/tts_pipeline.py generate      # 전체 88개 WAV (문항별 문제+답안)
-python scripts/tts_pipeline.py build --mp3   # 합본 44개 + 묶음 5개, MP3 포함
-python scripts/tts_pipeline.py voices        # 한국어 음성 목록 조회
-```
-
-- 사전 준비: `pip install -U google-genai`, `export GEMINI_API_KEY=...`
-- 상세 명세: `scripts/TTS_개발문서.md`
-
-## 현재 비활성 기능
-
-- **난이도 필터**: HTML 주석 처리. 문항 난이도 분류 완료 후 복원 예정
-- **fill (기입형)**: 렌더러 분기점만 존재, 구현 예정
-- **보상실무2**: 과목 정의만 있고 문항 0개
+- 관리자 화면에서 이용권 부여 (지금은 `scripts/admin.mjs`)
+- 결제 연동 (토스페이먼츠 → Cloud Functions → `entitlements`)
+- 문항에 `article`(근거 조문)·`revised`(검수일) 채우기
+- 디자인 개편 (뷰가 분리돼 있어 `views/`와 `styles/`만 바꾸면 된다)
