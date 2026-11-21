@@ -41,4 +41,4 @@ for (const r of rows) {
 }
 console.log(`승인 반영 ${applied}건${dry ? ' (--dry: 저장 안 함)' : ''}`);
 if (held.length) { console.log('반영하지 않은 행:'); held.forEach((h) => console.log('  ' + h)); }
-if (!dry && applied) writeFileSync(FILE, JSON.stringify(raw, null, 2) + '\n');
+if (!dry && applied) writeFileSync(FILE, JSON.stringify(raw, null, 2));
