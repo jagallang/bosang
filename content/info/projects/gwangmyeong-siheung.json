@@ -1,0 +1,32 @@
+{
+  "id": "gwangmyeong-siheung",
+  "notices": [
+    {
+      "date": "2022-11-29",
+      "stage": "designation",
+      "title": "공공주택지구 지정(국토교통부 고시 제2022-673호)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.gh.or.kr/gh/reward-announcement.do?mode=view&articleNo=63947&article.offset=0&articleLimit=10"
+    },
+    {
+      "date": "2024-12-30",
+      "stage": "designation",
+      "title": "지구 지정변경(2차) 및 지구계획 승인(제2024-875호)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.gh.or.kr/gh/reward-announcement.do?mode=view&articleNo=63947&article.offset=0&articleLimit=10"
+    },
+    {
+      "date": "2025-08-26",
+      "stage": "plan",
+      "title": "보상계획 공고(경기주택도시공사 게시)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.gh.or.kr/gh/reward-announcement.do?mode=view&articleNo=63947&article.offset=0&articleLimit=10"
+    }
+  ],
+  "name": "광명시흥 공공주택지구",
+  "type": "공공주택",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "광명시·시흥시"
+  }
+}

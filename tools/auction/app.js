@@ -12,10 +12,12 @@ async function getJson(url) { const r = await fetch(url); if (!r.ok) throw new E
 
 const ontology = await getJson('../../content/info/ontology.json');
 const index = await getJson('../../content/info/index.json').catch(() => ({ projects: [] }));
-const projects = index.projects;
+// 실제 지구 + (내 물건 파일이 없을 때) 매칭 시연용 예시 지구
+const sampleProjects = await getJson('data/projects.sample.json').then((p) => [p]).catch(() => []);
 let items, source;
 try { items = await getJson('data/items.json'); source = '내 물건 (data/items.json)'; }
 catch { items = await getJson('data/items.sample.json'); source = '예시 물건 — data/items.json을 만들면 그걸 씁니다'; }
+const projects = source.startsWith('예시') ? [...index.projects, ...sampleProjects] : index.projects;
 $('#dataHint').textContent = `${source} · 사업지구 ${projects.length}개`;
 
 const prefs = JSON.parse(localStorage.getItem('auction:prefs') || '{}');

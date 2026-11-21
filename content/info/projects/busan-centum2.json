@@ -1,0 +1,23 @@
+{
+  "id": "busan-centum2",
+  "notices": [
+    {
+      "date": "2026-11-20",
+      "stage": "plan",
+      "title": "보상계획 공고(㈜풍산 소유 토지, 약 100만㎡)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.nbntv.co.kr/news/articleView.html?idxno=4027734",
+      "period": {
+        "from": "2026-11-23",
+        "to": "2026-12-11"
+      }
+    }
+  ],
+  "name": "센텀2지구 도시첨단산업단지",
+  "type": "산업단지",
+  "operator": "부산도시공사",
+  "region": {
+    "sido": "부산광역시",
+    "sigungu": "해운대구"
+  }
+}

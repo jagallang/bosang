@@ -1,0 +1,18 @@
+{
+  "id": "gimpo-geolpo4",
+  "notices": [
+    {
+      "date": "2026-05-26",
+      "stage": "plan",
+      "title": "보상계획공고 및 열람(김포시 게시)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.gimpo.go.kr/portal/selectBbsNttView.do?key=999&bbsNo=292&searchCnd=all&deleteAt=N&pageUnit=10&pageIndex=1&nttNo=975531"
+    }
+  ],
+  "name": "김포 걸포4지구 도시개발사업",
+  "type": "도시개발",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "김포시"
+  }
+}

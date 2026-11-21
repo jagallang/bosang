@@ -23,3 +23,4 @@ report-*.csv
 tools/auction/data/*.json
 !tools/auction/data/items.sample.json
 content/info/index.json
+!tools/auction/data/projects.sample.json

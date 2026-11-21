@@ -2,7 +2,7 @@
 // 보상정보 수집: 켜진 어댑터를 돌려 content/info/projects/*.json에 합치고 검증한다.
 //   node scripts/collect/run.mjs           수집 + 합치기
 //   node scripts/collect/run.mjs --check   검증만
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ADAPTERS } from './adapters.mjs';
@@ -13,6 +13,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const DIR = join(ROOT, 'content/info/projects');
 const ontology = JSON.parse(readFileSync(join(ROOT, 'content/info/ontology.json'), 'utf8'));
 
+mkdirSync(DIR, { recursive: true });
 const load = () => Object.fromEntries(readdirSync(DIR).filter((f) => f.endsWith('.json'))
   .map((f) => { const p = JSON.parse(readFileSync(join(DIR, f), 'utf8')); return [p.id, p]; }));
 
