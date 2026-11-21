@@ -52,7 +52,7 @@ export default function Info() {
 
       <div className="cta-row">
         <a href={SITE.appPath} className="btn btn-ink">토지보상법규 문제 풀어 보기</a>
-        <Link href="/pro/" className="btn btn-line">행정사·공인중개사용 과정</Link>
+        <Link href="/about/" className="btn btn-line">보상관리사란?</Link>
       </div>
     </div>
   );

@@ -57,7 +57,7 @@ python scripts/tts_mnemonic.py               # 두문자편 음성
 
 ## 메인 사이트 (site/)
 
-Next.js 15 정적 내보내기. 첫 화면 `/`, 교재·이용권 `/books/`, 시험 안내 `/exam/`, 보상정보 `/info/`.
+Next.js 15 정적 내보내기. 첫 화면 `/`, 보상관리사란? `/about/`, 보상관리사 시험 `/exam/`, 교재 가격 문의 `/books/`, 보상정보 `/info/`.
 퀴즈앱은 배포 시 `/app/`에 붙는다.
 
 ```bash
@@ -75,7 +75,7 @@ npm run deploy    # 테스트 → 빌드 → firebase deploy (hosting.public = d
 
 | 축 | 공개 | 위치 | 데이터 |
 | --- | --- | --- | --- |
-| 보상관리사 교육 | 공개(유료) | `site/`(/, /business, /pro, /books), `public/` → `/app/` | `content/questions.json` |
+| 보상관리사 교육 | 공개(유료) | `site/`(/, /about, /exam, /books), `public/` → `/app/` | `content/questions.json` |
 | 보상정보 | 공개(무료) | `site/app/info/` → `/info/`, `/info/<지구>/` | `content/info/` |
 | 보상경매 툴 | 비공개(본인용) | `tools/auction/` (배포본 제외) | `content/info/` + `tools/auction/data/` |
 

@@ -13,7 +13,7 @@ export default function NotFound() {
       <div className="cta-row">
         <Link href="/" className="btn btn-ink">첫 화면</Link>
         <a href={SITE.appPath} className="btn btn-line">학습앱</a>
-        <Link href="/books/" className="btn btn-line">교재·이용권</Link>
+        <Link href="/books/" className="btn btn-line">가격 문의</Link>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@ import { allProjects } from '../lib/infoData';
 
 export const dynamic = 'force-static';
 
-const PATHS = ['/', '/business/', '/pro/', '/books/', '/exam/', '/info/', '/info/terms/', '/terms/', '/privacy/', '/refund/'];
+const PATHS = ['/', '/about/', '/exam/', '/books/', '/info/', '/info/terms/', '/terms/', '/privacy/', '/refund/'];
 
 /** SITE_URL이 없으면 빈 sitemap (배포 주소가 정해지면 채워진다) */
 export default function sitemap() {

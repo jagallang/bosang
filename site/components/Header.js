@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { SITE } from '../lib/site';
 
 const NAV = [
-  { href: '/business/', label: '기관 도입' },
-  { href: '/pro/', label: '행정사·중개사' },
-  { href: '/books/', label: '교재·이용권' },
+  { href: '/about/', label: '보상관리사란?' },
+  { href: '/exam/', label: '보상관리사 시험' },
+  { href: '/books/', label: '가격 문의' },
   { href: '/info/', label: '보상정보' },
   { href: '/auction/', label: '보상경매', admin: true },
 ];

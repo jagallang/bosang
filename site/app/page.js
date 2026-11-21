@@ -1,12 +1,12 @@
 import Link from 'next/link';
 import ExamSheet from '../components/ExamSheet';
-import { SITE, PASSES, won } from '../lib/site';
+import { SITE } from '../lib/site';
 
 const BOXES = [1, 2, 4, 8, 16];
 const PATHS = [
-  { href: '/business/', who: '기관 교육 담당자', title: '직원 자격 취득을 기관 단위로', body: '단체 이용권 일괄 개통과 월간 학습 리포트. 10명 1개월 무료 파일럿부터 시작합니다.' },
-  { href: '/pro/', who: '행정사 · 공인중개사', title: '보상 업무로 일을 넓히기', body: '보상관리사 자격 과정과, 보상 사건·보상지역 상담에 바로 쓰는 실무 주제를 정리했습니다.' },
-  { href: '/books/', who: '수험생', title: '혼자 준비하는 1·2차', body: `학습앱 이용권 ${won(PASSES[0].price)}부터, 두문자 노트와 2차 서술형 예제집.` },
+  { href: '/about/', who: '처음이라면', title: '보상관리사란?', body: '공익사업 보상업무를 맡는 국토교통부 공인 민간자격. 하는 일과 취득 절차를 정리했습니다.' },
+  { href: '/exam/', who: '응시 준비', title: '보상관리사 시험', body: '1차 법규 3과목, 2차 보상실무 2과목. 과목 범위, 실무연수, 합격 기준.' },
+  { href: '/books/', who: '교재', title: '기본서 · 객관식 문제집', body: '보상실무 1·2 단원별 기본서와 객관식 문제집. 가격은 이메일로 안내합니다.' },
 ];
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
             </p>
             <div className="cta-row">
               <a href={SITE.appPath} className="btn btn-seal">무료 문제 풀기</a>
-              <Link href="/books/" className="btn btn-line-inv">교재·이용권 보기</Link>
+              <Link href="/books/" className="btn btn-line-inv">교재 가격 문의</Link>
             </div>
           </div>
           <ExamSheet />
