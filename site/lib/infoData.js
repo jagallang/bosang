@@ -1,7 +1,8 @@
 // 빌드 시점에 content/info를 읽는다 (서버 컴포넌트 전용).
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { projectSummary, sortSummaries } from './infoModel.mjs';
+import { sigunguKeys, centroidOf } from './geo.mjs';
 
 const BASE = join(process.cwd(), '..', 'content', 'info');
 // BOSANG_INFO_DIR: 가상 데이터로 빌드해 볼 때 (저장소 루트 기준 경로)
@@ -36,4 +37,39 @@ export function termQuestionCounts() {
     counts[t] = texts.filter((x) => x.includes(key)).length;
   }
   return counts;
+}
+
+// ── 지도 ──────────────────────────────────────────────
+
+const GEO = join(process.cwd(), '..', 'content', 'info', 'geo');
+
+/**
+ * 지도에 올릴 사업지구. 경계 정밀도: boundary(지구 경계) > parcels(필지) > sigungu(시군구 범위, 경계 미수집)
+ */
+export function mapItems() {
+  const sg = JSON.parse(readFileSync(join(GEO, 'sigungu.json'), 'utf8'));
+  const byId = new Map(summaries().map((s) => [s.id, s]));
+  return allProjects().map((p) => {
+    const s = byId.get(p.id);
+    const file = join(GEO, 'projects', `${p.id}.geojson`);
+    let geometries, precision, source;
+    if (existsSync(file)) {
+      const fc = JSON.parse(readFileSync(file, 'utf8'));
+      geometries = fc.features.map((f) => f.geometry);
+      precision = fc.precision || 'boundary';
+      source = `${fc.source || ''}${fc.checkedAt ? ` (${fc.checkedAt})` : ''}`;
+    } else {
+      const keys = sigunguKeys(p.region, sg.items);
+      geometries = keys.map((k) => sg.items[k].geometry);
+      precision = 'sigungu';
+      source = `${sg.source} — ${keys.map((k) => sg.items[k].name).join('·')}`;
+    }
+    const center = geometries.length ? centroidOf(geometries) : null;
+    return {
+      id: p.id, name: p.name, type: s.type, sample: s.sample,
+      region: `${s.sido} ${s.sigungu}`.trim(),
+      stage: s.stage, daysLeft: s.nextDeadline ? s.nextDeadline.daysLeft : null,
+      precision, source, center, geometries,
+    };
+  }).filter((x) => x.center);
 }

@@ -20,6 +20,9 @@ run('node scripts/build-content.mjs');
 run('node scripts/collect/run.mjs --check');
 if (!existsSync(join(root, 'site/node_modules'))) run('npm ci', join(root, 'site'));
 run('node scripts/build-fonts.mjs');
+// 지도 배경(브이월드)용 브라우저 키. 브이월드 키는 등록한 도메인에서만 동작해 공개돼도 된다
+if (process.env.VWORLD_MAP_KEY) process.env.NEXT_PUBLIC_VWORLD_KEY = process.env.VWORLD_MAP_KEY;
+if (process.env.VWORLD_DOMAIN) process.env.NEXT_PUBLIC_VWORLD_DOMAIN = process.env.VWORLD_DOMAIN;
 run('npx next build', join(root, 'site'));
 
 rmSync(dist, { recursive: true, force: true });

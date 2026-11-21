@@ -4,6 +4,7 @@
  *   node scripts/collect/collect.mjs info            원자료 CSV → inbox/auto-*.csv(자동) + review/*.csv(검토)
  *   node scripts/collect/collect.mjs auction         온비드 API → tools/auction/data/items.json
  *   node scripts/collect/collect.mjs auction --probe 첫 페이지 원본을 저장하고 필드 이름만 보여준다
+ *   node scripts/collect/collect.mjs geo             브이월드 → content/info/geo/projects/<id>.geojson (사업지구 경계)
  * 이어서 `node scripts/collect/run.mjs`가 inbox를 사업 JSON에 합친다 (npm run collect가 둘 다 한다).
  */
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -21,6 +22,8 @@ import { loadEnvLocal } from './lib/env.mjs';
 import { fetchEumRecent } from './sources/eumGosiWeb.mjs';
 import { fetchBoard } from './sources/board.mjs';
 import { annotateItems } from './sources/vworld.mjs';
+import { findBoundary, toGeoFile } from './sources/vworldGeo.mjs';
+import { sigunguKeys } from '../../site/lib/geo.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const argVal = (k) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : null; };
@@ -139,9 +142,39 @@ async function zoning() {
   writeFileSync(outPath, JSON.stringify(items, null, 2));
 }
 
+/** 사업지구 경계: 이미 있는 파일은 건너뛴다 (--force 로 다시 받기) */
+async function geo() {
+  const g = cfg.geo || {};
+  if (!process.env.VWORLD_KEY) throw new Error('VWORLD_KEY 환경변수(브이월드 인증키)가 없습니다 (.env.local)');
+  const sigungu = JSON.parse(readFileSync(join(ROOT, 'content', 'info', 'geo', 'sigungu.json'), 'utf8')).items;
+  const outDir = join(ROOT, 'content', 'info', 'geo', 'projects');
+  mkdirSync(outDir, { recursive: true });
+  const opts = { key: process.env.VWORLD_KEY, domain: process.env.VWORLD_DOMAIN || cfg.auction?.vworld?.domain || 'localhost' };
+  const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
+  const projDir = join(INFO, 'projects');
+  let found = 0, missing = 0, skipped = 0;
+  for (const f of readdirSync(projDir).filter((x) => x.endsWith('.json'))) {
+    const p = JSON.parse(readFileSync(join(projDir, f), 'utf8'));
+    const out = join(outDir, `${p.id}.geojson`);
+    if (existsSync(out) && !flag('--force') && !g.overwrite) { skipped++; continue; }
+    const keys = sigunguKeys(p.region, sigungu);
+    if (!keys.length) { console.log(`  ? ${p.name}: 시군구를 찾지 못함 (${p.region?.sido} ${p.region?.sigungu})`); missing++; continue; }
+    const b = keys.map((k) => sigungu[k].bbox);
+    const bbox = [Math.min(...b.map((x) => x[0])), Math.min(...b.map((x) => x[1])), Math.max(...b.map((x) => x[2])), Math.max(...b.map((x) => x[3]))];
+    try {
+      const r = await findBoundary(p, { bbox, layerMap: g.layers || {}, opts });
+      if (r) { writeFileSync(out, JSON.stringify(toGeoFile(p, r, { today }))); found++; console.log(`  ✓ ${p.name}: ${r.precision === 'parcels' ? '필지' : '지구 경계'} ${r.features.length}개 (${r.layer})`); }
+      else { missing++; console.log(`  - ${p.name}: 경계 못 찾음 → 지도에는 시군구 범위로 표시`); }
+    } catch (e) { missing++; console.log(`  ✗ ${p.name}: ${e.message}`); }
+    await new Promise((r) => setTimeout(r, g.delayMs ?? 300));
+  }
+  console.log(`경계 ${found}곳 저장, ${missing}곳 못 찾음, ${skipped}곳은 이미 있어 건너뜀 → content/info/geo/projects/`);
+}
+
 try {
-  if (cmd === 'info') await info();
+  if (cmd === 'geo') await geo();
+  else if (cmd === 'info') await info();
   else if (cmd === 'zoning') await zoning();
   else if (cmd === 'auction') await auction();
-  else throw new Error(`모르는 명령: ${cmd} (info | auction | zoning)`);
+  else throw new Error(`모르는 명령: ${cmd} (info | auction | zoning | geo)`);
 } catch (e) { console.error(`✗ ${e.message}`); process.exit(1); }

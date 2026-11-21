@@ -22,3 +22,11 @@ npm run collect
 3. 이어서 inbox 전체를 `projects/*.json`에 합치고 검증한다.
 
 분류는 제목 글자 규칙이라 틀릴 수 있다. 처음 돌린 뒤 자동 반영분도 한 번 훑어볼 것.
+
+## 지도 (사업지구 경계)
+
+- `content/info/geo/sigungu.json`: 통계청 SGIS 2018 시군구 경계를 단순화한 것 (원본 github.com/southkorea/southkorea-maps). 다시 만들 때 `node scripts/geo/sigungu.mjs <원본.json>`
+- `content/info/geo/projects/<id>.geojson`: 사업지구 경계. `npm run collect:geo`가 브이월드에서 받는다 (`.env.local`에 `VWORLD_KEY`, `VWORLD_DOMAIN`)
+  - 필지 PNU가 있으면 필지 경계(LP_PA_CBND_BUBUN), 없으면 유형별 지구 레이어(collect.config.json `geo.layers`)에서 이름이 맞는 경계
+  - 못 찾은 지구는 지도에 시군구 범위로 표시된다. 고시 도면 등에서 직접 만든 GeoJSON을 같은 이름으로 넣어도 된다 (`precision`, `source` 속성 권장)
+- 지도 배경: 빌드할 때 `.env.local`의 `VWORLD_MAP_KEY`(브라우저용 브이월드 키)가 있으면 브이월드, 없거나 불러오지 못하면 OpenStreetMap

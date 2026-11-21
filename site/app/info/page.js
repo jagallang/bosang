@@ -26,7 +26,10 @@ export default function Info() {
         </aside>
       )}
 
-      <h2 className="h2">사업지구</h2>
+      <div className="h2-row">
+        <h2 className="h2">사업지구</h2>
+        <Link href="/info/map/" className="btn btn-line sm">지도로 보기</Link>
+      </div>
       <ProjectTable items={items} stageCount={ontology.stages.length} />
       <p className="note">기준일 {buildDate()}. 고시 원문과 다를 수 있으니 중요한 기한은 사업시행자 공고로 확인하세요.</p>
 

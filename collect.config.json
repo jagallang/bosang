@@ -83,5 +83,21 @@
       "delayMs": 200,
       "_note": "VWORLD_KEY, VWORLD_DOMAIN은 .env.local에. 개발키는 발급 때 등록한 사이트 주소를 domain으로 보내야 한다"
     }
+  },
+  "geo": {
+    "_note": "사업지구 경계 수집 (npm run collect:geo). 레이어 이름은 브이월드 2D 데이터 API 기준. 실제 응답으로 확인 전 — 첫 실행 결과를 보고 고친다",
+    "delayMs": 300,
+    "layers": {
+      "택지": [
+        "LT_C_LHBLPN"
+      ],
+      "공공주택": [
+        "LT_C_LHBLPN"
+      ],
+      "산업단지": [
+        "LT_C_DAMDAN"
+      ]
+    },
+    "overwrite": false
   }
 }

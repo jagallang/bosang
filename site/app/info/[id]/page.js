@@ -37,6 +37,7 @@ export default async function ProjectPage({ params }) {
       <header className="page-head">
         <h1>{p.name}</h1>
         <p>{meta.join(' · ')}</p>
+        <p className="head-links"><Link href={`/info/map/?id=${p.id}`}>지도에서 보기</Link></p>
       </header>
 
       {p.sample && (

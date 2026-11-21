@@ -415,3 +415,42 @@ p { margin: 0; }
 .bcover-brand small { font-weight: 400; font-size: 2.1cqw; opacity: .85; }
 @media (max-width: 1000px) { .shelf { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .shelf { grid-template-columns: 1fr; } .shelf-item .bcover { max-width: 320px; } }
+
+/* 보상정보 지도 */
+.imap-bar { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.imap-legend, .imap-over { display: flex; flex-wrap: wrap; gap: 6px; }
+.imap-legend button { display: inline-flex; align-items: center; gap: 6px; font: inherit; font-size: 13.5px; padding: 5px 10px; border: 1px solid var(--rule); background: #fff; cursor: pointer; }
+.imap-legend button[aria-pressed="false"] { opacity: .45; }
+.imap-legend i, .imap-list i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.imap-legend span { color: var(--muted); font-variant-numeric: tabular-nums; }
+.imap-over label { display: inline-flex; align-items: center; gap: 5px; font-size: 13.5px; color: var(--muted); }
+.imap-warn { font-size: 13px; color: var(--seal); margin-bottom: 10px; }
+.imap-body { display: grid; grid-template-columns: 1fr 300px; border: 1px solid var(--rule); background: #fff; height: min(70vh, 640px); }
+.imap-map { height: 100%; min-height: 360px; z-index: 0; }
+.imap-side { border-left: 1px solid var(--rule); overflow-y: auto; }
+.imap-list { list-style: none; margin: 0; padding: 0; }
+.imap-list li + li { border-top: 1px solid var(--rule); }
+.imap-list button { display: flex; gap: 10px; align-items: flex-start; width: 100%; text-align: left; font: inherit; padding: 11px 14px; background: none; border: 0; cursor: pointer; }
+.imap-list button:hover { background: var(--paper, #f6f4ef); }
+.imap-list i { margin-top: 6px; }
+.imap-list b { display: block; font-size: 14px; font-weight: 600; line-height: 1.4; }
+.imap-list small { font-size: 12.5px; color: var(--muted); }
+.imap-card { padding: 16px; }
+.imap-card h3 { font-size: 18px; margin: 2px 0 4px; }
+.imap-back { font: inherit; font-size: 13px; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; margin-bottom: 14px; }
+.imap-back::before { content: '‹ '; }
+.imap-stage { font-size: 13px; font-weight: 700; }
+.imap-meta, .imap-prec { font-size: 13.5px; color: var(--muted); margin-bottom: 10px; }
+.imap-prec small { font-size: 12px; }
+.imap-due { font-size: 14px; font-weight: 700; color: var(--seal); margin-bottom: 10px; }
+@media (max-width: 860px) {
+  .imap-body { grid-template-columns: 1fr; height: auto; }
+  .imap-map { height: 58vh; }
+  .imap-side { border-left: 0; border-top: 1px solid var(--rule); max-height: none; }
+}
+
+.h2-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.h2-row .h2 { margin-bottom: 0; }
+.h2-row + * { margin-top: 14px; }
+.head-links { margin-top: 6px; font-size: 14px; }
+.block > .h2-row { margin-top: 56px; margin-bottom: 20px; }
