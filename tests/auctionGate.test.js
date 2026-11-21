@@ -3,27 +3,17 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { parseWebConfig, gateState, itemDocId } from '../site/lib/auctionGate.mjs';
+import { itemDocId } from '../site/lib/auctionGate.mjs';
+import { seal, open } from '../site/lib/vault.mjs';
 import { findAuctionLeaks } from '../scripts/lib/distGuard.mjs';
 
-const cfg = { apiKey: 'k', authDomain: 'a', projectId: 'p', appId: 'i' };
-
-test('설정이 없거나 깨지면 닫힘', () => {
-  assert.equal(parseWebConfig(''), null);
-  assert.equal(parseWebConfig(undefined), null);
-  assert.equal(parseWebConfig('{bad'), null);
-  assert.equal(parseWebConfig(JSON.stringify({ ...cfg, appId: '' })), null);
-  assert.deepEqual(parseWebConfig(JSON.stringify(cfg)), cfg);
-});
-
-test('관리자로 확인된 경우에만 열림', () => {
-  assert.equal(gateState({ configured: false, authReady: true, user: { uid: 'u' }, admin: true }), 'unconfigured');
-  assert.equal(gateState({ configured: true, authReady: false }), 'loading');
-  assert.equal(gateState({ configured: true, authReady: true, user: null }), 'signed-out');
-  assert.equal(gateState({ configured: true, authReady: true, user: { uid: 'u' }, admin: null }), 'checking');
-  assert.equal(gateState({ configured: true, authReady: true, user: { uid: 'u' }, admin: false }), 'denied');
-  assert.equal(gateState({ configured: true, authReady: true, user: { uid: 'u' }, admin: 'yes' }), 'denied');
-  assert.equal(gateState({ configured: true, authReady: true, user: { uid: 'u' }, admin: true }), 'open');
+test('금고: 맞는 비밀번호로만 열린다', async () => {
+  const data = { items: [{ case: '예시 2026타경0001' }] };
+  const v = await seal(data, 'correct-horse-9', { iterations: 1000 });
+  assert.ok(!JSON.stringify(v).includes('타경'));
+  assert.deepEqual(await open(v, 'correct-horse-9'), data);
+  assert.equal(await open(v, 'wrong-password'), null);
+  await assert.rejects(seal(data, 'short'));
 });
 
 test('문서 id에 / 가 들어가지 않는다', () => {

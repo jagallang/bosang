@@ -4,11 +4,14 @@ import { execSync } from 'node:child_process';
 import { cpSync, rmSync, mkdirSync, existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { loadWebConfig, injectAppConfig } from './lib/webConfig.mjs';
 import { assertNoAuctionItems } from './lib/distGuard.mjs';
+import { writeVault } from './lib/auctionVault.mjs';
+import { loadEnvLocal } from './collect/lib/env.mjs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
+loadEnvLocal(root);
 const web = loadWebConfig(root);
 if (web?.siteUrl && !process.env.SITE_URL) process.env.SITE_URL = web.siteUrl;
 const run = (cmd, cwd = root) => execSync(cmd, { cwd, stdio: 'inherit', env: { ...process.env, NEXT_TELEMETRY_DISABLED: '1' } });
@@ -17,8 +20,6 @@ run('node scripts/build-content.mjs');
 run('node scripts/collect/run.mjs --check');
 if (!existsSync(join(root, 'site/node_modules'))) run('npm ci', join(root, 'site'));
 run('node scripts/build-fonts.mjs');
-// 보상경매(관리자 전용) 화면의 로그인용. 웹 설정은 공개값이라 넣어도 된다 — 보호는 Firestore 규칙이 한다
-if (web) process.env.NEXT_PUBLIC_FIREBASE_CONFIG = JSON.stringify(Object.fromEntries(['apiKey', 'authDomain', 'projectId', 'appId'].map((k) => [k, web[k]])));
 run('npx next build', join(root, 'site'));
 
 rmSync(dist, { recursive: true, force: true });
@@ -42,4 +43,6 @@ for (const bad of ['tools', 'content', 'demo', join('app', 'data', 'questions.js
   if (existsSync(join(dist, bad))) throw new Error(`배포본에 들어가면 안 되는 경로: ${bad}`);
 }
 assertNoAuctionItems(dist);
+// 검사 뒤에 넣는다: 금고는 암호문뿐이다
+await writeVault(root, dist, process.env.AUCTION_PASSWORD);
 console.log('✓ dist/ 준비 완료 — 사이트 / , 학습앱 /app/');
