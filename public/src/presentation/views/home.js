@@ -74,7 +74,7 @@ function accessBanner(vm) {
   const { access, config } = vm;
   if (!access.enabled || access.paid) return '';
   const buy = config.purchase?.url
-    ? `<a class="btn ghost" style="padding:8px 14px;font-size:13px;text-decoration:none" href="${esc(config.purchase.url)}" target="_blank" rel="noopener">${esc(config.purchase.label)}</a>`
+    ? `<a class="btn ghost" style="padding:8px 14px;font-size:13px;text-decoration:none" href="${esc(config.purchase.url)}" >${esc(config.purchase.label)}</a>`
     : '';
   const login = access.user ? '' : `<button class="btn" style="padding:8px 14px;font-size:13px" ${act('sign-in')}>구글 로그인</button>`;
   return `<div class="card" style="margin-bottom:14px;padding:14px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between">

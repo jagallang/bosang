@@ -54,3 +54,17 @@ python scripts/tts_pipeline.py generate      # 서술형 44문항 문제·답안
 python scripts/tts_mnemonic.py               # 두문자편 음성
 ```
 상세: `scripts/TTS_개발문서.md`. 음성 대본(`scripts/*음성대본.json`)은 유료 콘텐츠이므로 저장소를 비공개로 유지한다.
+
+## 메인 사이트 (site/)
+
+Next.js 15 정적 내보내기. 첫 화면 `/`, 교재·이용권 `/books/`, 시험 안내 `/exam/`, 보상정보 `/info/`.
+퀴즈앱은 배포 시 `/app/`에 붙는다.
+
+```bash
+npm run build     # 문항 빌드 → next build → dist/ 조립 (dist/app = public/)
+npm run serve     # http://localhost:8080 (사이트), /app/ (학습앱)
+npm run deploy    # 테스트 → 빌드 → firebase deploy (hosting.public = dist)
+```
+
+상품·가격·사업자 정보는 `site/lib/site.js`에서 수정한다. 가격이 `null`이면 '가격 문의'로 나오고,
+사업자 정보는 채운 항목만 푸터에 표시된다. 통신판매 전에 사업자 정보를 반드시 채울 것.

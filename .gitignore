@@ -11,3 +11,6 @@ content/out/
 # 서비스 계정 키
 *service-account*.json
 *-admin*.json
+
+# 배포 조립 결과
+dist/

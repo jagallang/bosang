@@ -25,7 +25,7 @@ export const config = Object.freeze({
 
   /** 이용권 안내 (비어 있으면 안내 버튼을 숨긴다) */
   purchase: {
-    url: '',
+    url: '../books/#pass',
     label: '전체 문항 이용권 안내',
   },
 

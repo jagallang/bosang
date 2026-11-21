@@ -47,6 +47,9 @@ function menu(vm) {
     : '';
   return `<div class="menu-overlay" ${act('toggle-menu')}></div>
   <div class="menu-panel" role="menu">
+    <a class="menu-item" role="menuitem" href="../" style="text-decoration:none">🏠 보상드림 홈</a>
+    <a class="menu-item" role="menuitem" href="../books/" style="text-decoration:none">📚 교재·이용권</a>
+    <div class="menu-divider"></div>
     <div class="menu-stage-label">시험 선택</div>
     ${stageItem('1')}
     ${stageItem('2')}
