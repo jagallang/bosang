@@ -5,7 +5,7 @@ const NAV = [
   { href: '/business/', label: '기관 도입' },
   { href: '/pro/', label: '행정사·중개사' },
   { href: '/books/', label: '교재·이용권' },
-  { href: '/exam/', label: '시험 안내' },
+  { href: '/info/', label: '보상정보' },
 ];
 
 export default function Header() {

@@ -1,0 +1,4 @@
+[
+  { "id": "s1", "source": "예시", "case": "예시 2026타경0001", "address": "예시시 예시동 1", "pnu": "4199910100100010000", "landUse": "답", "areaM2": 820, "appraisal": 410000000, "minPrice": 287000000, "saleDate": "2026-12-10" },
+  { "id": "s2", "source": "예시", "case": "예시 2026타경0002", "address": "예시시 예시동 99", "pnu": "4199910100100990000", "landUse": "임야", "areaM2": 3300, "appraisal": 99000000, "minPrice": 69300000, "saleDate": "2026-12-17" }
+]

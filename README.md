@@ -68,3 +68,27 @@ npm run deploy    # 테스트 → 빌드 → firebase deploy (hosting.public = d
 
 상품·가격·사업자 정보는 `site/lib/site.js`에서 수정한다. 가격이 `null`이면 '가격 문의'로 나오고,
 사업자 정보는 채운 항목만 푸터에 표시된다. 통신판매 전에 사업자 정보를 반드시 채울 것.
+
+## 3축 구조
+
+데이터는 하나, 서비스는 셋이다.
+
+| 축 | 공개 | 위치 | 데이터 |
+| --- | --- | --- | --- |
+| 보상관리사 교육 | 공개(유료) | `site/`(/, /business, /pro, /books), `public/` → `/app/` | `content/questions.json` |
+| 보상정보 | 공개(무료) | `site/app/info/` → `/info/`, `/info/<지구>/` | `content/info/` |
+| 보상경매 툴 | 비공개(본인용) | `tools/auction/` (배포본 제외) | `content/info/` + `tools/auction/data/` |
+
+공통 기반
+- `content/info/ontology.json` — 보상 절차 7단계, 근거 조문(토지보상법), 용어
+- `content/info/projects/*.json` — 사업지구(고시·필지). `"sample": true`는 화면 확인용 가상 데이터
+- `site/lib/infoModel.mjs` — 현재 단계, 기한, 필지 매칭, 검증 (사이트·수집기·툴 공용 순수 함수)
+- `scripts/collect/` — 수집기. 지금은 `content/info/inbox/*.csv`만 읽는다. 공공 API 어댑터는 인증키를 받은 뒤 구현
+
+```bash
+npm run info:collect   # inbox CSV → projects/*.json 합치기 + 검증 + content/info/index.json
+npm run info:check     # 검증만
+npm run tool           # 보상경매 툴: http://127.0.0.1:8090/tools/auction/
+```
+
+정적 사이트라 보상정보의 D-day는 빌드한 날 기준이다. 공개 후에는 매일 다시 빌드·배포해야 한다.

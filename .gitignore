@@ -18,3 +18,8 @@ dist/
 # 기관 리포트·직원 명단 (개인정보, 커밋 금지)
 report-*.csv
 *직원*.csv
+
+# 보상경매 개인 데이터 (커밋 금지)
+tools/auction/data/*.json
+!tools/auction/data/items.sample.json
+content/info/index.json

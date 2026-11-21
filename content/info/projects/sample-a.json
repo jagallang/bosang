@@ -1,0 +1,46 @@
+{
+  "id": "sample-a",
+  "sample": true,
+  "name": "예시 가람 공공주택지구",
+  "type": "공공주택",
+  "operator": "예시 공사",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "예시시"
+  },
+  "areaM2": 1250000,
+  "notices": [
+    {
+      "date": "2026-03-10",
+      "stage": "designation",
+      "title": "공공주택지구 지정 고시",
+      "source": "예시"
+    },
+    {
+      "date": "2026-09-01",
+      "stage": "survey",
+      "title": "토지·물건 기본조사 착수",
+      "source": "예시"
+    },
+    {
+      "date": "2026-11-16",
+      "stage": "plan",
+      "title": "보상계획 공고 및 열람",
+      "period": {
+        "from": "2026-11-16",
+        "to": "2026-12-04"
+      },
+      "source": "예시"
+    }
+  ],
+  "parcels": [
+    {
+      "pnu": "4199910100100010000",
+      "jibun": "예시동 1"
+    },
+    {
+      "pnu": "4199910100100020003",
+      "jibun": "예시동 2-3"
+    }
+  ]
+}
