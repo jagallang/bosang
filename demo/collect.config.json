@@ -1,0 +1,23 @@
+{
+  "_comment": "가상 데이터 시험용 설정 (npm run demo가 쓴다). 실제 설정은 루트의 collect.config.json",
+  "info": {
+    "since": "2023-01-01",
+    "sources": [
+      { "id": "eum-gosi", "kind": "eumGosiCsv", "enabled": true, "file": "demo/out/sources/토지이음_고시목록.csv" },
+      { "id": "gb-comp-plan", "kind": "compPlanCsv", "enabled": true, "file": "demo/out/sources/경북개발공사_보상계획공고.csv", "operator": "경북개발공사", "sido": "경상북도", "sigungu": "" }
+    ]
+  },
+  "auction": {
+    "out": "demo/out/items.json",
+    "onbid": {
+      "enabled": true,
+      "endpoint": "(npm run demo가 가짜 서버 주소로 바꿔 넣는다)",
+      "params": { "resultType": "json", "prptDivCd": "0007,0005,0010,0002,0011", "dspsMthodCd": "0001", "bidDivCd": "0001", "cltrUsgMclsCtgrId": "10100" },
+      "paramSets": [{ "pvctTrgtYn": "N" }, { "pvctTrgtYn": "Y" }],
+      "rows": 15,
+      "maxPages": 20,
+      "landWords": [],
+      "mapping": {}
+    }
+  }
+}

@@ -6,10 +6,12 @@ import { classifyNotice, stageOf, regionOf, projectIdOf, normName } from '../scr
 import { parseResponse, fetchAllPages, pick } from '../scripts/collect/lib/publicDataApi.mjs';
 import { eumRowsToCandidates, normDate } from '../scripts/collect/sources/eumGosiCsv.mjs';
 import { compPlanRowsToCandidates } from '../scripts/collect/sources/compPlanCsv.mjs';
-import { onbidItemToAuction, isLand, mergeAuctionItems } from '../scripts/collect/sources/onbid.mjs';
+import { onbidItemToAuction, isLand, mergeAuctionItems, amount, pnuDialectOf, standardPnu } from '../scripts/collect/sources/onbid.mjs';
+import { startMockOnbid } from '../scripts/demo/mockOnbid.mjs';
+import { eumRows, parcelRows, onbidItems, toCsv } from '../scripts/demo/fixtures.mjs';
 import { toInboxRows, rowsToCsv, splitForReview } from '../scripts/collect/lib/candidates.mjs';
 import { decodeKorean } from '../scripts/collect/lib/readText.mjs';
-import { regionHints } from '../site/lib/infoModel.mjs';
+import { regionHints, sigunguOfAddress } from '../site/lib/infoModel.mjs';
 
 const fx = (f) => readFileSync(new URL(`./fixtures/collect/${f}`, import.meta.url), 'utf8');
 const cfg = JSON.parse(readFileSync(new URL('../collect.config.json', import.meta.url), 'utf8'));
@@ -92,8 +94,8 @@ test('후보 → inbox 행: 기존 사업에 붙이고, 자동/검토로 나눔'
 test('공공데이터 응답: XML·JSON·오류코드', () => {
   const x = parseResponse(fx('onbid.xml'));
   assert.equal(x.totalCount, 2); assert.equal(x.items.length, 2);
-  assert.equal(x.items[0].cltrNm, '경기도 광명시 가학동 100 답'); // CDATA
-  assert.equal(x.items[1].cltrNm, '아파트 & 상가');               // 엔티티
+  assert.equal(x.items[0].onbidCltrNm, '경기도 광명시 가학동 100 답'); // CDATA
+  assert.equal(x.items[1].onbidCltrNm, '아파트 & 상가');               // 엔티티
   assert.equal(x.items[1].pbctCdtnNo, '');                         // 빈 태그
   const j = parseResponse(JSON.stringify({ response: { header: { resultCode: '00' }, body: { totalCount: 1, items: { item: { a: 1 } } } } }));
   assert.deepEqual(j.items, [{ a: 1 }]);
@@ -112,19 +114,68 @@ test('페이지 넘김: totalCount까지 받고 멈춘다', async () => {
   await assert.rejects(fetchAllPages({ endpoint: 'https://x.y', fetchImpl }), /DATA_GO_KR_KEY/);
 });
 
-test('온비드 물건 → 툴 형식, 토지 거름, 합치기', () => {
+test('온비드 물건 → 툴 형식 (명세 필드), 토지 거름, 합치기', () => {
   const { items } = parseResponse(fx('onbid.xml'));
-  const m = cfg.auction.onbid.mapping;
-  const a = items.map((x) => onbidItemToAuction(x, m));
+  const a = items.map((x) => onbidItemToAuction(x, cfg.auction.onbid.mapping, { today: '2026-11-21' }));
   assert.equal(a[0].id, 'onbid-2026-0001-001-1');
-  assert.equal(a[0].areaM2, 820.5); assert.equal(a[0].appraisal, 410000000);
-  assert.equal(a[0].saleDate, '2026-12-10'); assert.equal(a[0].address, '경기도 광명시 가학동 100');
-  assert.equal(a[1].appraisal, null);
-  assert.equal(onbidItemToAuction({}, m), null);
-  const land = a.filter((x) => isLand(x, cfg.auction.onbid.landWords));
-  assert.deepEqual(land.map((x) => x.id), ['onbid-2026-0001-001-1']);
-  const merged = mergeAuctionItems([{ id: 'mine', source: '직접' }, { id: 'old', source: '온비드' }], [...land, land[0]]);
+  assert.equal(a[0].address, '경기도 광명시 가학동 100');      // 물건명이 지번주소로 시작
+  assert.equal(a[0].areaM2, 820.5); assert.equal(a[0].minPrice, 287000000);
+  assert.equal(a[0].saleDate, '2026-12-10'); assert.equal(a[0].bidEnd, '2026-12-12');
+  assert.equal(a[0].failCount, 2); assert.equal(a[0].share, true); assert.equal(a[0].landUse, '토지 / 답');
+  assert.equal(a[1].minPrice, null); assert.equal(a[1].minPriceText, '비공개');
+  assert.equal(a[1].address, '서울특별시 강남구 역삼동');        // 물건명이 주소가 아니면 시도·시군구·읍면동
+  assert.equal(onbidItemToAuction({}), null);
+  assert.deepEqual(a.filter((x) => isLand(x, ['토지'])).map((x) => x.id), ['onbid-2026-0001-001-1']);
+  const merged = mergeAuctionItems([{ id: 'mine', source: '직접' }, { id: 'old', source: '온비드' }], [a[0], a[0]]);
   assert.deepEqual(merged.map((x) => x.id), ['mine', 'onbid-2026-0001-001-1']);
+});
+
+test('금액 파싱', () => {
+  assert.equal(amount('953,089,200'), 953089200);
+  assert.equal(amount('비공개'), null); assert.equal(amount(''), null); assert.equal(amount(undefined), null);
+});
+
+test('온비드 PNU 0/1 표기 → 표준(1 일반, 2 산)', () => {
+  const raws = [{ ltnoPnu: '4121010100' + '0' + '01000000' }, { ltnoPnu: '4121010100' + '1' + '00050000' }];
+  assert.equal(pnuDialectOf(raws), 'zero-one');
+  assert.equal(standardPnu(raws[0].ltnoPnu, 'zero-one')[10], '1');
+  assert.equal(standardPnu(raws[1].ltnoPnu, 'zero-one')[10], '2');
+  assert.equal(pnuDialectOf([{ ltnoPnu: '4121010100100010000' }]), 'standard');
+  assert.equal(standardPnu('4121010100100010000', 'standard'), '4121010100100010000');
+});
+
+test('주소에서 시군구', () => {
+  assert.equal(sigunguOfAddress('경기도 화성시 누리동 100', '경기도'), '화성시');
+  assert.equal(sigunguOfAddress('충청남도 천안시 서북구 한빛리 1', '충청남도'), '천안시 서북구');
+  assert.equal(sigunguOfAddress('인천광역시 서구 다온동 3'), '서구');
+  assert.equal(sigunguOfAddress(''), null);
+});
+
+test('가짜 온비드 서버로 끝까지: 필수값·필터·페이지·오류 봉투', async () => {
+  const items = onbidItems();
+  const mock = await startMockOnbid(items);
+  try {
+    const params = { resultType: 'json', prptDivCd: '0007,0005,0010,0002,0011', dspsMthodCd: '0001', bidDivCd: '0001', cltrUsgMclsCtgrId: '10100', pvctTrgtYn: 'N' };
+    const got = await fetchAllPages({ endpoint: mock.url, params, serviceKey: 'k', rows: 7 });
+    const expect = items.filter((x) => x.cltrUsgMclsCtgrId === '10100' && x.pvctTrgtYn === 'N');
+    assert.equal(got.length, expect.length);
+    assert.equal(new Set(got.map((x) => x.cltrMngNo)).size, got.length);
+    await assert.rejects(fetchAllPages({ endpoint: mock.url, params: { resultType: 'json' }, serviceKey: 'k' }), /10/);
+    await assert.rejects(fetchAllPages({ endpoint: mock.url.replace('List2', 'List'), params, serviceKey: 'k' }), /게이트웨이 오류 12 NO_OPENAPI_SERVICE_ERROR \(서비스가 없거나/);
+    // 가상 필지와 같은 물건은 PNU 표준화 후 매칭된다
+    const dialect = pnuDialectOf(got);
+    const conv = got.map((x) => onbidItemToAuction(x, {}, { dialect }));
+    const parcels = new Set(parcelRows().map((r) => r.pnu));
+    assert.ok(conv.filter((x) => parcels.has(x.pnu)).length >= 5);
+  } finally { await mock.close(); }
+});
+
+test('가상 고시 원자료: 잡음은 걸러지고 단계는 순서대로', () => {
+  const rows = parseCsv(toCsv(eumRows()));
+  const c = eumRowsToCandidates(rows, { since: '2023-01-01' });
+  assert.ok(!c.some((x) => /용도지역|지구단위|회의|개발행위/.test(x.title)));
+  const miR = c.filter((x) => x.projectName === '미르 일반산업단지').map((x) => x.stage);
+  assert.deepEqual([...new Set(miR)], ['designation', 'survey', 'plan', 'appraisal', 'negotiation', 'adjudication', 'objection']);
 });
 
 test('지역 힌트: 주소의 시군구', () => {

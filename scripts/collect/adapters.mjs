@@ -19,6 +19,6 @@ export function inboxAdapter(dir) {
   };
 }
 
-export const ADAPTERS = (root) => [
-  inboxAdapter(join(root, 'content/info/inbox')),
+export const ADAPTERS = (info) => [
+  inboxAdapter(join(info, 'inbox')),
 ];

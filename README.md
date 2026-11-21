@@ -96,6 +96,16 @@ npm run tool             # 보상경매 툴: http://127.0.0.1:8090/tools/auction
 npm run local            # 수집 + 사이트 빌드 (배포 없이 로컬 확인)
 ```
 
-온비드는 아직 실제 호출로 확인하지 못했다. `collect.config.json`의 `auction.onbid.endpoint`와 `params.prptDivCd`를 공공데이터포털 활용가이드(docx) 값으로 채우고, `--probe`로 받은 필드 이름에 맞게 `mapping`을 고친 뒤 쓴다. 인증키는 포털의 '디코딩' 키를 환경변수로 준다.
+### 가상 데이터로 시험
+
+```bash
+npm run demo              # 가상 원자료 + 가짜 온비드 서버로 수집 전 과정을 돌린다 → demo/out/ (커밋 안 함)
+npm run tool              # http://127.0.0.1:8090/tools/auction/?demo  (가상 물건으로 툴 확인)
+npm run demo -- --site    # 가상 데이터로 사이트까지 빌드 (dist/는 배포 금지, 배포 전 npm run build)
+```
+
+가상 사업지구·동 이름은 지어낸 것이고, 형식(고시 제목, PNU 19자리, 온비드 응답 필드)만 실제를 따른다. 실제 데이터(`content/info`, `tools/auction/data`)는 건드리지 않는다.
+
+온비드 요청주소(`OnbidRlstListSrvc2/getRlstCltrList2`)와 필드 이름은 포털 swagger 명세 사본과 공개된 실호출 기록에서 가져왔다. 내 인증키로는 아직 호출하지 못했다. 처음에는 `--probe`로 필드 이름을 확인하고, 다르면 `collect.config.json`의 `mapping`에 넣는다. 인증키는 포털의 '디코딩' 키를 환경변수로 준다.
 
 정적 사이트라 보상정보의 D-day는 빌드한 날 기준이다. 공개 후에는 매일 다시 빌드·배포해야 한다.

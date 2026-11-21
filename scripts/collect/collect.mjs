@@ -15,11 +15,16 @@ import { eumRowsToCandidates } from './sources/eumGosiCsv.mjs';
 import { compPlanRowsToCandidates } from './sources/compPlanCsv.mjs';
 import { toInboxRows, rowsToCsv, splitForReview } from './lib/candidates.mjs';
 import { fetchAllPages } from './lib/publicDataApi.mjs';
-import { onbidItemToAuction, isLand, mergeAuctionItems } from './sources/onbid.mjs';
+import { onbidItemToAuction, isLand, mergeAuctionItems, pnuDialectOf } from './sources/onbid.mjs';
+import { infoDir } from './lib/paths.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const cfg = JSON.parse(readFileSync(join(ROOT, 'collect.config.json'), 'utf8'));
-const [cmd = 'info'] = process.argv.slice(2).filter((a) => !a.startsWith('--'));
+const argVal = (k) => { const i = process.argv.indexOf(k); return i > 0 ? process.argv[i + 1] : null; };
+// --config 다른설정.json (가상 데이터 시험은 demo/collect.config.json)
+const cfgPath = argVal('--config') || process.env.BOSANG_COLLECT_CONFIG || 'collect.config.json';
+const cfg = JSON.parse(readFileSync(join(ROOT, cfgPath), 'utf8'));
+const INFO = infoDir(ROOT);
+const [cmd = 'info'] = process.argv.slice(2).filter((a, i, all) => !a.startsWith('--') && all[i - 1] !== '--config');
 const flag = (f) => process.argv.includes(f);
 
 const KINDS = {
@@ -29,7 +34,7 @@ const KINDS = {
 };
 
 const loadProjects = () => {
-  const dir = join(ROOT, 'content/info/projects');
+  const dir = join(INFO, 'projects');
   return existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(join(dir, f), 'utf8'))) : [];
 };
 
@@ -41,7 +46,8 @@ function approvedOf(path) {
 
 async function info() {
   const projects = loadProjects();
-  mkdirSync(join(ROOT, 'content/info/review'), { recursive: true });
+  mkdirSync(join(INFO, 'review'), { recursive: true });
+  mkdirSync(join(INFO, 'inbox'), { recursive: true });
   for (const s of cfg.info.sources.filter((x) => x.enabled)) {
     const file = join(ROOT, s.file);
     if (!existsSync(file)) { console.log(`- ${s.id}: 원자료 없음 (${s.file}) — ${s.note || ''}`); continue; }
@@ -51,11 +57,11 @@ async function info() {
       const cands = kind(parseCsv(readKoreanText(file)), s);
       const rows = toInboxRows(cands, projects);
       const { auto, review } = splitForReview(rows);
-      const reviewPath = join(ROOT, 'content/info/review', `${s.id}.csv`);
+      const reviewPath = join(INFO, 'review', `${s.id}.csv`);
       const approved = approvedOf(reviewPath);
       const promoted = review.filter((r) => approved.has(`${r.date}|${r.title}`));
       const pending = review.filter((r) => !approved.has(`${r.date}|${r.title}`)).map((r) => ({ ...r, 승인: '' }));
-      writeFileSync(join(ROOT, 'content/info/inbox', `auto-${s.id}.csv`), rowsToCsv([...auto, ...promoted]));
+      writeFileSync(join(INFO, 'inbox', `auto-${s.id}.csv`), rowsToCsv([...auto, ...promoted]));
       writeFileSync(reviewPath, rowsToCsv([...promoted.map((r) => ({ ...r, 승인: '승인' })), ...pending], ['confidence', 'reason', '승인']));
       console.log(`- ${s.id}: 후보 ${rows.length}건 → 자동 ${auto.length} · 승인 반영 ${promoted.length} · 검토 대기 ${pending.length} (기존 사업에 붙은 것 ${rows.filter((r) => r.matched).length})`);
     } catch (e) { console.warn(`- ${s.id}: ${e.message}`); }
@@ -64,30 +70,34 @@ async function info() {
 
 async function auction() {
   const o = cfg.auction.onbid;
-  if (!o.enabled) return console.log('온비드 수집이 꺼져 있습니다 (collect.config.json)');
-  if (/확인 필요/.test(o.endpoint) || Object.values(o.params).some((v) => /확인 필요/.test(String(v)))) {
-    throw new Error('collect.config.json의 auction.onbid.endpoint / params를 활용가이드 값으로 채워야 합니다');
-  }
+  if (!o.enabled) return console.log('온비드 수집이 꺼져 있습니다');
+  if (/확인 필요/.test(o.endpoint)) throw new Error('auction.onbid.endpoint를 채워야 합니다');
   const serviceKey = process.env.DATA_GO_KR_KEY;
+  const sets = o.paramSets?.length ? o.paramSets : [{}];
+  const outPath = join(ROOT, cfg.auction.out);
+  mkdirSync(dirname(outPath), { recursive: true });
   if (flag('--probe')) {
-    const raw = await fetchAllPages({ endpoint: o.endpoint, params: o.params, serviceKey, rows: 5, maxPages: 1 });
-    const dir = join(ROOT, 'tools/auction/data');
-    writeFileSync(join(dir, 'probe.json'), JSON.stringify(raw, null, 2));
+    const raw = await fetchAllPages({ endpoint: o.endpoint, params: { ...o.params, ...sets[0] }, serviceKey, rows: 5, maxPages: 1 });
+    writeFileSync(join(dirname(outPath), 'probe.json'), JSON.stringify(raw, null, 2));
     console.log(`받은 물건 ${raw.length}건. 필드 이름:\n  ${[...new Set(raw.flatMap(Object.keys))].join('\n  ')}`);
-    console.log('원본은 tools/auction/data/probe.json — 이 이름으로 mapping을 고친다');
+    console.log(`원본은 ${join(dirname(cfg.auction.out), 'probe.json')} — 이름이 다르면 config의 mapping에 넣는다`);
     return;
   }
-  const raw = await fetchAllPages({ endpoint: o.endpoint, params: o.params, serviceKey, rows: o.rows, maxPages: o.maxPages,
-    onPage: (p, r) => console.log(`  ${p}쪽 ${r.items.length}건 (전체 ${r.totalCount})`) });
-  const fresh = raw.map((x) => onbidItemToAuction(x, o.mapping)).filter(Boolean);
+  const raw = [];
+  for (const set of sets) {
+    const got = await fetchAllPages({ endpoint: o.endpoint, params: { ...o.params, ...set }, serviceKey, rows: o.rows, maxPages: o.maxPages,
+      onPage: (p, r) => console.log(`  ${JSON.stringify(set)} ${p}쪽 ${r.items.length}건 (전체 ${r.totalCount})`) });
+    raw.push(...got);
+  }
+  const dialect = pnuDialectOf(raw);
+  const fresh = raw.map((x) => onbidItemToAuction(x, o.mapping, { dialect })).filter(Boolean);
   const land = fresh.filter((x) => isLand(x, o.landWords));
-  const unmapped = fresh.filter((x) => !x.address && !x.pnu).length;
-  const out = join(ROOT, cfg.auction.out);
-  const existing = existsSync(out) ? JSON.parse(readFileSync(out, 'utf8')) : [];
+  const existing = existsSync(outPath) ? JSON.parse(readFileSync(outPath, 'utf8')) : [];
   const merged = mergeAuctionItems(existing, land);
-  writeFileSync(out, JSON.stringify(merged, null, 2));
-  console.log(`온비드 ${raw.length}건 중 토지 ${land.length}건 → ${cfg.auction.out} (전체 ${merged.length}건)`);
-  if (unmapped) console.warn(`주소·PNU가 빈 물건 ${unmapped}건 — mapping의 address/pnu 키를 --probe로 확인하세요`);
+  writeFileSync(outPath, JSON.stringify(merged, null, 2));
+  console.log(`온비드 ${raw.length}건 → 물건 ${land.length}건 → ${cfg.auction.out} (전체 ${merged.length}건, PNU 표기 ${dialect === 'zero-one' ? '0/1 → 표준으로 변환' : '표준'})`);
+  const noPnu = land.filter((x) => !x.pnu).length;
+  if (noPnu) console.log(`  PNU 없는 물건 ${noPnu}건 — 주소(시군구·읍면동) 힌트로만 매칭됩니다`);
 }
 
 try {

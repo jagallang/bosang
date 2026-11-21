@@ -10,31 +10,37 @@ const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<
 
 async function getJson(url) { const r = await fetch(url); if (!r.ok) throw new Error(url); return r.json(); }
 
+const DEMO = new URLSearchParams(location.search).has('demo') || !!globalThis.__BOSANG_DEMO; // npm run demo 결과(가상 데이터)
 const ontology = await getJson('../../content/info/ontology.json');
-const index = await getJson('../../content/info/index.json').catch(() => ({ projects: [] }));
+const index = await getJson(DEMO ? '../../demo/out/info/index.json' : '../../content/info/index.json').catch(() => ({ projects: [] }));
 // 실제 지구 + (내 물건 파일이 없을 때) 매칭 시연용 예시 지구
 const sampleProjects = await getJson('data/projects.sample.json').then((p) => [p]).catch(() => []);
 let items, source;
-try { items = await getJson('data/items.json'); source = '내 물건 (data/items.json)'; }
+if (DEMO) { items = await getJson('../../demo/out/items.json').catch(() => []); source = '가상 데이터 (npm run demo)'; }
+else try { items = await getJson('data/items.json'); source = '내 물건 (data/items.json)'; }
 catch { items = await getJson('data/items.sample.json'); source = '예시 물건 — data/items.json을 만들면 그걸 씁니다'; }
 const projects = source.startsWith('예시') ? [...index.projects, ...sampleProjects] : index.projects;
 $('#dataHint').textContent = `${source} · 사업지구 ${projects.length}개`;
 
-const prefs = JSON.parse(localStorage.getItem('auction:prefs') || '{}');
+const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* 저장 안 되는 환경 */ } } };
+const prefs = JSON.parse(store.get('auction:prefs') || '{}');
 $('#publicOfficial').checked = !!prefs.publicOfficial;
-$('#publicOfficial').addEventListener('change', (e) => { prefs.publicOfficial = e.target.checked; localStorage.setItem('auction:prefs', JSON.stringify(prefs)); if (sel) show(sel); });
+$('#publicOfficial').addEventListener('change', (e) => { prefs.publicOfficial = e.target.checked; store.set('auction:prefs', JSON.stringify(prefs)); if (sel) show(sel); });
 
 const matched = items.map((it) => {
   const hits = findProjectsByParcel(projects, { pnu: it.pnu, address: it.address });
   return { it, hits, near: hits.length ? [] : regionHints(projects, it.address) };
 });
+// 사업지구 필지 일치 → 같은 시군구 → 나머지 순
+const rank = (m) => (m.hits.length ? 0 : m.near.length ? 1 : 2);
+matched.sort((a, b) => rank(a) - rank(b) || String(a.it.saleDate).localeCompare(String(b.it.saleDate)));
 let sel = null;
 
 $('#items').innerHTML = matched.map(({ it, hits, near }, i) => `
   <button class="item" data-i="${i}">
     <b>${esc(it.address)}</b>${hits.length ? '<span class="tag hit">사업지구 안</span>' : near.length ? '<span class="tag near">같은 시군구</span>' : '<span class="tag miss">매칭 없음</span>'}
     <small>${esc(it.case)} · ${esc(it.landUse || '')} ${it.areaM2 ? `${it.areaM2.toLocaleString()}㎡` : ''}</small>
-    <small>최저 ${won(it.minPrice)} · 매각 ${esc(it.saleDate || '-')}</small>
+    <small>최저 ${it.minPrice ? won(it.minPrice) : esc(it.minPriceText || '-')} · 입찰 ${esc(it.saleDate || '-')}${it.share ? ' · 지분' : ''}</small>
   </button>`).join('');
 $('#items').addEventListener('click', (e) => {
   const b = e.target.closest('.item'); if (!b) return;
@@ -57,7 +63,7 @@ function show(m) {
 
   $('#detail').innerHTML = `
     <h2>${esc(it.address)}</h2>
-    <p class="hint">${esc(it.case)} · 출처 ${esc(it.source)} · 감정가 ${won(it.appraisal)} · 최저가 ${won(it.minPrice)}</p>
+    <p class="hint">${esc(it.case)} · 출처 ${esc(it.source)} · 감정가 ${it.appraisal ? won(it.appraisal) : '-'} · 최저가 ${it.minPrice ? won(it.minPrice) : esc(it.minPriceText || '-')}${it.failCount ? ` · 유찰 ${it.failCount}회` : ''}${it.bidEnd ? ` · 입찰 ${esc(it.saleDate)}~${esc(it.bidEnd)}` : ''}</p>
     <h3>사업지구 매칭</h3>
     ${hit ? `<div class="match"><b>${esc(hit.project.name)}</b> (${hit.by === 'pnu' ? 'PNU 일치' : '지번 일치'})<br>
       현재 단계: ${stage ? esc(stage.name) : '정보 없음'}${dl ? ` · ${esc(dl.title)} D-${dl.daysLeft}` : ''}</div>`
@@ -82,7 +88,7 @@ function show(m) {
   const read = () => Object.fromEntries([...document.querySelectorAll('.form input')].map((x) => [x.name, x.type === 'date' ? x.value : Number(x.value)]));
   const update = () => {
     const f = read();
-    prefs.calc = { ...(prefs.calc || {}), [it.id]: f }; localStorage.setItem('auction:prefs', JSON.stringify(prefs));
+    prefs.calc = { ...(prefs.calc || {}), [it.id]: f }; store.set('auction:prefs', JSON.stringify(prefs));
     try {
       const r = investmentReturn(f);
       const mb = maxBidFor(f.target, f);
@@ -94,6 +100,7 @@ function show(m) {
     } catch (e) { $('#calcOut').innerHTML = `<p class="hint">${esc(e.message)}</p>`; }
     const w = hit ? checkWarnings({ project: hit.project, ontology, acquireDate: f.acquireDate, user: prefs })
       : [{ level: 'mid', text: '사업지구 매칭이 없어 보상 관련 경고를 낼 수 없습니다.' }];
+    if (it.share) w.unshift({ level: 'high', text: '지분 물건입니다. 보상금도 지분만큼만 받고, 공유자 협의·공유물분할 문제가 생길 수 있습니다.' });
     $('#warns').innerHTML = w.map((x) => `<li class="${x.level}">${esc(x.text)}</li>`).join('');
   };
   document.querySelectorAll('.form input').forEach((x) => x.addEventListener('input', update));

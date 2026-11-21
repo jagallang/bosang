@@ -3,9 +3,11 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { projectSummary, sortSummaries } from './infoModel.mjs';
 
-const DIR = join(process.cwd(), '..', 'content', 'info');
+const BASE = join(process.cwd(), '..', 'content', 'info');
+// BOSANG_INFO_DIR: 가상 데이터로 빌드해 볼 때 (저장소 루트 기준 경로)
+const DIR = process.env.BOSANG_INFO_DIR ? join(process.cwd(), '..', process.env.BOSANG_INFO_DIR) : BASE;
 
-export const ontology = JSON.parse(readFileSync(join(DIR, 'ontology.json'), 'utf8'));
+export const ontology = JSON.parse(readFileSync(join(BASE, 'ontology.json'), 'utf8'));
 
 export function allProjects() {
   return readdirSync(join(DIR, 'projects')).filter((f) => f.endsWith('.json'))

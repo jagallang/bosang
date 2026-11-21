@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>보상드림 수집 시험</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;700&family=IBM+Plex+Sans+KR:wght@400;600&display=swap">
+<style>
+/* VOICE: 실무 보고 — 감정평가서처럼 차분하고 정확하게
+   IDEA: 보상 절차 대장(臺帳). 사업마다 7단계 칸에 도장을 찍어 간다
+   PICTURE: 사업지구 대장 — 단계 칸이 채워진 큰 표, 공매 물건 매칭이 옆 칸에
+   COLOUR and TYPE: 먹색 남(#1c2740), 인주 빨강(#b23a3a), 한지(#f0efea) / Hahmlet + IBM Plex Sans KR
+   LAYOUT: 결론 한 줄 → 수집 흐름 수치 → 사업지구 대장 → 검토 대기 → 보상경매 툴 */
+/*TOOL_CSS*/
+:root{color-scheme:light dark;--ink:light-dark(#1c2740,#e9e7df);--hanji:light-dark(#f0efea,#14171f);--sheet:light-dark(#fbfbf8,#1c2029);--rule:light-dark(#d8d6cd,#343a48);--muted:light-dark(#5d6474,#a3a8b4);--seal:light-dark(#b23a3a,#e06a5f);--ok:light-dark(#2e6b4f,#6fbf98)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{min-width:0}body{overflow-x:clip;font-size:16px}
+.bar{background:#1c2740;color:#fff}
+.item,.detail,.match,.warn li,.form input{background:var(--sheet);color:var(--ink)}
+.band{padding:clamp(24px,4vw,48px) max(4vw,16px);max-width:1280px;margin:0 auto}
+.lede h1{font-family:var(--serif);font-size:clamp(28px,4vw,42px);line-height:1.1;margin:0 0 10px;text-wrap:balance}
+.lede p{max-width:68ch;margin:0;color:var(--muted)}
+.virtual{display:inline-block;margin-top:12px;font-size:13px;color:var(--seal);border:1px solid var(--seal);padding:2px 8px;border-radius:3px}
+.jump{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:16px;font-size:14px}.jump a{color:var(--ink)}
+.flow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:8px}
+.lane{background:var(--sheet);border:1px solid var(--rule);padding:18px 20px}
+.lane h2{margin-bottom:12px}
+.steps{list-style:none;margin:0;padding:0}
+.steps li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:8px 0;border-top:1px solid var(--rule)}
+.steps li:first-child{border-top:0}
+.steps b{font-family:var(--serif);font-size:22px;white-space:nowrap;text-align:right}
+.steps small{display:block;color:var(--muted);font-size:13px}
+.meter{display:flex;height:14px;margin:6px 0 4px;border:1px solid var(--ink)}
+.meter span{display:block;height:100%}
+.m-hit{background:var(--seal)}.m-near{background:repeating-linear-gradient(45deg,var(--seal) 0 2px,transparent 2px 6px)}.m-miss{background:var(--rule)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:5px;vertical-align:-1px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-weight:600;text-align:left;color:var(--muted);font-size:13px;border-bottom:2px solid var(--ink);padding:8px 10px}
+td{border-bottom:1px solid var(--rule);padding:10px;vertical-align:top}
+td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ledger td:first-child b{font-family:var(--serif);font-size:16px}
+.ledger small{display:block;color:var(--muted);font-size:13px}
+.cells{display:flex;gap:3px;margin-bottom:4px}
+.cells i{width:18px;height:18px;border:1px solid var(--rule);display:grid;place-items:center;font-style:normal;font-size:10px;color:var(--muted)}
+.cells i.on{background:var(--seal);border-color:var(--seal);color:#fff}
+.dl{color:var(--seal);font-weight:600;white-space:nowrap}
+.sec-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:12px}
+.sec-h h2{font-size:22px;margin:0}.sec-h p{margin:0;color:var(--muted);font-size:14px}
+.grid{padding:0 max(4vw,16px) 40px}
+#items{max-height:min(78vh,760px);overflow:auto;padding-right:4px}
+.lede{padding-bottom:8px}
+@media(max-width:760px){.flow{grid-template-columns:1fr}}
+@media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px;border-bottom:1px solid var(--rule)}.stack td{display:flow-root;border:0;padding:3px 0;padding-inline-start:7em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:6.5em;margin-inline-start:-7em;color:var(--muted)}.stack td:empty{display:none}}
+</style>
+<script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
+</head>
+<body>
+<header class="bar">
+  <strong><span class="seal">補</span> 보상드림 수집기 시험</strong>
+  <span class="private">가상 데이터</span>
+  <label class="po"><input type="checkbox" id="publicOfficial"> 공직자 경고 켜기</label>
+</header>
+
+<section class="band lede">
+  <h1 id="headline">가상 원자료에서 사업지구와 공매 물건을 모아 연결했습니다</h1>
+  <p>토지이음 고시목록·보상계획공고 형식의 CSV와 온비드 명세대로 만든 가짜 API 응답을 실제 수집 코드에 넣어 돌린 결과입니다. 분류·합치기·필지 매칭·수익 계산은 실제 코드 그대로입니다.</p>
+  <span class="virtual">사업지구·동 이름과 금액은 모두 지어낸 것입니다</span>
+  <nav class="jump"><a href="#flow">수집 흐름</a><a href="#ledger">사업지구 대장</a><a href="#review">검토 대기</a><a href="#auction">보상경매 툴</a></nav>
+</section>
+
+<section class="band" id="flow">
+  <div class="flow">
+    <div class="lane"><h2>보상정보</h2><ul class="steps" id="infoSteps"></ul></div>
+    <div class="lane"><h2>보상경매 (온비드)</h2><ul class="steps" id="auctionSteps"></ul>
+      <div class="meter" id="meter" role="img"></div>
+      <div class="legend"><span><i class="m-hit"></i>사업지구 필지 일치</span><span><i class="m-near"></i>같은 시·군·구</span><span><i class="m-miss"></i>관련 사업 없음</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="ledger">
+  <div class="sec-h"><h2>사업지구 대장</h2><p>칸 하나가 보상 절차 한 단계입니다. 빨간 칸까지 고시가 나왔습니다.</p></div>
+  <div class="scroll"><table class="ledger stack"><thead><tr><th>사업</th><th>진행 단계</th><th>최근 고시</th><th>열린 기한</th><th>필지</th><th>공매 물건</th></tr></thead><tbody id="ledgerRows"></tbody></table></div>
+</section>
+
+<section class="band" id="review">
+  <div class="sec-h"><h2>검토 대기</h2><p>자동 반영하지 않은 고시입니다. 실제로는 review CSV의 승인 칸에 적으면 다음 수집 때 들어갑니다.</p></div>
+  <table class="stack"><thead><tr><th>고시일</th><th>제목</th><th>보류 이유</th></tr></thead><tbody id="reviewRows"></tbody></table>
+</section>
+
+<section class="band" id="auction" style="padding-bottom:12px">
+  <div class="sec-h"><h2>보상경매 툴</h2><p>물건을 고르면 사업지구 매칭, 수익 계산, 경고가 나옵니다. 입력값은 이 브라우저에만 남습니다.</p></div>
+</section>
+<main class="grid">
+  <section class="list">
+    <h2>물건</h2>
+    <p class="hint" id="dataHint"></p>
+    <div id="items"></div>
+  </section>
+  <section class="detail" id="detail"><p class="hint">왼쪽에서 물건을 고르세요.</p></section>
+</main>
+
+<script>
+{
+/*DATA*/
+window.__BOSANG_DEMO = true;
+const routes = { 'ontology.json': DATA.ontology, 'index.json': DATA.index, 'items.json': DATA.items };
+const realFetch = window.fetch;
+window.fetch = async (url) => {
+  const name = String(url).split('/').pop();
+  if (name in routes) return new Response(JSON.stringify(routes[name]), { status: 200, headers: { 'content-type': 'application/json' } });
+  return new Response('', { status: 404 });
+};
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const n = (x) => x.toLocaleString('ko-KR');
+const step = (label, v, sub) => `<li><span>${label}${sub ? `<small>${sub}</small>` : ''}</span><b>${n(v)}</b></li>`;
+const S = STAT;
+document.getElementById('headline').textContent = `가상 사업지구 ${S.projects}곳과 공매 토지 ${S.items}건을 모아 ${S.hit}건을 사업지구 필지에 연결했습니다`;
+document.getElementById('infoSteps').innerHTML = [
+  step('원자료 행', S.eumRaw + S.compRaw, `토지이음 고시목록 ${S.eumRaw} · 보상계획공고 ${S.compRaw}`),
+  step('보상 고시로 분류', S.auto + S.review, '용도지역·지구단위계획·오래된 고시는 제외'),
+  step('자동 반영', S.auto, '유형·단계·사업명·시도가 모두 확인된 것'),
+  step('검토 대기', S.review, '사업명 모호·지역 불명'),
+  step('사업지구', S.projects, `토지조서 필지 ${S.parcels}개 연결`),
+].join('');
+document.getElementById('auctionSteps').innerHTML = [
+  step('가짜 서버의 전체 물건', S.onbidRaw, '건물·토지·수의계약 섞임'),
+  step('받은 토지 물건', S.items, '용도중분류 토지 · 매각 · 인터넷 입찰, 수의계약 여부 Y·N 두 번'),
+  step('PNU 없음', S.noPnu, '주소로만 비교'),
+  step('지분 물건', S.share, '툴에서 경고'),
+].join('');
+const pc = (k) => `${(S[k] / S.items * 100).toFixed(1)}%`;
+const m = document.getElementById('meter');
+m.innerHTML = `<span class="m-hit" style="width:${pc('hit')}"></span><span class="m-near" style="width:${pc('near')}"></span><span class="m-miss" style="width:${pc('miss')}"></span>`;
+m.setAttribute('aria-label', `필지 일치 ${S.hit}, 같은 시군구 ${S.near}, 관련 없음 ${S.miss}`);
+m.insertAdjacentHTML('afterend', `<p class="hint" style="margin:0 0 6px">필지 일치 ${S.hit} · 같은 시군구 ${S.near} · 관련 없음 ${S.miss}</p>`);
+document.getElementById('ledgerRows').innerHTML = PROJECTS.map((p) => `<tr>
+  <td><b>${esc(p.name)}</b><small>${esc(p.region)}${p.operator ? ` · ${esc(p.operator)}` : ''}</small></td>
+  <td><div class="cells">${STAGES.map((s, i) => `<i class="${i < p.order ? 'on' : ''}" title="${esc(s)}">${i + 1}</i>`).join('')}</div>${esc(p.stage)}</td>
+  <td>${esc(p.last)}</td>
+  <td>${p.deadline ? `<span class="dl">D-${p.deadline.daysLeft}</span> ${esc(p.deadline.title)}` : ''}</td>
+  <td class="n">${p.parcels}</td>
+  <td class="n">${p.hit ? `일치 ${p.hit}` : ''}${p.hit && p.near ? '<br>' : ''}${p.near ? `인근 ${p.near}` : ''}</td></tr>`).join('');
+document.getElementById('reviewRows').innerHTML = REVIEW.map((r) => `<tr><td class="n">${esc(r.date)}</td><td>${esc(r.title)}</td><td>${esc(r.reason)}</td></tr>`).join('');
+}
+</script>
+<script type="module">
+/*TOOL_JS*/
+</script>
+</body>
+</html>

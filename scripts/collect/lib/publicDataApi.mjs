@@ -45,6 +45,12 @@ export function parseItemsJson(obj) {
 
 export function parseResponse(text) {
   const t = text.trim();
+  // 게이트웨이 오류(잘못된 주소·인증키)는 OpenAPI_ServiceResponse 봉투로, JSON이나 XML로 온다
+  const gwCode = t.match(/returnReasonCode["']?\s*[:>]\s*"?(\d+)/)?.[1];
+  if (gwCode && gwCode !== '00') {
+    const msg = t.match(/errMsg["']?\s*[:>]\s*"?([A-Z_]+)/)?.[1] || '';
+    throw Object.assign(new Error(`공공데이터 게이트웨이 오류 ${gwCode} ${msg} ${ERRORS[gwCode] ? `(${ERRORS[gwCode]})` : ''}`.trim()), { code: gwCode });
+  }
   const out = t.startsWith('<') ? parseItemsXml(t) : parseItemsJson(JSON.parse(t));
   const code = out.resultCode;
   if (code && !['00', '0', '000', 'INFO-000'].includes(String(code))) {
@@ -52,9 +58,6 @@ export function parseResponse(text) {
     err.code = code;
     throw err;
   }
-  // 게이트웨이 오류는 OpenAPI_ServiceResponse 형식으로 오기도 한다
-  const gw = t.match(/<returnReasonCode>(\d+)<\/returnReasonCode>/);
-  if (gw && gw[1] !== '00') throw Object.assign(new Error(`공공데이터 게이트웨이 오류 ${gw[1]} ${ERRORS[gw[1]] || ''}`), { code: gw[1] });
   return out;
 }
 
@@ -70,8 +73,9 @@ export async function fetchAllPages({ endpoint, params, serviceKey, rows = 100, 
     u.searchParams.set('numOfRows', String(rows));
     for (const [k, v] of Object.entries(params || {})) if (v !== undefined && v !== '') u.searchParams.set(k, String(v));
     const res = await fetchImpl(u.toString());
-    if (!res.ok) throw new Error(`HTTP ${res.status} ${endpoint}`);
-    const parsed = parseResponse(await res.text());
+    const body = await res.text();
+    if (!res.ok) { parseResponse(body); throw new Error(`HTTP ${res.status} ${endpoint}`); } // 봉투에 코드가 있으면 그 설명으로
+    const parsed = parseResponse(body);
     all.push(...parsed.items);
     onPage?.(page, parsed);
     const total = Number.isFinite(parsed.totalCount) ? parsed.totalCount : null;

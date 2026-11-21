@@ -30,3 +30,6 @@ content/info/index.json
 
 # 수집 원자료(공공데이터포털에서 내려받는 큰 CSV)와 온비드 원본 샘플
 content/info/sources/*.csv
+
+# 가상 데이터 시험 결과
+demo/out/

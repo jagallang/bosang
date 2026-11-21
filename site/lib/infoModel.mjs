@@ -112,3 +112,12 @@ export function regionHints(projects, address) {
     return sg.length && sg.some((x) => a.includes(x)) && (!p.region?.sido || a.includes(p.region.sido.slice(0, 2)));
   });
 }
+
+/** "경기도 화성시 누리동 100" → "화성시", "충청남도 천안시 서북구 한빛리 1" → "천안시 서북구" */
+export function sigunguOfAddress(address, sido) {
+  let t = String(address || '').trim();
+  if (sido && t.startsWith(sido)) t = t.slice(sido.length).trim(); else t = t.replace(/^\S+(?:도|시)\s+/, '');
+  const out = [];
+  for (const w of t.split(/\s+/)) { if (/(시|군|구)$/.test(w)) out.push(w); else break; }
+  return out.join(' ') || null;
+}
