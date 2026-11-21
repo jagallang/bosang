@@ -2,9 +2,10 @@ import Link from 'next/link';
 import { SITE } from '../lib/site';
 
 const NAV = [
-  { href: '/exam/', label: '시험 안내' },
+  { href: '/business/', label: '기관 도입' },
+  { href: '/pro/', label: '행정사·중개사' },
   { href: '/books/', label: '교재·이용권' },
-  { href: '/info/', label: '보상정보' },
+  { href: '/exam/', label: '시험 안내' },
 ];
 
 export default function Header() {

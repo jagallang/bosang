@@ -11,7 +11,9 @@ export const isEssay = (q) => q.type === QuestionType.ESSAY;
 export function sourceLabel(q) {
   const s = q.source && q.source[0];
   if (!s) return '';
-  return s.year ? `기출 ${s.year} ${s.no || ''}번`.replace(/\s+번$/, '번') : s.type || '';
+  // 시행기관이 기출을 공개하지 않으므로 회차·번호는 드러내지 않고 출제 연도 유형으로만 표시한다
+  if (s.year) return `${s.year}년 출제 유형`;
+  return s.type === '기출' ? '출제 유형' : s.type || '';
 }
 
 export function sourceYearLabel(q) {

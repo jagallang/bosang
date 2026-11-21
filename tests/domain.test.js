@@ -145,8 +145,8 @@ test('세션: 서술형 힌트는 문항마다 따로', () => {
 });
 
 test('출처 표기', () => {
-  assert.equal(sourceLabel({ source: [{ type: '기출', year: 2022, no: 3 }] }), '기출 2022 3번');
-  assert.equal(sourceLabel({ source: [{ type: '기출', year: 2022 }] }), '기출 2022번');
+  assert.equal(sourceLabel({ source: [{ type: '기출', year: 2022, no: 3 }] }), '2022년 출제 유형');
+  assert.equal(sourceLabel({ source: [{ type: '기출' }] }), '출제 유형');
   assert.equal(sourceLabel({ source: [{ type: '정선', no: 1 }] }), '정선');
   assert.equal(QuestionBank.merge([mcq('civ-002', '민법')], [mcq('civ-001', '민법')]).all[0].id, 'civ-001');
 });

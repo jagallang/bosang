@@ -7,11 +7,16 @@
  *   node scripts/admin.mjs upload-questions          content/out/questionChunks.json → Firestore questionChunks/*
  *   node scripts/admin.mjs grant user@gmail.com 365  이용권 부여 (일수 생략 시 무기한)
  *   node scripts/admin.mjs revoke user@gmail.com     이용권 해제
- *   node scripts/admin.mjs list                      이용권 목록
+ *   node scripts/admin.mjs list [--org=기관명]         이용권 목록
+ *
+ *   기관(B2B)
+ *   node scripts/admin.mjs grant-bulk 직원.csv 365 --org=LX   이메일 목록 일괄 개통 (아직 로그인 안 한 사람은 따로 알려 줌)
+ *   node scripts/admin.mjs report --org=LX [--out=리포트.csv]  기관 월간 학습 리포트 (엑셀용 CSV)
  *
  * 사용자는 먼저 앱에서 구글 로그인을 한 번 해야 이메일로 찾을 수 있다.
  */
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { summarizeProgress, toCsv, parseEmails } from './lib/orgReport.mjs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -33,13 +38,51 @@ async function uploadQuestions({ db, FieldValue }) {
   }
 }
 
-async function grant({ db, auth, FieldValue, Timestamp }, email, days) {
+async function grant({ db, auth, FieldValue, Timestamp }, email, days, org) {
   const user = await auth.getUserByEmail(email);
   const data = { paid: true, email, grantedAt: FieldValue.serverTimestamp() };
+  if (org) data.org = org;
   if (days) data.until = Timestamp.fromMillis(Date.now() + Number(days) * 86400000);
   else data.until = FieldValue.delete();
   await db.collection('entitlements').doc(user.uid).set(data, { merge: true });
-  console.log(`이용권 부여: ${email} (${days ? `${days}일` : '무기한'})`);
+  console.log(`이용권 부여: ${email} (${days ? `${days}일` : '무기한'})${org ? ` [${org}]` : ''}`);
+}
+
+async function grantBulk(ctx, file, days, org) {
+  const emails = parseEmails(readFileSync(file, 'utf8'));
+  const missing = [];
+  for (const email of emails) {
+    try { await grant(ctx, email, days, org); }
+    catch (e) {
+      if (e.code === 'auth/user-not-found') missing.push(email);
+      else throw e;
+    }
+  }
+  console.log(`\n완료 ${emails.length - missing.length}명 / 전체 ${emails.length}명`);
+  if (missing.length) {
+    console.log('아직 학습앱에 로그인하지 않은 사람 (로그인 후 같은 명령을 다시 실행):');
+    missing.forEach((m) => console.log('  ' + m));
+  }
+}
+
+async function report({ db }, org, out) {
+  if (!org) throw new Error('--org=기관명 이 필요합니다');
+  const ents = await db.collection('entitlements').where('org', '==', org).get();
+  const today = Math.floor(Date.now() / 86400000);
+  const rows = [];
+  for (const d of ents.docs) {
+    const e = d.data();
+    const p = await db.collection('progress').doc(d.id).get();
+    rows.push({
+      email: e.email || d.id,
+      until: e.until ? e.until.toDate().toISOString().slice(0, 10) : '',
+      summary: summarizeProgress(p.exists ? p.data().data : null, today),
+    });
+  }
+  rows.sort((a, b) => a.email.localeCompare(b.email));
+  const file = out || `report-${org}-${new Date().toISOString().slice(0, 10)}.csv`;
+  writeFileSync(file, toCsv(rows));
+  console.log(`${org}: ${rows.length}명 → ${file}`);
 }
 
 async function revoke({ db, auth }, email) {
@@ -48,18 +91,23 @@ async function revoke({ db, auth }, email) {
   console.log(`이용권 해제: ${email}`);
 }
 
-async function list({ db }) {
-  const snap = await db.collection('entitlements').get();
+async function list({ db }, org) {
+  const col = db.collection('entitlements');
+  const snap = await (org ? col.where('org', '==', org) : col).get();
   snap.forEach((d) => {
     const e = d.data();
-    console.log(`${e.email || d.id}\t${e.paid ? '유효' : '해제'}\t${e.until ? e.until.toDate().toISOString().slice(0, 10) : '무기한'}`);
+    console.log(`${e.email || d.id}\t${e.paid ? '유효' : '해제'}\t${e.until ? e.until.toDate().toISOString().slice(0, 10) : '무기한'}\t${e.org || ''}`);
   });
 }
 
-const [cmd, ...rest] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const flag = (name) => args.find((a) => a.startsWith(`--${name}=`))?.split('=').slice(1).join('=');
+const [cmd, ...rest] = args.filter((a) => !a.startsWith('--'));
 const ctx = await init();
 if (cmd === 'upload-questions') await uploadQuestions(ctx);
-else if (cmd === 'grant') await grant(ctx, rest[0], rest[1]);
+else if (cmd === 'grant') await grant(ctx, rest[0], rest[1], flag('org'));
+else if (cmd === 'grant-bulk') await grantBulk(ctx, rest[0], rest[1], flag('org'));
 else if (cmd === 'revoke') await revoke(ctx, rest[0]);
-else if (cmd === 'list') await list(ctx);
-else console.log('사용법: node scripts/admin.mjs upload-questions | grant <email> [days] | revoke <email> | list');
+else if (cmd === 'list') await list(ctx, flag('org'));
+else if (cmd === 'report') await report(ctx, flag('org'), flag('out'));
+else console.log('사용법: node scripts/admin.mjs upload-questions | grant <email> [days] [--org=기관] | grant-bulk <csv> [days] --org=기관 | revoke <email> | list [--org=기관] | report --org=기관 [--out=파일]');

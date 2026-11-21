@@ -14,3 +14,7 @@ content/out/
 
 # 배포 조립 결과
 dist/
+
+# 기관 리포트·직원 명단 (개인정보, 커밋 금지)
+report-*.csv
+*직원*.csv

@@ -15,6 +15,9 @@ export default function Footer() {
       <div className="wrap">
         <div className="footer-brand"><span className="seal sm" aria-hidden="true">補</span>{SITE.name}</div>
         {rows.length > 0 && <p className="footer-biz">{rows.join(' · ')}</p>}
+        <p className="footer-links">
+          <a href="/exam/">시험 안내</a><a href="/info/">보상정보</a><a href="/business/">기관 도입</a><a href="/pro/">행정사·중개사</a><a href="/books/">교재·이용권</a>
+        </p>
         <p>문의 <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
         <p className="footer-note">
           보상드림의 정보는 학습·참고용이며 법률 자문이 아닙니다. 개별 사건은 변호사·감정평가사 등 전문가와 상담하세요.

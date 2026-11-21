@@ -17,7 +17,7 @@ export default function ExamSheet() {
     <div className="sheet" aria-live="polite">
       <div className="sheet-head">
         <span>{q.subject}</span>
-        <span>{q.kind} {q.year}년 {q.no}번</span>
+        <span>샘플 문제 {i + 1}/{SAMPLE.length}</span>
       </div>
       <p className="sheet-q">{q.q}</p>
       <ol className="sheet-opts">

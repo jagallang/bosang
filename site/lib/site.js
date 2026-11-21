@@ -56,6 +56,14 @@ export const PASSES = [
   { id: 'year', name: '1년 이용권', price: 100000, note: '월 8,300원 꼴 · 시험 시즌 전체', best: true },
 ];
 
+// 기관(B2B) 도입 — 단가는 1인 기준, 10인 이상은 견적
+export const ORG_PLAN = {
+  appPerSeat: 100000,      // 학습앱 1년
+  coursePerSeat: 300000,   // 학습앱 + 온라인 강의
+  minSeatsForQuote: 10,
+  pilot: { seats: 10, months: 1 },
+};
+
 export const won = (n) => `${n.toLocaleString('ko-KR')}원`;
 
 export function mailto(subject, body = '') {

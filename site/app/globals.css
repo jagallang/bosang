@@ -266,3 +266,46 @@ p { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ── 대상별 페이지 (기관 · 행정사·중개사) ── */
+.page-hero { background: var(--ink); color: #fff; padding: 72px 0 64px; }
+.page-hero h1 { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.25; margin-bottom: 20px; }
+.kicker { color: #e3b3b3; font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+
+.paths strong { display: flex; flex-direction: column; gap: 2px; }
+.paths small { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--seal); }
+
+.spec { margin: 0; border-top: 2px solid var(--ink); }
+.spec div { display: grid; grid-template-columns: 240px 1fr; gap: 24px; padding: 18px 4px; border-bottom: 1px solid var(--rule); }
+.spec dt { font-family: var(--serif); font-weight: 700; font-size: 18px; }
+.spec dd { margin: 0; color: var(--muted); }
+
+.table-wrap { overflow-x: auto; background: var(--sheet); border: 1px solid var(--rule); }
+.report th, .report td { white-space: nowrap; }
+.report td { font-variant-numeric: tabular-nums; }
+.meter { display: inline-block; width: 64px; height: 6px; background: var(--rule); margin-right: 8px; vertical-align: middle; position: relative; }
+.meter::after { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--v); background: var(--ink); }
+
+.roles { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.role { background: var(--sheet); border: 1px solid var(--rule); border-top: 3px solid var(--ink); padding: 28px; }
+.role-who { color: var(--seal); font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.role h2 { font-size: 22px; margin-bottom: 12px; }
+.role-body { color: var(--muted); margin-bottom: 20px; }
+.role h3 { font-family: var(--sans); font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.ticks.stack { flex-direction: column; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 10px; }
+.footer-links a { text-decoration: none; }
+
+@media (max-width: 760px) {
+  .spec div { grid-template-columns: 1fr; gap: 4px; }
+  .roles { grid-template-columns: 1fr; }
+  .page-hero { padding: 48px 0 44px; }
+}
+.table tbody th { white-space: nowrap; width: 1%; padding-right: 28px; }
+.paths a { grid-template-columns: 300px 1fr auto; }
+@media (max-width: 900px) { .paths a { grid-template-columns: 1fr auto; } }
+@media (max-width: 640px) {
+  .header-inner { position: relative; }
+  .nav .btn { position: absolute; top: 10px; right: 18px; margin: 0; }
+  .nav { gap: 16px; }
+}

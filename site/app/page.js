@@ -3,10 +3,10 @@ import ExamSheet from '../components/ExamSheet';
 import { SITE, PASSES, won } from '../lib/site';
 
 const BOXES = [1, 2, 4, 8, 16];
-const INDEX = [
-  { href: '/exam/', title: '시험 안내', body: '1차 민법·부동산관계법규·토지보상법규, 2차 보상실무 1·2의 구성과 합격 기준.' },
-  { href: '/books/', title: '교재·이용권', body: `두문자 요약노트와 2차 서술형 예제집, 학습앱 전체 문항 이용권 ${won(PASSES[0].price)}부터.` },
-  { href: '/info/', title: '전국 보상정보', body: '사업지구별 보상 진행 단계를 무료로 공개할 준비를 하고 있습니다.' },
+const PATHS = [
+  { href: '/business/', who: '기관 교육 담당자', title: '직원 자격 취득을 기관 단위로', body: '단체 이용권 일괄 개통과 월간 학습 리포트. 10명 1개월 무료 파일럿부터 시작합니다.' },
+  { href: '/pro/', who: '행정사 · 공인중개사', title: '보상 업무로 일을 넓히기', body: '보상관리사 자격 과정과, 보상 사건·보상지역 상담에 바로 쓰는 실무 주제를 정리했습니다.' },
+  { href: '/books/', who: '수험생', title: '혼자 준비하는 1·2차', body: `학습앱 이용권 ${won(PASSES[0].price)}부터, 두문자 노트와 2차 서술형 예제집.` },
 ];
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
             <h1>보상관리사 합격,<br />조문부터 답안까지.</h1>
             <p className="lead">
               객관식은 간격반복 학습앱으로 매일 굴리고, 2차 서술형은 예제집으로 답안 구조를 잡습니다.
-              2022년 기출문제 한 문제를 바로 풀어 보세요.
+              옆의 샘플 문제를 바로 풀어 보세요.
             </p>
             <div className="cta-row">
               <a href={SITE.appPath} className="btn btn-seal">무료 문제 풀기</a>
@@ -30,12 +30,12 @@ export default function Home() {
       </section>
 
       <section className="wrap block">
-        <h2 className="h2">보상드림에서 할 수 있는 것</h2>
-        <ul className="index">
-          {INDEX.map((x) => (
+        <h2 className="h2">어떤 분이신가요?</h2>
+        <ul className="index paths">
+          {PATHS.map((x) => (
             <li key={x.href}>
               <Link href={x.href}>
-                <strong>{x.title}</strong>
+                <strong><small>{x.who}</small>{x.title}</strong>
                 <span>{x.body}</span>
               </Link>
             </li>
