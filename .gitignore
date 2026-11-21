@@ -33,3 +33,6 @@ content/info/sources/*.csv
 
 # 가상 데이터 시험 결과
 demo/out/
+
+# 인증키 (커밋 금지)
+.env.local

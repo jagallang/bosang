@@ -9,7 +9,7 @@ import { execFileSync, spawn } from 'node:child_process';
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { eumRows, compPlanRows, parcelRows, onbidItems, toCsv } from './fixtures.mjs';
+import { eumRows, compPlanRows, parcelRows, onbidItems, toCsv, eumWebRows, landUseFixture } from './fixtures.mjs';
 import { startMockOnbid } from './mockOnbid.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -27,12 +27,14 @@ writeFileSync(join(OUT, 'sources/경북개발공사_보상계획공고.csv'), '�
 writeFileSync(join(OUT, 'info/inbox/parcels/가상-토지조서.csv'), toCsv(parcelRows()));
 
 const items = onbidItems();
-const mock = await startMockOnbid(items);
+const mock = await startMockOnbid(items, { eumRows: eumWebRows(), landUse: landUseFixture() });
 const cfg = JSON.parse(readFileSync(join(ROOT, 'demo/collect.config.json'), 'utf8'));
 cfg.auction.onbid.endpoint = mock.url;
+cfg.info.web = [{ id: 'eum-web', kind: 'eumWeb', enabled: true, sido: '경기도', sinceDays: 7, listSize: 3, maxPages: 10, delayMs: 0, base: `${mock.origin}/web/gs/gv/gvGosiList.jsp` }];
+cfg.auction.vworld = { enabled: true, domain: 'localhost', delayMs: 0, endpoint: `${mock.origin}/ned/data/getLandUseAttr` };
 writeFileSync(join(OUT, 'collect.config.json'), JSON.stringify(cfg, null, 2));
 
-const env = { ...process.env, BOSANG_INFO_DIR: INFO, DATA_GO_KR_KEY: 'demo-key' };
+const env = { ...process.env, BOSANG_INFO_DIR: INFO, DATA_GO_KR_KEY: 'demo-key', VWORLD_KEY: 'demo-vworld-key' };
 // 가짜 서버가 이 프로세스 안에 있으므로 자식 프로세스는 비동기로 돌린다 (동기 실행이면 서버가 응답을 못 한다)
 const run = (args) => new Promise((ok, fail) => {
   console.log(`\n$ node ${args.join(' ')}`);

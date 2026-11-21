@@ -151,3 +151,29 @@ export const toCsv = (rows) => {
   const cell = (v) => { const t = String(v ?? ''); return /[",\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t; };
   return [head.join(','), ...rows.map((r) => head.map((h) => cell(r[h])).join(','))].join('\r\n') + '\r\n';
 };
+
+/** 토지이음 웹 목록에 최근 올라온 것처럼 보일 고시 (가상) */
+export function eumWebRows(today = '2026-11-21') {
+  const d = (n) => new Date(Date.parse(today) - n * 86400000).toISOString().slice(0, 10);
+  return [
+    { date: d(0), gosiNo: '국토교통부 고시 제2026-901호', kind: '신규', title: '새솔 공공주택지구 지정 및 지형도면 고시', org: '경기도 안성시' },
+    { date: d(1), gosiNo: '경기도 고시 제2026-6001호', kind: '신규', title: '푸른들 일반산업단지계획 승인 및 지형도면 고시', org: '경기도' },
+    { date: d(1), gosiNo: '경기도 화성시 고시 제2026-990호', kind: '변경', title: '화성 도시관리계획(용도지역) 결정(변경) 및 지형도면 고시', org: '경기도 화성시' },
+    { date: d(2), gosiNo: '충청남도 고시 제2026-300호', kind: '신규', title: '한빛 도시첨단산업단지 실시계획 변경승인 고시', org: '충청남도' },
+    { date: d(3), gosiNo: '경기도 평택시 고시 제2026-777호', kind: '신규', title: '가온2 택지개발지구 실시계획 변경인가 고시', org: '경기도 평택시' },
+    { date: d(20), gosiNo: '경기도 고시 제2026-5000호', kind: '신규', title: '오래된 도시개발구역 지정 고시', org: '경기도' },
+  ];
+}
+
+/** 브이월드 토지이용계획 가짜 응답: 가상 사업지구 필지는 공공주택지구 '포함' */
+export function landUseFixture() {
+  const out = {};
+  for (const p of parcelRows()) {
+    out[p.pnu] = [
+      { pnu: p.pnu, prposAreaDstrcCodeNm: '자연녹지지역', cnflcAtNm: '포함' },
+      { pnu: p.pnu, prposAreaDstrcCodeNm: p.project_name.includes('산업단지') ? '일반산업단지' : p.project_name.includes('택지') ? '택지개발지구' : '공공주택지구', cnflcAtNm: '포함' },
+      { pnu: p.pnu, prposAreaDstrcCodeNm: '토지거래계약에관한허가구역', cnflcAtNm: '포함' },
+    ];
+  }
+  return out;
+}

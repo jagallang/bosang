@@ -38,7 +38,7 @@ let sel = null;
 
 $('#items').innerHTML = matched.map(({ it, hits, near }, i) => `
   <button class="item" data-i="${i}">
-    <b>${esc(it.address)}</b>${hits.length ? '<span class="tag hit">사업지구 안</span>' : near.length ? '<span class="tag near">같은 시군구</span>' : '<span class="tag miss">매칭 없음</span>'}
+    <b>${esc(it.address)}</b>${hits.length ? '<span class="tag hit">사업지구 안</span>' : near.length ? '<span class="tag near">같은 시군구</span>' : '<span class="tag miss">매칭 없음</span>'}${it.zoning?.strong?.length ? '<span class="tag hit">지구 포함·브이월드</span>' : ''}
     <small>${esc(it.case)} · ${esc(it.landUse || '')} ${it.areaM2 ? `${it.areaM2.toLocaleString()}㎡` : ''}</small>
     <small>최저 ${it.minPrice ? won(it.minPrice) : esc(it.minPriceText || '-')} · 입찰 ${esc(it.saleDate || '-')}${it.share ? ' · 지분' : ''}</small>
   </button>`).join('');
@@ -47,6 +47,17 @@ $('#items').addEventListener('click', (e) => {
   document.querySelectorAll('.item').forEach((x) => x.classList.toggle('on', x === b));
   show(matched[Number(b.dataset.i)]);
 });
+
+function zoningHtml(it) {
+  const z = it.zoning;
+  if (!z) return it.pnu ? '<p class="hint">토지이용계획 판정 전 (npm run collect:zoning)</p>' : '';
+  if (z.error) return `<p class="hint">토지이용계획 조회 실패: ${esc(z.error)}</p>`;
+  const li = (x) => `<li>${esc(x.name)} <small>(${esc(x.relation || '-')})</small></li>`;
+  return `<h3>토지이용계획 (브이월드, ${esc(z.checkedAt)})</h3>
+    ${z.strong.length ? `<div class="match"><b>사업지구 지정</b><ul class="zones">${z.strong.map(li).join('')}</ul></div>` : '<p class="hint">공공주택지구·산업단지 등 사업지구 지정은 없습니다.</p>'}
+    ${z.other.length ? `<p class="hint">그 밖에 걸린 계획: ${z.other.map((x) => `${esc(x.name)}(${esc(x.relation)})`).join(', ')}</p>` : ''}
+    <p class="note">'포함'은 지구 안, '저촉'은 일부가 걸린 경우입니다. 확인도면은 법적 효력이 없으니 토지이용계획확인서로 다시 확인하세요.</p>`;
+}
 
 const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
 
@@ -69,6 +80,7 @@ function show(m) {
       현재 단계: ${stage ? esc(stage.name) : '정보 없음'}${dl ? ` · ${esc(dl.title)} D-${dl.daysLeft}` : ''}</div>`
       : near.length ? `<div class="match near">필지가 등록된 사업지구는 없고, 같은 시·군·구에 등록된 사업이 있습니다: ${near.map((p) => `<b>${esc(p.name)}</b>`).join(', ')}<br><small>사업지구 경계 안인지는 토지이음 지형도면으로 직접 확인해야 합니다.</small></div>`
       : '<p class="hint">등록된 사업지구 필지와 맞는 것이 없습니다. 사업지구에 필지(PNU)를 추가하면 매칭됩니다.</p>'}
+    ${zoningHtml(it)}
     <h3>수익 계산</h3>
     <div class="form">
       <label>낙찰가(원)<input name="bid" type="number" value="${v.bid}"></label>

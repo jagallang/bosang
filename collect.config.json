@@ -20,6 +20,35 @@
         "sigungu": "",
         "note": "공공데이터포털 '경상북도개발공사_보상계획공고' 파일데이터"
       }
+    ],
+    "web": [
+      {
+        "id": "eum-web",
+        "kind": "eumWeb",
+        "enabled": true,
+        "sido": "경기도",
+        "sinceDays": 7,
+        "listSize": 50,
+        "maxPages": 40,
+        "delayMs": 1500,
+        "_note": "1단계(지정·실시계획 고시). 토지이음 robots.txt가 허용할 때만 받는다. --since YYYY-MM-DD로 기간 지정"
+      },
+      {
+        "id": "example-board",
+        "kind": "board",
+        "enabled": false,
+        "listUrl": "https://예시.go.kr/board/list.do?page={page}",
+        "pages": 2,
+        "cols": {
+          "no": 0,
+          "title": 1,
+          "date": 3
+        },
+        "linkBase": "https://예시.go.kr/board/",
+        "sido": "경기도",
+        "operator": "",
+        "_note": "2단계(보상계획·협의·재결 공고) 게시판 예시. 열 번호는 목록 표의 칸 순서(0부터). robots.txt 허용 확인 후 enabled:true"
+      }
     ]
   },
   "auction": {
@@ -47,6 +76,12 @@
       "landWords": [],
       "mapping": {},
       "_mappingNote": "비워 두면 sources/onbid.mjs의 DEFAULT_MAPPING(명세의 필드 이름)을 쓴다. 바꿀 필드만 { \"우리필드\": [\"원본키\"] }로 넣는다."
+    },
+    "vworld": {
+      "enabled": true,
+      "domain": "",
+      "delayMs": 200,
+      "_note": "VWORLD_KEY, VWORLD_DOMAIN은 .env.local에. 개발키는 발급 때 등록한 사이트 주소를 domain으로 보내야 한다"
     }
   }
 }

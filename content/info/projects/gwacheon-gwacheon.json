@@ -7,6 +7,13 @@
       "title": "손실보상협의 공시송달 공고(GH)",
       "source": "2026-11-21-gyeonggi.csv",
       "url": "https://www.gh.or.kr/gh/reward-announcement.do?mode=list&article.offset=0"
+    },
+    {
+      "date": "2026-10-21",
+      "stage": "designation",
+      "title": "지정변경(4차) 지구계획 변경(1차) 및 주택지구 밖 사업(도로) 승인(국토교통부 고시 제2026-568호)",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://eum.go.kr/web/gs/gv/gvGosiList.jsp?listSize=50&pageNo=3"
     }
   ],
   "name": "과천과천 공공주택지구",

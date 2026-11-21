@@ -20,7 +20,8 @@
     "collect:auction": "node scripts/collect/collect.mjs auction",
     "collect:probe": "node scripts/collect/collect.mjs auction --probe",
     "local": "npm run collect && node scripts/build-all.mjs && echo \"사이트: npm run serve (8080) · 툴: npm run tool → http://127.0.0.1:8090/tools/auction/\"",
-    "demo": "node scripts/demo/run-demo.mjs"
+    "demo": "node scripts/demo/run-demo.mjs",
+    "collect:zoning": "node scripts/collect/collect.mjs zoning"
   },
   "engines": {
     "node": ">=20"

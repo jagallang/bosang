@@ -32,3 +32,4 @@ h3{font-family:var(--serif);font-size:16px;margin:20px 0 8px}
 .result dd{font-size:18px;overflow-wrap:anywhere}
 @media(max-width:1180px){.result{grid-template-columns:1fr 1fr}.result div:nth-child(3){border-left:0}.result div:nth-child(n+3){border-top:1px solid var(--rule)}}
 .form{grid-template-columns:repeat(3,minmax(0,1fr))}.form input{width:100%;min-width:0}.result{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:1180px){.result{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:860px){.form{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.zones{margin:4px 0 0;padding-left:18px}

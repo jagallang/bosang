@@ -7,8 +7,12 @@ import { parseResponse, fetchAllPages, pick } from '../scripts/collect/lib/publi
 import { eumRowsToCandidates, normDate } from '../scripts/collect/sources/eumGosiCsv.mjs';
 import { compPlanRowsToCandidates } from '../scripts/collect/sources/compPlanCsv.mjs';
 import { onbidItemToAuction, isLand, mergeAuctionItems, amount, pnuDialectOf, standardPnu } from '../scripts/collect/sources/onbid.mjs';
-import { startMockOnbid } from '../scripts/demo/mockOnbid.mjs';
-import { eumRows, parcelRows, onbidItems, toCsv } from '../scripts/demo/fixtures.mjs';
+import { startMockOnbid, eumListHtml } from '../scripts/demo/mockOnbid.mjs';
+import { parseEumList, eumWebRowsToCandidates, eumListUrl, fetchEumRecent } from '../scripts/collect/sources/eumGosiWeb.mjs';
+import { parseRobots, isAllowed } from '../scripts/collect/lib/robots.mjs';
+import { boardRowsToCandidates } from '../scripts/collect/sources/board.mjs';
+import { parseLandUse, judgeZones, annotateItems, fetchLandUse } from '../scripts/collect/sources/vworld.mjs';
+import { eumRows, parcelRows, onbidItems, toCsv, eumWebRows, landUseFixture } from '../scripts/demo/fixtures.mjs';
 import { toInboxRows, rowsToCsv, splitForReview } from '../scripts/collect/lib/candidates.mjs';
 import { decodeKorean } from '../scripts/collect/lib/readText.mjs';
 import { regionHints, sigunguOfAddress } from '../site/lib/infoModel.mjs';
@@ -189,4 +193,90 @@ test('EUC-KR 파일도 읽는다', () => {
   const euc = Buffer.from([0xb0, 0xed, 0xbd, 0xc3]); // '고시'
   assert.equal(decodeKorean(euc), '고시');
   assert.equal(decodeKorean(Buffer.from('﻿고시', 'utf8')), '고시');
+});
+
+test('실제 토지이음 고시 제목 분류 (2026-11-21 수집분)', () => {
+  const c = (title, gosiNo = '', org = '') => classifyNotice({ title, gosiNo, org });
+  const a = c('평택지제역세권 공공주택지구 지정 및 지형도면 등', '국토교통부 고시 제2024-867호', '국토교통부');
+  assert.equal(a.stage, 'designation'); assert.equal(a.projectName, '평택지제역세권 공공주택지구');
+  assert.equal(a.confidence, 'low'); // 국토부 고시·담당기관 국토부 → 지역 불명이라 검토
+  const b = c('과천과천 공공주택지구 지정변경(4차), 지구계획 변경(1차) 및 주택지구 밖 사업(도로) 승인', '국토교통부 고시 제2026-568호', '경기도 과천시');
+  assert.equal(b.stage, 'designation'); assert.equal(b.region.sido, '경기도'); assert.equal(b.confidence, 'high');
+  assert.equal(c('용인 양지물류단지계획(지정 및 실시계획) 승인 및 지형도면 고시', '경기도 고시 제2026-5095호').stage, 'designation');
+  assert.equal(c('「안성테크노밸리 일반산업단지」 산업단지계획 변경 승인 및 지형도면 고시', '경기도 고시 제2026-54호').type, '산업단지');
+  assert.equal(c('평택 서탄 일반산업단지계획 변경(9차) 승인 고시', '경기도 평택시 고시 제2026-242호').stage, 'designation');
+  // 보상과 무관: 지구단위계획·공원조성·관리기본계획·준공
+  assert.equal(c('의정부 도시관리계획(민락2 공공주택지구 지구단위계획) 결정(변경) 및 지형도면 고시', '경기도 의정부시 고시 제2026-30호'), null);
+  assert.equal(c('파주 적성 일반산업단지 관리기본계획 변경 고시', '경기도 고시 제2026-117호'), null);
+  assert.equal(c('인천가정2 공공주택지구 조성사업(2단계) 준공'), null);
+});
+
+test('토지이음 웹 목록 파싱·지역 거르기·기간 멈춤', async () => {
+  const rows = eumWebRows('2026-11-21');
+  const html = eumListHtml(rows);
+  const parsed = parseEumList(html, 'https://www.eum.go.kr/web/gs/gv/gvGosiList.jsp');
+  assert.equal(parsed.length, rows.length);
+  assert.equal(parsed[0].kind, '신규'); assert.equal(parsed[0].title, '새솔 공공주택지구 지정 및 지형도면 고시');
+  assert.match(parsed[0].url, /gvGosiDet\.jsp\?seq=700000$/);
+  const cands = eumWebRowsToCandidates(parsed, { sido: '경기도' });
+  assert.deepEqual(cands.map((x) => x.projectName).sort(), ['가온2 택지개발지구', '새솔 공공주택지구', '오래된 도시개발구역', '푸른들 일반산업단지']);
+  assert.ok(!cands.some((x) => x.region.sido === '충청남도'));
+  const url = eumListUrl({ page: 2, listSize: 50 });
+  assert.match(url, /listSize=50/); assert.match(url, /pageNo=2/); assert.match(url, /startdt=&/);
+  // 가짜 서버로 끝까지: 기준일 이전이 나오면 멈춤, robots 불허면 수집 안 함
+  const mock = await startMockOnbid([], { eumRows: rows });
+  try {
+    const base = `${mock.origin}/web/gs/gv/gvGosiList.jsp`;
+    const got = await fetchEumRecent({ since: '2026-11-14', sido: '경기도', base, listSize: 2, delayMs: 0 });
+    assert.deepEqual(got.map((x) => x.projectName).sort(), ['가온2 택지개발지구', '새솔 공공주택지구', '푸른들 일반산업단지']);
+    assert.ok(mock.log.filter((q) => q.pageNo).length <= 4);
+    await assert.rejects(fetchEumRecent({ since: '2026-11-14', base, robots: async () => 'disallowed' }), /수집 불허/);
+    await assert.rejects(fetchEumRecent({ since: '2026-11-14', base, robots: async () => 'unknown' }), /확인 불가/);
+  } finally { await mock.close(); }
+});
+
+test('robots.txt 판정', () => {
+  const g = parseRobots('User-agent: *\nDisallow: /gh/\nAllow: /gh/public\n\nUser-agent: BadBot\nDisallow: /\n');
+  assert.equal(isAllowed(g, '/web/gs/gv/gvGosiList.jsp'), true);
+  assert.equal(isAllowed(g, '/gh/reward-announcement.do'), false);
+  assert.equal(isAllowed(g, '/gh/public/a'), true);
+  assert.equal(isAllowed(parseRobots('User-agent: *\nDisallow:\n'), '/x'), true);
+  assert.equal(isAllowed(parseRobots('User-agent: *\nDisallow: /\n'), '/x'), false);
+});
+
+test('게시판 수집: 보상 공고만, 열 위치 설정대로', () => {
+  const html = `<table><tr><th>번호</th><th>제목</th><th>부서</th><th>등록일</th></tr>
+    <tr><td>12</td><td><a href="view.do?id=12">누리1 공공주택지구 토지 및 지장물 보상계획 열람공고</a></td><td>보상과</td><td>2026.11.20</td></tr>
+    <tr><td>11</td><td><a href="view.do?id=11">2026년 하반기 직원 채용 공고</a></td><td>총무과</td><td>2026.11.19</td></tr>
+    <tr><td>10</td><td><a href="view.do?id=10">지방도 123호선 확포장공사 손실보상 협의 요청 공고</a></td><td>도로과</td><td>2026-11-18</td></tr></table>`;
+  const c = boardRowsToCandidates(html, { id: 'b', listUrl: 'https://x.go.kr/board/list.do?page={page}', cols: { title: 1, date: 3 }, sido: '경기도' });
+  assert.equal(c.length, 2);
+  assert.equal(c[0].stage, 'plan'); assert.equal(c[0].projectName, '누리1 공공주택지구'); assert.equal(c[0].confidence, 'high');
+  assert.equal(c[0].url, 'https://x.go.kr/board/view.do?id=12');
+  assert.equal(c[1].stage, 'negotiation'); assert.equal(c[1].confidence, 'low');
+});
+
+test('브이월드 토지이용계획: 파싱·판정·가짜 서버', async () => {
+  const z = parseLandUse({ landUses: { field: [
+    { prposAreaDstrcCodeNm: '자연녹지지역', cnflcAtNm: '포함' },
+    { prposAreaDstrcCodeNm: '공공주택지구', cnflcAtNm: '포함' },
+    { prposAreaDstrcCodeNm: '도로구역', cnflcAtNm: '저촉' },
+    { prposAreaDstrcCodeNm: '일반산업단지', cnflcAtNm: '접함' },
+  ] } });
+  const j = judgeZones(z);
+  assert.deepEqual(j.strong.map((x) => x.name), ['공공주택지구']);
+  assert.deepEqual(j.other.map((x) => x.name), ['도로구역']); // 접함은 뺀다
+  assert.deepEqual(parseLandUse({ landUses: { field: { prposAreaDstrcCodeNm: 'A', cnflcAtNm: '포함' } } }).map((x) => x.name), ['A']);
+  assert.throws(() => parseLandUse({ landUses: { resultCode: 'INCORRECT_KEY', resultMsg: '인증키 오류' } }), /INCORRECT_KEY/);
+  const lu = landUseFixture();
+  const pnu = Object.keys(lu)[0];
+  const mock = await startMockOnbid([], { landUse: lu });
+  try {
+    const items = [{ pnu }, { pnu: '' }, { pnu: '1111111111111111111' }];
+    await annotateItems(items, { key: 'k', endpoint: `${mock.origin}/ned/data/getLandUseAttr` }, { delayMs: 0 });
+    assert.ok(items[0].zoning.strong.length >= 1);
+    assert.equal(items[1].zoning, undefined);
+    assert.equal(items[2].zoning.strong.length, 0);
+    await assert.rejects(fetchLandUse(pnu, { endpoint: `${mock.origin}/ned/data/getLandUseAttr` }), /VWORLD_KEY/);
+  } finally { await mock.close(); }
 });
