@@ -5,11 +5,13 @@
 import { isEssay, isMcq } from '../domain/question.js';
 import { EssayPhase } from '../domain/session.js';
 import { topbar } from './views/common.js';
-import { dashboard, mastery, status } from './views/home.js';
+import { dashboard, records } from './views/home.js';
 import { essay, exam, examResult, mcq, summary } from './views/study.js';
 import { feedback, loadError, loading, wrongNote } from './views/pages.js';
 
-const PAGES = { home: dashboard, mastery, status, wrong: wrongNote, feedback };
+const PAGES = { home: dashboard, records, wrong: wrongNote, feedback };
+// 예전 화면 이름 (숙련도·현황은 '기록'으로 합쳤다)
+const ALIAS = { mastery: 'records', status: 'records' };
 
 export class App {
   /**
@@ -97,7 +99,7 @@ export class App {
       const view = s.examMode ? exam : isEssay(q) ? essay : isMcq(q) ? mcq : null;
       body = view ? view({ ...vm, session: s, question: q, card }) : '<div class="empty">지원하지 않는 문항 유형입니다.</div>';
     } else {
-      if (ui.page === 'mastery') vm.cells = this.study.masteryCells();
+      if (ui.page === 'records') vm.cells = this.study.masteryCells();
       if (ui.page === 'wrong') vm.wrongNote = this.study.wrongNote();
       body = (PAGES[ui.page] || dashboard)(vm);
     }
@@ -118,11 +120,11 @@ export class App {
     const endSession = () => { ui.session = null; ui.report = null; };
 
     return {
-      go: ({ page }) => { endSession(); ui.page = page; ui.menuOpen = false; },
+      go: ({ page }) => { endSession(); ui.page = ALIAS[page] || page; ui.menuOpen = false; window.scrollTo({ top: 0 }); },
       'toggle-menu': () => { ui.menuOpen = !ui.menuOpen; },
       'switch-stage': async ({ stage }) => {
         ui.menuOpen = false;
-        if (await study.switchStage(stage)) { endSession(); ui.page = 'home'; }
+        if (await study.switchStage(stage)) endSession();
       },
       'toggle-random': () => { ui.random = !ui.random; },
       'set-difficulty': ({ level }) => { ui.difficulty = Number(level) || 0; },
@@ -174,7 +176,7 @@ export class App {
         const type = document.getElementById('fb-type')?.value || 'etc';
         const text = document.getElementById('fb-text')?.value || '';
         if (!text.trim()) { this.dialogs.notify('내용을 작성해주세요.'); return; }
-        const label = { bug: '버그/오류', wrong: '문제/정답 오류', idea: '기능 제안', etc: '기타' }[type];
+        const label = { bug: '앱 오류', wrong: '문제·정답 오류', idea: '기능 제안', etc: '기타' }[type];
         const subject = encodeURIComponent(`[보상드림] ${label}`);
         const body = encodeURIComponent(`유형: ${label}\n단계: ${study.stageInfo.label}\n버전: v${this.config.version}\n\n${text}`);
         window.location.href = `mailto:${this.config.feedbackEmail}?subject=${subject}&body=${body}`;

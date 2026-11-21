@@ -1,11 +1,11 @@
 /**
  * 여러 화면이 함께 쓰는 조각. 모든 뷰는 (데이터) => HTML 문자열인 순수 함수다.
- * 클릭은 data-action 속성으로 표시하고 App이 한 곳에서 처리한다 (인라인 onclick 없음).
+ * 클릭은 data-action 속성으로 표시하고 App이 한 곳에서 처리한다 (인라인 onclick·인라인 style 없음).
  *
  * 문제 본문·해설·모범답안(q, ex, model)은 운영자가 쓴 신뢰된 HTML이라 그대로 넣는다.
  * 그 밖의 문자열은 esc()로 이스케이프한다.
  */
-import { DIFFICULTY_LABEL, MAX_BOX } from '../../domain/constants.js';
+import { DIFFICULTY_LABEL, MAX_BOX, STAGE_IDS } from '../../domain/constants.js';
 import { difficultyOf } from '../../domain/question.js';
 
 export function esc(v) {
@@ -16,89 +16,82 @@ export function esc(v) {
 export const act = (action, data = {}) =>
   `data-action="${esc(action)}"` + Object.entries(data).map(([k, v]) => ` data-${k}="${esc(v)}"`).join('');
 
-export const BOX_COLORS = ['var(--b0)', 'var(--b1)', 'var(--b2)', 'var(--b3)', 'var(--b4)', 'var(--b5)'];
+/** 숙련도 0~5 → 색 단계 클래스 */
+export const level = (box) => `lv${Math.max(0, Math.min(MAX_BOX, box | 0))}`;
+
+/** 0~100 → 막대 (폭은 CSS 변수로) */
+export const bar = (pct, tone = '') => `<span class="bar ${tone}"><i style="--w:${Math.max(0, Math.min(100, pct))}%"></i></span>`;
 
 export function topbar(vm) {
   const { overview: o, ui } = vm;
-  const tab = (page, label) => `<button class="nav-tab ${ui.page === page && !ui.inSession ? 'on' : ''}" ${act('go', { page })}>${label}</button>`;
-  return `<div class="topbar">
-    <div class="logo">
-      <span class="seal-mark" aria-hidden="true">補</span>
-      <div><h1>보상드림</h1><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:-2px">${esc(o.label)}</div></div>
+  const onRecords = ['records', 'mastery', 'status'].includes(ui.page);
+  const tab = (page, label, on) => `<button class="tab${on && !ui.inSession ? ' on' : ''}" ${act('go', { page })}>${label}</button>`;
+  return `<header class="top">
+    <div class="top-in">
+      <a class="brand" href="../" aria-label="보상드림 홈"><span class="seal" aria-hidden="true">補</span>보상드림</a>
+      <nav class="tabs" aria-label="학습앱 메뉴">
+        ${tab('home', '학습', !onRecords && ui.page === 'home')}
+        ${tab('records', `기록${o.dueCount > 0 ? ` <span class="dot" aria-label="복습 ${o.dueCount}문항">${o.dueCount}</span>` : ''}`, onRecords)}
+      </nav>
+      <button class="menu-btn" ${act('toggle-menu')} aria-label="메뉴" aria-expanded="${ui.menuOpen}"><span></span><span></span><span></span></button>
     </div>
-    <div class="nav-tabs">
-      ${tab('home', '학습')}
-      ${tab('mastery', `숙련도 <span style="font-size:10px">${o.mastery.pct}%</span>`)}
-      ${tab('status', `현황${o.dueCount > 0 ? ` <span class="tab-badge">${o.dueCount}</span>` : ''}`)}
-    </div>
-    <button class="hamburger" ${act('toggle-menu')} aria-label="메뉴 열기" aria-expanded="${ui.menuOpen}">☰</button>
-  </div>${ui.menuOpen ? menu(vm) : ''}`;
+  </header>${ui.menuOpen ? menu(vm) : ''}`;
 }
 
 function menu(vm) {
   const { overview: o, access, config } = vm;
-  const stageItem = (s) => `<button class="menu-item" role="menuitem" aria-current="${o.stage === s}" ${act('switch-stage', { stage: s })}>📝 ${s}차 시험 <span style="margin-left:auto;font-size:11px;color:var(--faint)">${o.stageCounts[s] ? `${o.stageCounts[s]}문항` : '준비중'}</span></button>`;
-  const account = access.enabled
-    ? `<div class="menu-divider"></div>
-       ${access.user
-        ? `<div class="menu-stage-label" style="text-transform:none;letter-spacing:0">${esc(access.user.email || access.user.displayName || '로그인됨')}${access.paid ? ' · 이용권' : ' · 무료'}</div>
-           <button class="menu-item" role="menuitem" ${act('sign-out')}>🚪 로그아웃</button>`
-        : `<button class="menu-item" role="menuitem" ${act('sign-in')}>🔑 구글 계정으로 로그인</button>`}`
-    : '';
-  return `<div class="menu-overlay" ${act('toggle-menu')}></div>
-  <div class="menu-panel" role="menu">
-    <a class="menu-item" role="menuitem" href="../" style="text-decoration:none">🏠 보상드림 홈</a>
-    <a class="menu-item" role="menuitem" href="../books/" style="text-decoration:none">📚 교재 가격 문의</a>
-    <div class="menu-divider"></div>
-    <div class="menu-stage-label">시험 선택</div>
-    ${stageItem('1')}
-    ${stageItem('2')}
-    <div class="menu-divider"></div>
-    <button class="menu-item" role="menuitem" ${act('go', { page: 'wrong' })}>📕 오답노트 ${o.wrongCount ? `<span style="margin-left:auto;font-size:11px;color:var(--wrong)">${o.wrongCount}문항</span>` : ''}</button>
-    <button class="menu-item" role="menuitem" ${act('go', { page: 'feedback' })}>💬 의견 보내기</button>
-    ${account}
-    <div class="menu-divider"></div>
-    <button class="menu-item" role="menuitem" ${act('reset')} style="color:var(--seal)">🗑️ 진도 초기화</button>
-    <div style="margin-top:16px;font-size:10px;color:var(--faint);text-align:center">보상드림 v${esc(config.version)}</div>
+  const item = (attrs, label, end = '') => `<button class="m-item" role="menuitem" ${attrs}>${label}${end ? `<span class="m-end">${end}</span>` : ''}</button>`;
+  const link = (href, label) => `<a class="m-item" role="menuitem" href="${href}">${label}</a>`;
+  const account = !access.enabled ? '' : access.user
+    ? `<p class="m-note">${esc(access.user.email || access.user.displayName || '로그인됨')} · ${access.paid ? '이용권' : '무료'}</p>${item(act('sign-out'), '로그아웃')}`
+    : item(act('sign-in'), '구글 계정으로 로그인');
+  return `<div class="scrim" ${act('toggle-menu')}></div>
+  <div class="sheet" role="menu" aria-label="메뉴">
+    ${item(act('go', { page: 'wrong' }), '오답노트', o.wrongCount ? `${o.wrongCount}문항` : '')}
+    ${item(act('go', { page: 'feedback' }), '의견·오류 보내기')}
+    ${account ? `<hr>${account}` : ''}
+    <hr>
+    ${link('../', '보상드림 홈')}
+    ${link('../books/', '교재 가격 문의')}
+    <hr>
+    ${item(`${act('reset')} data-tone="danger"`, `${esc(o.label)} 기록 초기화`)}
+    <p class="m-ver">v${esc(config.version)}</p>
+  </div>`;
+}
+
+/** 1차·2차 전환 */
+export function stageSwitch(o) {
+  return `<div class="seg" role="group" aria-label="시험 선택">
+    ${STAGE_IDS.map((s) => `<button class="${o.stage === s ? 'on' : ''}" aria-pressed="${o.stage === s}" ${act('switch-stage', { stage: s })}>${s}차${o.stageCounts[s] ? '' : ' <small>준비 중</small>'}</button>`).join('')}
   </div>`;
 }
 
 export function emptyStage(vm) {
-  return `<div class="card" style="text-align:center;padding:48px 24px">
-    <div style="font-size:48px;margin-bottom:16px" aria-hidden="true">📚</div>
-    <div style="font-size:18px;font-weight:800;margin-bottom:8px">${esc(vm.overview.label)}</div>
-    <div style="font-size:14px;color:var(--muted);line-height:1.6">문항 준비 중입니다.<br>곧 학습할 수 있도록 문항을 추가할 예정입니다.</div>
-  </div>`;
+  return `<section class="panel empty">
+    <h2>${esc(vm.overview.label)} 문항 준비 중</h2>
+    <p>문항을 추가하는 중입니다. 다른 시험을 먼저 풀어 보세요.</p>
+    ${stageSwitch(vm.overview)}
+  </section>`;
 }
 
 export function boxDots(box) {
-  const dots = Array.from({ length: MAX_BOX }, (_, i) =>
-    `<i class="${i < box ? 'on' : ''}" style="${i < box ? `background:${BOX_COLORS[i + 1]}` : ''}"></i>`).join('');
-  return `<div class="boxdots"><span class="bl">숙련도</span>${dots}</div>`;
+  const dots = Array.from({ length: MAX_BOX }, (_, i) => `<i class="${i < box ? level(i + 1) : ''}"></i>`).join('');
+  return `<span class="dots" title="숙련도 ${box}/${MAX_BOX}" aria-label="숙련도 ${box}/${MAX_BOX}">${dots}</span>`;
 }
 
-export function difficultyTag(q) {
-  const d = difficultyOf(q);
-  return `<span class="tag diff d${d}">${'★'.repeat(d)} ${DIFFICULTY_LABEL[d]}</span>`;
+export function difficultyText(q) {
+  return DIFFICULTY_LABEL[difficultyOf(q)];
 }
 
-export function studyTop(session, { quitLabel = '← 그만두기' } = {}) {
-  return `<div class="study-top">
-    <button class="back" ${act('quit')}>${quitLabel}</button>
-    <div class="prog" role="progressbar" aria-valuenow="${session.position}" aria-valuemin="1" aria-valuemax="${session.total}"><i style="width:${session.progressPct}%"></i></div>
-    <div class="prog-txt">${session.position}/${session.total}</div>
+export function studyTop(session, { quitLabel = '그만두기' } = {}) {
+  return `<div class="s-top">
+    <button class="link" ${act('quit')}>${quitLabel}</button>
+    <div class="prog" role="progressbar" aria-valuenow="${session.position}" aria-valuemin="1" aria-valuemax="${session.total}"><i style="--w:${session.progressPct}%"></i></div>
+    <span class="num">${session.position} / ${session.total}</span>
   </div>`;
 }
 
-/** 원형 진행 링 */
-export function ring({ pct, label, color, size = 120, cls = '', fontSize = 24 }) {
-  const r = 52, circ = 2 * Math.PI * r, off = circ * (1 - pct / 100);
-  return `<svg class="${cls}" style="${cls ? '' : `width:${size}px;height:${size}px;margin-bottom:12px`}" viewBox="0 0 120 120" role="img" aria-label="${esc(label)} ${pct}%">
-    <circle cx="60" cy="60" r="${r}" fill="none" stroke="var(--line)" stroke-width="10"/>
-    <circle cx="60" cy="60" r="${r}" fill="none" stroke="${color}" stroke-width="10" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${off}" transform="rotate(-90 60 60)"/>
-    <text x="60" y="58" text-anchor="middle" font-size="${fontSize}" font-weight="800" fill="var(--ink)">${pct}%</text>
-    <text x="60" y="76" text-anchor="middle" font-size="11" fill="var(--muted)">${esc(label)}</text>
-  </svg>`;
-}
+/** 큰 숫자 + 단위 */
+export const figure = (n, unit, label) => `<div class="fig"><b>${n}<small>${unit}</small></b><span>${label}</span></div>`;
 
-export const scoreColor = (pct, good = 80, ok = 60) => (pct >= good ? 'var(--correct)' : pct >= ok ? 'var(--gold)' : 'var(--seal)');
+export const scoreTone = (pct, good = 80, ok = 60) => (pct >= good ? 'good' : pct >= ok ? 'mid' : 'bad');
