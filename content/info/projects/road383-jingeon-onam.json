@@ -1,0 +1,19 @@
+{
+  "id": "road383-jingeon-onam",
+  "notices": [
+    {
+      "date": "2026-07-06",
+      "stage": "negotiation",
+      "title": "토지 보상(협의) 시작",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://m.go.seoul.co.kr/news/2026/07/03/20260703500037"
+    }
+  ],
+  "name": "지방도383호선 진건~오남 도로확포장공사",
+  "type": "도로",
+  "operator": "경기도건설본부",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "남양주시"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "id": "osan-segyo3",
+  "notices": [
+    {
+      "date": "2025-12-31",
+      "stage": "designation",
+      "title": "공공주택지구 지정 및 지형도면 고시",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://www.vegannews.co.kr/news/article.html?no=383885"
+    }
+  ],
+  "name": "오산세교3 공공주택지구",
+  "type": "공공주택",
+  "operator": "한국토지주택공사",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "오산시"
+  }
+}

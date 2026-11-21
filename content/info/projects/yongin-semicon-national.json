@@ -1,0 +1,19 @@
+{
+  "id": "yongin-semicon-national",
+  "notices": [
+    {
+      "date": "2025-12-22",
+      "stage": "negotiation",
+      "title": "손실보상 협의 개시(12.19 협의 통지서 발송)",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://www.dailian.co.kr/news/view/1589118/"
+    }
+  ],
+  "name": "용인 첨단시스템반도체 국가산업단지",
+  "type": "산업단지",
+  "operator": "한국토지주택공사",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "용인시 처인구"
+  }
+}

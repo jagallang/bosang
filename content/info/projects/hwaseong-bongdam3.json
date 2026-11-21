@@ -1,0 +1,26 @@
+{
+  "id": "hwaseong-bongdam3",
+  "notices": [
+    {
+      "date": "2025-12-31",
+      "stage": "designation",
+      "title": "지정 변경(1차) 및 지구계획 승인(국토교통부 고시 제2025-938호)",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://www.eum.go.kr/web/gs/gv/gvGosiDet.jsp?geul_yn=Y&seq=644701"
+    },
+    {
+      "date": "2026-11-06",
+      "stage": "designation",
+      "title": "지정 변경(2차)(국토교통부 고시 제2026-609호)",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://www.eum.go.kr/web/gs/gv/gvGosiDet.jsp?geul_yn=Y&seq=644701"
+    }
+  ],
+  "name": "화성봉담3 공공주택지구",
+  "type": "공공주택",
+  "operator": "한국토지주택공사",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "화성시"
+  }
+}
