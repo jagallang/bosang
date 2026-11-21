@@ -83,12 +83,19 @@ npm run deploy    # 테스트 → 빌드 → firebase deploy (hosting.public = d
 - `content/info/ontology.json` — 보상 절차 7단계, 근거 조문(토지보상법), 용어
 - `content/info/projects/*.json` — 사업지구(고시·필지). `"sample": true`는 화면 확인용 가상 데이터
 - `site/lib/infoModel.mjs` — 현재 단계, 기한, 필지 매칭, 검증 (사이트·수집기·툴 공용 순수 함수)
-- `scripts/collect/` — 수집기. 지금은 `content/info/inbox/*.csv`만 읽는다. 공공 API 어댑터는 인증키를 받은 뒤 구현
+- `scripts/collect/` — 수집기 (로컬 실행). 설정은 루트의 `collect.config.json`
+  - 보상정보: 공공데이터포털 파일데이터(토지이음 고시목록, 기관별 보상계획공고 CSV)를 제목 규칙으로 분류해 inbox에 넣는다 → `content/info/sources/README.md`
+  - 보상경매: 온비드 부동산 물건목록 API(공공데이터포털)를 받아 `tools/auction/data/items.json`에 넣는다
 
 ```bash
-npm run info:collect   # inbox CSV → projects/*.json 합치기 + 검증 + content/info/index.json
-npm run info:check     # 검증만
-npm run tool           # 보상경매 툴: http://127.0.0.1:8090/tools/auction/
+npm run collect          # 원자료 CSV 분류 → inbox/auto-*.csv + review/*.csv → projects/*.json 합치기·검증
+npm run info:check       # 검증만
+DATA_GO_KR_KEY=… npm run collect:probe    # 온비드 첫 페이지 원본 저장 + 필드 이름 출력
+DATA_GO_KR_KEY=… npm run collect:auction  # 온비드 토지 물건 → tools/auction/data/items.json
+npm run tool             # 보상경매 툴: http://127.0.0.1:8090/tools/auction/
+npm run local            # 수집 + 사이트 빌드 (배포 없이 로컬 확인)
 ```
+
+온비드는 아직 실제 호출로 확인하지 못했다. `collect.config.json`의 `auction.onbid.endpoint`와 `params.prptDivCd`를 공공데이터포털 활용가이드(docx) 값으로 채우고, `--probe`로 받은 필드 이름에 맞게 `mapping`을 고친 뒤 쓴다. 인증키는 포털의 '디코딩' 키를 환경변수로 준다.
 
 정적 사이트라 보상정보의 D-day는 빌드한 날 기준이다. 공개 후에는 매일 다시 빌드·배포해야 한다.

@@ -1,5 +1,5 @@
 // 보상경매 개인용 툴. 데이터: content/info(사업지구) + tools/auction/data(물건, 비공개)
-import { findProjectsByParcel, currentStage, openDeadlines } from '../../site/lib/infoModel.mjs';
+import { findProjectsByParcel, regionHints, currentStage, openDeadlines } from '../../site/lib/infoModel.mjs';
 import { investmentReturn, maxBidFor, DEFAULTS } from './calc.mjs';
 import { checkWarnings } from './warnings.mjs';
 
@@ -24,12 +24,15 @@ const prefs = JSON.parse(localStorage.getItem('auction:prefs') || '{}');
 $('#publicOfficial').checked = !!prefs.publicOfficial;
 $('#publicOfficial').addEventListener('change', (e) => { prefs.publicOfficial = e.target.checked; localStorage.setItem('auction:prefs', JSON.stringify(prefs)); if (sel) show(sel); });
 
-const matched = items.map((it) => ({ it, hits: findProjectsByParcel(projects, { pnu: it.pnu, address: it.address }) }));
+const matched = items.map((it) => {
+  const hits = findProjectsByParcel(projects, { pnu: it.pnu, address: it.address });
+  return { it, hits, near: hits.length ? [] : regionHints(projects, it.address) };
+});
 let sel = null;
 
-$('#items').innerHTML = matched.map(({ it, hits }, i) => `
+$('#items').innerHTML = matched.map(({ it, hits, near }, i) => `
   <button class="item" data-i="${i}">
-    <b>${esc(it.address)}</b>${hits.length ? '<span class="tag hit">사업지구 안</span>' : '<span class="tag miss">매칭 없음</span>'}
+    <b>${esc(it.address)}</b>${hits.length ? '<span class="tag hit">사업지구 안</span>' : near.length ? '<span class="tag near">같은 시군구</span>' : '<span class="tag miss">매칭 없음</span>'}
     <small>${esc(it.case)} · ${esc(it.landUse || '')} ${it.areaM2 ? `${it.areaM2.toLocaleString()}㎡` : ''}</small>
     <small>최저 ${won(it.minPrice)} · 매각 ${esc(it.saleDate || '-')}</small>
   </button>`).join('');
@@ -43,7 +46,7 @@ const today = new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10);
 
 function show(m) {
   sel = m;
-  const { it, hits } = m;
+  const { it, hits, near } = m;
   const hit = hits[0];
   const stage = hit ? currentStage(hit.project, ontology) : null;
   const dl = hit ? openDeadlines(hit.project, today)[0] : null;
@@ -58,6 +61,7 @@ function show(m) {
     <h3>사업지구 매칭</h3>
     ${hit ? `<div class="match"><b>${esc(hit.project.name)}</b> (${hit.by === 'pnu' ? 'PNU 일치' : '지번 일치'})<br>
       현재 단계: ${stage ? esc(stage.name) : '정보 없음'}${dl ? ` · ${esc(dl.title)} D-${dl.daysLeft}` : ''}</div>`
+      : near.length ? `<div class="match near">필지가 등록된 사업지구는 없고, 같은 시·군·구에 등록된 사업이 있습니다: ${near.map((p) => `<b>${esc(p.name)}</b>`).join(', ')}<br><small>사업지구 경계 안인지는 토지이음 지형도면으로 직접 확인해야 합니다.</small></div>`
       : '<p class="hint">등록된 사업지구 필지와 맞는 것이 없습니다. 사업지구에 필지(PNU)를 추가하면 매칭됩니다.</p>'}
     <h3>수익 계산</h3>
     <div class="form">

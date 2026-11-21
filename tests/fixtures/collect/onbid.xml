@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response><header><resultCode>00</resultCode><resultMsg>NORMAL SERVICE.</resultMsg></header>
+<body><items>
+<item><cltrMngNo>2026-0001-001</cltrMngNo><pbctCdtnNo>1</pbctCdtnNo><cltrNm><![CDATA[경기도 광명시 가학동 100 답]]></cltrNm><ldnmAdrs>경기도 광명시 가학동 100</ldnmAdrs><ctgrFullNm>토지 / 답</ctgrFullNm><lndSqms>820.5</lndSqms><apslAsesAvgAmt>410,000,000</apslAsesAvgAmt><minBidPrc>287000000</minBidPrc><pbctBegnDtm>20261210100000</pbctBegnDtm></item>
+<item><cltrMngNo>2026-0002-001</cltrMngNo><pbctCdtnNo/><cltrNm>아파트 &amp; 상가</cltrNm><ldnmAdrs>서울특별시 강남구 역삼동 1</ldnmAdrs><ctgrFullNm>건물 / 아파트</ctgrFullNm><minBidPrc>900000000</minBidPrc></item>
+</items><numOfRows>100</numOfRows><pageNo>1</pageNo><totalCount>2</totalCount></body></response>

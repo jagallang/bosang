@@ -102,3 +102,13 @@ export function validateProject(project, ontology) {
   }
   return errors;
 }
+
+/** 필지 매칭이 없을 때의 약한 힌트: 주소에 사업지구의 시·군·구가 들어 있는 사업 */
+export function regionHints(projects, address) {
+  const a = String(address || '').replace(/\s+/g, ' ');
+  if (!a) return [];
+  return projects.filter((p) => {
+    const sg = (p.region?.sigungu || '').split(/[·,]/).map((x) => x.trim()).filter(Boolean);
+    return sg.length && sg.some((x) => a.includes(x)) && (!p.region?.sido || a.includes(p.region.sido.slice(0, 2)));
+  });
+}

@@ -1,0 +1,50 @@
+{
+  "_comment": "수집 설정. 인증키는 여기에 넣지 말고 환경변수 DATA_GO_KR_KEY로 준다.",
+  "info": {
+    "since": "2024-01-01",
+    "sources": [
+      {
+        "id": "eum-gosi",
+        "kind": "eumGosiCsv",
+        "enabled": true,
+        "file": "content/info/sources/토지이음_고시목록.csv",
+        "note": "공공데이터포털 '국토교통부_토지이음_고시목록' 파일데이터를 내려받아 이 이름으로 둔다 (연 1회 갱신)"
+      },
+      {
+        "id": "gb-comp-plan",
+        "kind": "compPlanCsv",
+        "enabled": true,
+        "file": "content/info/sources/경북개발공사_보상계획공고.csv",
+        "operator": "경북개발공사",
+        "sido": "경상북도",
+        "sigungu": "",
+        "note": "공공데이터포털 '경상북도개발공사_보상계획공고' 파일데이터"
+      }
+    ]
+  },
+  "auction": {
+    "out": "tools/auction/data/items.json",
+    "onbid": {
+      "enabled": true,
+      "endpoint": "확인 필요 — 공공데이터포털 15157207 활용가이드(docx)의 요청주소를 넣는다",
+      "params": { "prptDivCd": "확인 필요", "pvctTrgtYn": "N" },
+      "rows": 100,
+      "maxPages": 20,
+      "landWords": ["대", "전", "답", "임야", "잡종지", "토지"],
+      "mapping": {
+        "id": ["cltrMngNo", "CLTR_MNG_NO"],
+        "cond": ["pbctCdtnNo", "PBCT_CDTN_NO"],
+        "name": ["cltrNm", "CLTR_NM"],
+        "address": ["ldnmAdrs", "nmrdAdrs", "LDNM_ADRS", "cltrAdrs"],
+        "pnu": ["pnu", "PNU"],
+        "landUse": ["ctgrFullNm", "CTGR_FULL_NM", "lndCtgrNm"],
+        "area": ["lndSqms", "landSqms", "LND_SQMS"],
+        "appraisal": ["apslAsesAvgAmt", "APSL_ASES_AVG_AMT"],
+        "minPrice": ["minBidPrc", "MIN_BID_PRC", "lowstBidPrc"],
+        "saleDate": ["pbctBegnDtm", "PBCT_BEGN_DTM", "bidBgngDt"],
+        "url": ["cltrUrl"]
+      },
+      "_mappingNote": "필드 이름은 기존 온비드 API 관례로 넣은 추정값이다. --probe로 실제 키를 보고 고친다."
+    }
+  }
+}
