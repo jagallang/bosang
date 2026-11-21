@@ -6,6 +6,7 @@ const NAV = [
   { href: '/pro/', label: '행정사·중개사' },
   { href: '/books/', label: '교재·이용권' },
   { href: '/info/', label: '보상정보' },
+  { href: '/auction/', label: '보상경매', admin: true },
 ];
 
 export default function Header() {
@@ -17,7 +18,11 @@ export default function Header() {
           <span className="logo-word">{SITE.name}</span>
         </Link>
         <nav className="nav" aria-label="주 메뉴">
-          {NAV.map((n) => <Link key={n.href} href={n.href}>{n.label}</Link>)}
+          {NAV.map((n) => (
+            <Link key={n.href} href={n.href} rel={n.admin ? 'nofollow' : undefined}>
+              {n.label}{n.admin && <span className="nav-lock" title="관리자 전용">관리자</span>}
+            </Link>
+          ))}
           <a href={SITE.appPath} className="btn btn-ink sm">학습앱</a>
         </nav>
       </div>

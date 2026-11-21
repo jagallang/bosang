@@ -72,6 +72,10 @@ p { margin: 0; }
 .nav { display: flex; align-items: center; gap: 28px; font-size: 15px; }
 .nav a:not(.btn) { text-decoration: none; color: var(--muted); font-weight: 600; }
 .nav a:not(.btn):hover { color: var(--ink); }
+.nav-lock { margin-left: 5px; font-size: 11px; font-weight: 600; padding: 1px 5px; border: 1px solid var(--rule); border-radius: 3px; vertical-align: 2px; }
+.table-wrap { overflow-x: auto; }
+.muted { color: var(--muted); font-size: 14px; }
+.gate { max-width: 560px; }
 
 /* ── 히어로: 먹 바탕 위의 문제지 ───── */
 .hero { background: var(--ink); color: #fff; }

@@ -13,6 +13,9 @@
  *   node scripts/admin.mjs grant-bulk 직원.csv 365 --org=LX   이메일 목록 일괄 개통 (아직 로그인 안 한 사람은 따로 알려 줌)
  *   node scripts/admin.mjs report --org=LX [--out=리포트.csv]  기관 월간 학습 리포트 (엑셀용 CSV)
  *
+ *   보상경매(관리자 전용)
+ *   node scripts/admin.mjs upload-auction [items.json] [--prune]   기본 tools/auction/data/items.json → auctionItems/*
+ *
  * 사용자는 먼저 앱에서 구글 로그인을 한 번 해야 이메일로 찾을 수 있다.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -100,6 +103,29 @@ async function list({ db }, org) {
   });
 }
 
+/** 보상경매 물건 → Firestore auctionItems/* (관리자만 읽는 컬렉션). 파일에 없는 기존 문서는 --prune일 때만 지운다 */
+async function uploadAuction({ db, FieldValue }, file, prune) {
+  const { itemDocId } = await import('../site/lib/auctionGate.mjs');
+  const path = file || join(ROOT, 'tools', 'auction', 'data', 'items.json');
+  const items = JSON.parse(readFileSync(path, 'utf8'));
+  if (!Array.isArray(items)) throw new Error(`${path}: 배열이 아닙니다`);
+  const col = db.collection('auctionItems');
+  const ids = new Set();
+  for (const [i, it] of items.entries()) {
+    const id = itemDocId(it, i);
+    if (ids.has(id)) throw new Error(`문서 id 중복: ${id}`);
+    ids.add(id);
+    await col.doc(id).set({ ...it, updatedAt: FieldValue.serverTimestamp() });
+  }
+  console.log(`auctionItems: ${items.length}건 올림 (${path})`);
+  if (prune) {
+    const snap = await col.get();
+    const stale = snap.docs.filter((d) => !ids.has(d.id));
+    for (const d of stale) await d.ref.delete();
+    console.log(`auctionItems: 파일에 없는 ${stale.length}건 삭제`);
+  }
+}
+
 const args = process.argv.slice(2);
 const flag = (name) => args.find((a) => a.startsWith(`--${name}=`))?.split('=').slice(1).join('=');
 const [cmd, ...rest] = args.filter((a) => !a.startsWith('--'));
@@ -109,5 +135,6 @@ else if (cmd === 'grant') await grant(ctx, rest[0], rest[1], flag('org'));
 else if (cmd === 'grant-bulk') await grantBulk(ctx, rest[0], rest[1], flag('org'));
 else if (cmd === 'revoke') await revoke(ctx, rest[0]);
 else if (cmd === 'list') await list(ctx, flag('org'));
+else if (cmd === 'upload-auction') await uploadAuction(ctx, rest[0], args.includes('--prune'));
 else if (cmd === 'report') await report(ctx, flag('org'), flag('out'));
-else console.log('사용법: node scripts/admin.mjs upload-questions | grant <email> [days] [--org=기관] | grant-bulk <csv> [days] --org=기관 | revoke <email> | list [--org=기관] | report --org=기관 [--out=파일]');
+else console.log('사용법: node scripts/admin.mjs upload-questions | grant <email> [days] [--org=기관] | grant-bulk <csv> [days] --org=기관 | revoke <email> | list [--org=기관] | report --org=기관 [--out=파일] | upload-auction [파일] [--prune]');
