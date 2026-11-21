@@ -387,3 +387,31 @@ p { margin: 0; }
 .terms a { font-size: 12.5px; padding: 3px 9px; border: 1px solid var(--rule); background: var(--hanji); text-decoration: none; }
 .terms a:hover { border-color: var(--ink); }
 @media (max-width: 760px) { .concept-map > li { grid-template-columns: 1fr; gap: 12px; } }
+
+/* 교재 진열대 + 표지 (표지 글자는 표지 폭에 비례: cqw) */
+.shelf { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px 28px; }
+.shelf-item { display: flex; flex-direction: column; gap: 18px; }
+.shelf-group + .shelf-group { margin-top: 56px; }
+.shelf-body h3 { font-size: 20px; margin-bottom: 8px; }
+.shelf-body > p { font-size: 14.5px; color: var(--muted); }
+.shelf-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 14px; }
+.bcover { --navy: #14213d; --gold: #c9a227; container-type: inline-size; aspect-ratio: 564 / 786; background: var(--navy); box-shadow: 0 14px 28px -16px rgba(20, 33, 61, .55); overflow: hidden; position: relative; }
+.bcover-in::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6.2cqw; background: var(--gold); }
+.bcover-in { position: absolute; inset: 0; padding: 11cqw 8cqw 6cqw 14cqw; display: flex; flex-direction: column; color: #fff; }
+.bcover p { margin: 0; }
+.bcover-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(201, 162, 39, .35); pointer-events: none; }
+.bcover-ring.r1 { width: 52cqw; height: 52cqw; right: -2cqw; top: 33cqw; }
+.bcover-ring.r2 { width: 78cqw; height: 78cqw; right: -24cqw; top: 14cqw; border-color: rgba(201, 162, 39, .18); }
+.bcover-kicker { color: var(--gold); font-weight: 700; font-size: 3.1cqw; letter-spacing: .04em; }
+.bcover-lead { margin-top: 8cqw !important; font-size: 3.6cqw; font-weight: 600; }
+.bcover-subject { margin-top: 3.5cqw !important; font-size: 7.4cqw; font-weight: 700; line-height: 1.2; }
+.bcover-name { color: var(--gold); font-weight: 700; font-size: 17.5cqw; line-height: 1.05; letter-spacing: -.02em; display: flex; flex-direction: column; }
+.bcover-name.two { font-size: 12.5cqw; }
+.bcover-scope { margin-top: 5cqw; font-size: 3cqw; line-height: 1.6; }
+.bcover-tags { list-style: none; padding: 0; margin: 4cqw 0 0; display: flex; flex-wrap: wrap; gap: 1.6cqw; }
+.bcover-tags li { font-size: 2.6cqw; padding: .9cqw 2.6cqw; border: 1px solid rgba(255, 255, 255, .55); border-radius: 99px; }
+.bcover-edition { margin-top: auto !important; padding-top: 2.6cqw; border-top: 1px solid var(--gold); color: var(--gold); font-weight: 700; font-size: 3.2cqw; }
+.bcover-brand { margin-top: 5cqw !important; font-weight: 700; font-size: 4.6cqw; display: flex; flex-direction: column; gap: .8cqw; }
+.bcover-brand small { font-weight: 400; font-size: 2.1cqw; opacity: .85; }
+@media (max-width: 1000px) { .shelf { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .shelf { grid-template-columns: 1fr; } .shelf-item .bcover { max-width: 320px; } }
