@@ -1,0 +1,18 @@
+{
+  "id": "sanggye1",
+  "notices": [
+    {
+      "date": "2026-11-16",
+      "stage": "adjudication",
+      "title": "수용재결 신청서류 열람공고(5차)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://jaegebal.com/gnotices/nw-gg-2026-1912"
+    }
+  ],
+  "name": "상계1구역 주택재개발정비사업",
+  "type": "재개발",
+  "region": {
+    "sido": "서울특별시",
+    "sigungu": "노원구"
+  }
+}

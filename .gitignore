@@ -1,2 +1,38 @@
 audio/
 audio_mnemonic/
+node_modules/
+.firebase/
+*.log
+
+# 전체 문항은 배포본에 넣지 않는다 (로컬 테스트용)
+public/data/questions.json
+# Firestore 업로드용 생성물
+content/out/
+# 서비스 계정 키
+*service-account*.json
+*-admin*.json
+
+# 배포 조립 결과
+dist/
+
+# 기관 리포트·직원 명단 (개인정보, 커밋 금지)
+report-*.csv
+*직원*.csv
+
+# 보상경매 개인 데이터 (커밋 금지)
+tools/auction/data/*.json
+!tools/auction/data/items.sample.json
+content/info/index.json
+!tools/auction/data/projects.sample.json
+
+# 디버그용 Firebase 설정을 커밋하지 않으려면 아래 주석을 푸세요 (웹앱 설정값은 공개돼도 되는 값)
+# firebase.web.json
+
+# 수집 원자료(공공데이터포털에서 내려받는 큰 CSV)와 온비드 원본 샘플
+content/info/sources/*.csv
+
+# 가상 데이터 시험 결과
+demo/out/
+
+# 인증키 (커밋 금지)
+.env.local

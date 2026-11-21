@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C2740">
+<title>보상드림 — 보상관리사 학습</title>
+<meta name="description" content="보상관리사 1차·2차 시험 간격반복 학습">
+<!-- Open Graph (카카오톡 공유 미리보기). 배포 주소가 바뀌면 함께 바꾼다 -->
+<meta property="og:title" content="보상드림 — 보상관리사 학습">
+<meta property="og:description" content="보상관리사 1차·2차 시험 간격반복 학습">
+<meta property="og:image" content="icons/og-image.png">
+<meta property="og:type" content="website">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<!-- 사이트와 공유하는 자체 호스팅 폰트 (dist/fonts). 단독 실행 시에는 시스템 폰트로 대체된다 -->
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="styles/app.css">
+<!-- 카카오톡 인앱브라우저 → 외부 브라우저 이동 (모듈보다 먼저 실행) -->
+<script>
+(function(){
+  var ua=navigator.userAgent||'';
+  if(!/KAKAOTALK/i.test(ua)) return;
+  var url=location.href;
+  if(/Android/i.test(ua)){
+    location.href='intent://'+url.replace(/https?:\/\//,'')+'#Intent;scheme=https;package=com.android.chrome;end';
+  } else if(/iPhone|iPad/i.test(ua)){
+    location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(url);
+  }
+})();
+</script>
+<script type="module" src="src/main.js"></script>
+</head>
+<body>
+<main id="root" aria-live="polite"></main>
+<noscript><p style="padding:24px">이 앱은 자바스크립트가 필요합니다.</p></noscript>
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('service-worker.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>

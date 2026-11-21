@@ -1,0 +1,19 @@
+{
+  "id": "hwaseong-jinan",
+  "notices": [
+    {
+      "date": "2026-07-01",
+      "stage": "survey",
+      "title": "보상설명회 및 물건 기본조사 시작",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://kyeonggi.com/article/20260630580493"
+    }
+  ],
+  "name": "화성진안 공공주택지구",
+  "type": "공공주택",
+  "operator": "한국토지주택공사",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "화성시"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "bucheon-wonmi",
+  "notices": [
+    {
+      "date": "2026-05-28",
+      "stage": "plan",
+      "title": "보상계획 공고·열람",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.lh.or.kr/boardDownload.es?bid=0060&list_no=732536&seq=1",
+      "period": {
+        "from": "2026-05-28",
+        "to": "2026-06-15"
+      }
+    }
+  ],
+  "name": "부천 원미 도심 공공주택 복합지구",
+  "type": "도심복합",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "부천시"
+  }
+}

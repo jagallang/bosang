@@ -1,0 +1,29 @@
+{
+  "name": "bosang-dream",
+  "version": "8.0.0",
+  "private": true,
+  "description": "보상드림 — 보상관리사 교육 · 보상정보 · 보상경매 툴(비공개)",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "content": "node scripts/build-content.mjs",
+    "content:local": "node scripts/build-content.mjs --local-full",
+    "serve": "python3 -m http.server 8080 --directory dist",
+    "deploy": "npm test && node scripts/build-all.mjs && firebase deploy --only hosting,firestore:rules",
+    "build": "node scripts/build-all.mjs",
+    "serve:app": "python3 -m http.server 8080 --directory public",
+    "info:collect": "node scripts/collect/run.mjs",
+    "info:check": "node scripts/collect/run.mjs --check",
+    "tool": "python3 -m http.server 8090 --bind 127.0.0.1",
+    "firebase:check": "node scripts/firebase-check.mjs",
+    "collect": "node scripts/collect/collect.mjs info && node scripts/collect/run.mjs",
+    "collect:auction": "node scripts/collect/collect.mjs auction",
+    "collect:probe": "node scripts/collect/collect.mjs auction --probe",
+    "local": "npm run collect && node scripts/build-all.mjs && echo \"사이트: npm run serve (8080) · 툴: npm run tool → http://127.0.0.1:8090/tools/auction/\"",
+    "demo": "node scripts/demo/run-demo.mjs",
+    "collect:zoning": "node scripts/collect/collect.mjs zoning"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

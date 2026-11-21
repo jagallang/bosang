@@ -1,0 +1,53 @@
+rules_version = '2';
+
+// 보상드림 Firestore 보안 규칙
+// - 유료 문항(questionChunks)은 이용권이 유효한 사용자와 관리자만 읽는다
+// - 이용권(entitlements)은 관리자만 쓴다. 본인은 자기 것만 읽는다
+// - 진도(progress)는 본인만 읽고 쓴다
+// - 보상경매 물건(auctionItems)은 관리자만 읽고 쓴다
+// - 관리자(admins)는 Firebase 콘솔에서만 추가한다
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    function entitlementPath() {
+      return /databases/$(database)/documents/entitlements/$(request.auth.uid);
+    }
+    function isPaid() {
+      return signedIn()
+        && exists(entitlementPath())
+        && get(entitlementPath()).data.paid == true
+        && (!('until' in get(entitlementPath()).data) || get(entitlementPath()).data.until > request.time);
+    }
+
+    match /questionChunks/{chunkId} {
+      allow read: if isPaid() || isAdmin();
+      allow write: if isAdmin();
+    }
+
+    match /entitlements/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    match /progress/{uid} {
+      allow read, delete: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['data', 'updatedAt']);
+    }
+
+    // 보상경매 물건(비공개): 관리자만 읽고 쓴다. 공개 배포본(dist)에는 물건 데이터가 없다
+    match /auctionItems/{id} {
+      allow read, write: if isAdmin();
+    }
+
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}

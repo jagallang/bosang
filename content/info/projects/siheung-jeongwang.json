@@ -1,0 +1,18 @@
+{
+  "id": "siheung-jeongwang",
+  "notices": [
+    {
+      "date": "2025-12-31",
+      "stage": "designation",
+      "title": "지구계획 승인",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://biz.sbs.co.kr/amp/article/20000281760"
+    }
+  ],
+  "name": "시흥정왕 공공주택지구",
+  "type": "공공주택",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "시흥시"
+  }
+}

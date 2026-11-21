@@ -1,0 +1,18 @@
+{
+  "id": "uiwang-ojeon-wanggok",
+  "notices": [
+    {
+      "date": "2026-09-22",
+      "stage": "designation",
+      "title": "공공주택지구 지정 및 지형도면 등(국토교통부 고시 제2026-499호)",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://www.eum.go.kr/web/gs/gv/gvGosiDet.jsp?pageNo=89&seq=641571"
+    }
+  ],
+  "name": "의왕오전왕곡 공공주택지구",
+  "type": "공공주택",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "의왕시"
+  }
+}

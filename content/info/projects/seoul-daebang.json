@@ -1,0 +1,26 @@
+{
+  "id": "seoul-daebang",
+  "notices": [
+    {
+      "date": "2023-12-28",
+      "stage": "designation",
+      "title": "지구계획 승인(국토교통부 고시 제2023-855호)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.lh.or.kr/boardDownload.es?bid=0060&list_no=728308&seq=1"
+    },
+    {
+      "date": "2024-12-30",
+      "stage": "designation",
+      "title": "지구계획 변경승인(제2024-900호)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.lh.or.kr/boardDownload.es?bid=0060&list_no=728308&seq=1"
+    }
+  ],
+  "name": "서울대방 공공주택지구",
+  "type": "공공주택",
+  "operator": "한국토지주택공사",
+  "region": {
+    "sido": "서울특별시",
+    "sigungu": "동작구"
+  }
+}

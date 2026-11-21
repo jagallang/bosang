@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<response><header><resultCode>00</resultCode><resultMsg>NORMAL_CODE</resultMsg></header>
+<body><items>
+<item><cltrMngNo>2026-0001-001</cltrMngNo><pbctCdtnNo>1</pbctCdtnNo><onbidCltrNm><![CDATA[경기도 광명시 가학동 100 답]]></onbidCltrNm><lctnSdnm>경기도</lctnSdnm><lctnSggnm>광명시</lctnSggnm><lctnEmdNm>가학동</lctnEmdNm><ltnoPnu>4121010100001000000</ltnoPnu><cltrUsgMclsCtgrNm>토지</cltrUsgMclsCtgrNm><cltrUsgSclsCtgrNm>답</cltrUsgSclsCtgrNm><landSqms>820.5</landSqms><apslEvlAmt>410000000</apslEvlAmt><lowstBidPrcIndctCont>287,000,000</lowstBidPrcIndctCont><cltrBidBgngDt>202612101000</cltrBidBgngDt><cltrBidEndDt>202612121700</cltrBidEndDt><usbdNft>2</usbdNft><alcYn>Y</alcYn><prptDivNm>압류재산</prptDivNm></item>
+<item><cltrMngNo>2026-0002-001</cltrMngNo><pbctCdtnNo/><onbidCltrNm>아파트 &amp; 상가</onbidCltrNm><lctnSdnm>서울특별시</lctnSdnm><lctnSggnm>강남구</lctnSggnm><lctnEmdNm>역삼동</lctnEmdNm><cltrUsgMclsCtgrNm>주거용건물</cltrUsgMclsCtgrNm><lowstBidPrcIndctCont>비공개</lowstBidPrcIndctCont></item>
+</items><numOfRows>100</numOfRows><pageNo>1</pageNo><totalCount>2</totalCount></body></response>

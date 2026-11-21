@@ -1,0 +1,41 @@
+{
+  "id": "yangju-eunnam",
+  "notices": [
+    {
+      "date": "2022-06-28",
+      "stage": "plan",
+      "title": "보상계획 공고(토지·물건조서 열람)",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://www.ajunews.com/view/20220628132118216",
+      "period": {
+        "from": "2022-06-28",
+        "to": "2022-07-15"
+      }
+    },
+    {
+      "date": "2022-12-19",
+      "stage": "negotiation",
+      "title": "손실보상협의 시작",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://www.twig24.com/news/local_gg/2022/12/19/20221219500194",
+      "period": {
+        "from": "2022-12-19",
+        "to": "2023-02-28"
+      }
+    },
+    {
+      "date": "2026-09-21",
+      "stage": "plan",
+      "title": "보상계획 및 열람 공고(추가)",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://www.gh.or.kr/gh/reward-announcement.do?mode=list&article.offset=0"
+    }
+  ],
+  "name": "양주 은남 일반산업단지",
+  "type": "산업단지",
+  "operator": "경기주택도시공사·양주시",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "양주시"
+  }
+}

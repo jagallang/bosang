@@ -1,0 +1,34 @@
+{
+  "id": "naju-fusion",
+  "notices": [
+    {
+      "date": "2026-11-09",
+      "stage": "plan",
+      "title": "보상계획 열람공고",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.jninnews.com/news/articleView.html?idxno=47026",
+      "period": {
+        "from": "2026-11-09",
+        "to": "2026-11-23"
+      }
+    },
+    {
+      "date": "2026-11-09",
+      "stage": "plan",
+      "title": "토지소유자 감정평가사 추천 기한(열람 만료 후 30일)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://www.jninnews.com/news/articleView.html?idxno=47026",
+      "period": {
+        "from": "2026-11-24",
+        "to": "2026-12-23"
+      }
+    }
+  ],
+  "name": "나주 인공태양 연구시설 부지",
+  "type": "연구시설",
+  "operator": "나주시",
+  "region": {
+    "sido": "전라남도",
+    "sigungu": "나주시"
+  }
+}

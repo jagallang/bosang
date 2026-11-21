@@ -1,0 +1,42 @@
+# 보상드림 배포: main에 푸시할 때, 그리고 매일 새벽(보상정보 D-day 갱신)
+# 필요한 저장소 Secrets:
+#   FIREBASE_SERVICE_ACCOUNT  Firebase 서비스 계정 키(JSON 전체)
+#   FIREBASE_WEB_CONFIG       firebase.web.json 내용(JSON). 저장소에 firebase.web.json을 두면 생략 가능
+name: deploy
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '7 20 * * *'   # 매일 05:07 KST
+  workflow_dispatch:
+
+concurrency: deploy
+
+jobs:
+  deploy:
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm test
+      - run: npm ci
+        working-directory: site
+      - run: node scripts/build-all.mjs
+        env:
+          FIREBASE_WEB_CONFIG: ${{ secrets.FIREBASE_WEB_CONFIG }}
+      - name: Firebase 배포 (hosting + Firestore 규칙)
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_WEB_CONFIG: ${{ secrets.FIREBASE_WEB_CONFIG }}
+        run: |
+          echo "$SA" > "$RUNNER_TEMP/sa.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json"
+          PROJECT=$(node -e "const c=JSON.parse(process.env.FIREBASE_WEB_CONFIG||require('fs').readFileSync('firebase.web.json','utf8'));console.log(c.projectId)")
+          npx --yes firebase-tools@14 deploy --only hosting,firestore:rules --project "$PROJECT" --non-interactive
+          rm -f "$RUNNER_TEMP/sa.json"
+        shell: bash

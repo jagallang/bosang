@@ -1,0 +1,87 @@
+{
+  "_comment": "수집 설정. 인증키는 여기에 넣지 말고 환경변수 DATA_GO_KR_KEY로 준다.",
+  "info": {
+    "since": "2024-01-01",
+    "sources": [
+      {
+        "id": "eum-gosi",
+        "kind": "eumGosiCsv",
+        "enabled": true,
+        "file": "content/info/sources/토지이음_고시목록.csv",
+        "note": "공공데이터포털 '국토교통부_토지이음_고시목록' 파일데이터를 내려받아 이 이름으로 둔다 (연 1회 갱신)"
+      },
+      {
+        "id": "gb-comp-plan",
+        "kind": "compPlanCsv",
+        "enabled": true,
+        "file": "content/info/sources/경북개발공사_보상계획공고.csv",
+        "operator": "경북개발공사",
+        "sido": "경상북도",
+        "sigungu": "",
+        "note": "공공데이터포털 '경상북도개발공사_보상계획공고' 파일데이터"
+      }
+    ],
+    "web": [
+      {
+        "id": "eum-web",
+        "kind": "eumWeb",
+        "enabled": true,
+        "sido": "경기도",
+        "sinceDays": 7,
+        "listSize": 50,
+        "maxPages": 40,
+        "delayMs": 1500,
+        "_note": "1단계(지정·실시계획 고시). 토지이음 robots.txt가 허용할 때만 받는다. --since YYYY-MM-DD로 기간 지정"
+      },
+      {
+        "id": "example-board",
+        "kind": "board",
+        "enabled": false,
+        "listUrl": "https://예시.go.kr/board/list.do?page={page}",
+        "pages": 2,
+        "cols": {
+          "no": 0,
+          "title": 1,
+          "date": 3
+        },
+        "linkBase": "https://예시.go.kr/board/",
+        "sido": "경기도",
+        "operator": "",
+        "_note": "2단계(보상계획·협의·재결 공고) 게시판 예시. 열 번호는 목록 표의 칸 순서(0부터). robots.txt 허용 확인 후 enabled:true"
+      }
+    ]
+  },
+  "auction": {
+    "out": "tools/auction/data/items.json",
+    "onbid": {
+      "enabled": true,
+      "endpoint": "https://apis.data.go.kr/B010003/OnbidRlstListSrvc2/getRlstCltrList2",
+      "_endpointNote": "서비스명·오퍼레이션명 모두 끝에 2가 붙는다 (활용가이드 본문 표기 getRlstCltrList는 호출 안 된다는 공개 실측 기록). 실제 키로는 미검증.",
+      "params": {
+        "resultType": "json",
+        "prptDivCd": "0007,0005,0010,0002,0011",
+        "dspsMthodCd": "0001",
+        "bidDivCd": "0001",
+        "cltrUsgMclsCtgrId": "10100"
+      },
+      "_paramsNote": "필수: prptDivCd(재산유형 0007 압류·0005 기타일반·0010 국유·0002 공유·0011 공공개발), dspsMthodCd(0001 매각), bidDivCd(0001 인터넷). cltrUsgMclsCtgrId 10100 = 용도중분류 '토지'.",
+      "paramSets": [
+        {
+          "pvctTrgtYn": "N"
+        }
+      ],
+      "_paramSetsNote": "pvctTrgtYn(수의계약 가능 여부)은 한 번에 한 값만 받는다. 수의계약 물건도 보려면 { \"pvctTrgtYn\": \"Y\" }를 추가.",
+      "rows": 1000,
+      "maxPages": 20,
+      "landWords": [],
+      "mapping": {},
+      "_mappingNote": "비워 두면 sources/onbid.mjs의 DEFAULT_MAPPING(명세의 필드 이름)을 쓴다. 바꿀 필드만 { \"우리필드\": [\"원본키\"] }로 넣는다."
+    },
+    "vworld": {
+      "enabled": true,
+      "domain": "",
+      "delayMs": 200,
+      "_note": "VWORLD_KEY, VWORLD_DOMAIN은 .env.local에. 개발키는 발급 때 등록한 사이트 주소를 domain으로 보내야 한다"
+    }
+  }
+}

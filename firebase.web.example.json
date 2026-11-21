@@ -1,0 +1,7 @@
+{
+  "apiKey": "Firebase 콘솔 > 프로젝트 설정 > 내 앱(웹)의 apiKey",
+  "authDomain": "프로젝트ID.firebaseapp.com",
+  "projectId": "프로젝트ID",
+  "appId": "1:000000000000:web:0000000000000000",
+  "siteUrl": "https://배포할-도메인"
+}

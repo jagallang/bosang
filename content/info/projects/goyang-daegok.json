@@ -1,0 +1,18 @@
+{
+  "id": "goyang-daegok",
+  "notices": [
+    {
+      "date": "2026-09-22",
+      "stage": "designation",
+      "title": "공공주택지구 지정",
+      "source": "2026-11-21-gyeonggi.csv",
+      "url": "https://biz.sbs.co.kr/amp/article/20000335862"
+    }
+  ],
+  "name": "고양대곡지식융합 공공주택지구",
+  "type": "공공주택",
+  "region": {
+    "sido": "경기도",
+    "sigungu": "고양시 덕양구"
+  }
+}

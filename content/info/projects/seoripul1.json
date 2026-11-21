@@ -1,0 +1,30 @@
+{
+  "id": "seoripul1",
+  "notices": [
+    {
+      "date": "2026-02-02",
+      "stage": "designation",
+      "title": "공공주택지구 지정",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://biz.heraldcorp.com/article/10927458"
+    },
+    {
+      "date": "2026-10-30",
+      "stage": "plan",
+      "title": "보상계획 공고(LH·SH 공동)",
+      "source": "2026-11-21-initial.csv",
+      "url": "https://biz.heraldcorp.com/article/10927458",
+      "period": {
+        "from": "2026-10-30",
+        "to": "2026-11-13"
+      }
+    }
+  ],
+  "name": "서리풀1 공공주택지구",
+  "type": "공공주택",
+  "operator": "한국토지주택공사·서울주택도시공사",
+  "region": {
+    "sido": "서울특별시",
+    "sigungu": "서초구"
+  }
+}
