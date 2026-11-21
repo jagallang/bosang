@@ -24,3 +24,6 @@ tools/auction/data/*.json
 !tools/auction/data/items.sample.json
 content/info/index.json
 !tools/auction/data/projects.sample.json
+
+# 디버그용 Firebase 설정을 커밋하지 않으려면 아래 주석을 푸세요 (웹앱 설정값은 공개돼도 되는 값)
+# firebase.web.json

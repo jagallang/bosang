@@ -9,12 +9,13 @@
     "content": "node scripts/build-content.mjs",
     "content:local": "node scripts/build-content.mjs --local-full",
     "serve": "python3 -m http.server 8080 --directory dist",
-    "deploy": "npm test && node scripts/build-all.mjs && firebase deploy",
+    "deploy": "npm test && node scripts/build-all.mjs && firebase deploy --only hosting,firestore:rules",
     "build": "node scripts/build-all.mjs",
     "serve:app": "python3 -m http.server 8080 --directory public",
     "info:collect": "node scripts/collect/run.mjs",
     "info:check": "node scripts/collect/run.mjs --check",
-    "tool": "python3 -m http.server 8090 --bind 127.0.0.1"
+    "tool": "python3 -m http.server 8090 --bind 127.0.0.1",
+    "firebase:check": "node scripts/firebase-check.mjs"
   },
   "engines": {
     "node": ">=20"
