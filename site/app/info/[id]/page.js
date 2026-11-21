@@ -71,7 +71,7 @@ export default async function ProjectPage({ params }) {
               <span key={a}>{i > 0 && ', '}<a href={articleUrl(ontology.law, a)} target="_blank" rel="noopener">제{a}조</a></span>
             ))}
           </p>
-          <p className="terms">{stage.terms.map((t) => <span key={t}>{t}</span>)}</p>
+          <p className="terms">{stage.terms.map((t) => <Link key={t} href={`/info/terms/#${stage.id}`}>{t}</Link>)}</p>
         </section>
       )}
 

@@ -19,3 +19,19 @@ export function summaries() {
   const today = buildDate();
   return sortSummaries(allProjects().map((p) => projectSummary(p, ontology, today)));
 }
+
+/** 용어별 문제은행 언급 수 (문항 본문·보기·해설에 용어가 그대로 나오는 경우). 문항 내용은 내보내지 않는다 */
+export function termQuestionCounts() {
+  let qs = [];
+  try {
+    const raw = JSON.parse(readFileSync(join(process.cwd(), '..', 'content', 'questions.json'), 'utf8'));
+    qs = Array.isArray(raw) ? raw : raw.questions || [];
+  } catch { return {}; }
+  const texts = qs.map((q) => [q.q, ...(q.opt || []), q.ex || '', q.model || ''].join(' ').replace(/\s+/g, ''));
+  const counts = {};
+  for (const st of ontology.stages) for (const t of st.terms) {
+    const key = t.replace(/\s+/g, '');
+    counts[t] = texts.filter((x) => x.includes(key)).length;
+  }
+  return counts;
+}

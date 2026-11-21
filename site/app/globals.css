@@ -363,3 +363,18 @@ p { margin: 0; }
 .dday.big { white-space: nowrap; flex: none; }
 .table tbody th.num { font-family: var(--sans); font-size: 15px; font-weight: 600; }
 .table td { vertical-align: top; }
+
+/* ── 개념지도 ── */
+.concept-map { list-style: none; padding: 0; margin: 0; }
+.concept-map > li { display: grid; grid-template-columns: 320px 1fr; gap: 24px; padding: 20px 4px; border-bottom: 1px solid var(--rule); scroll-margin-top: 80px; }
+.concept-map > li:target { background: var(--sheet); }
+.cm-stage { display: flex; gap: 14px; align-items: flex-start; }
+.cm-no { flex: none; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--ink); display: grid; place-items: center; font: 600 14px/1 var(--sans); }
+.cm-stage h2 { font-size: 19px; }
+.cm-terms { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; }
+.cm-terms li { display: inline-flex; align-items: baseline; gap: 8px; padding: 6px 12px; background: var(--sheet); border: 1px solid var(--rule); }
+.cm-terms span { font-weight: 600; }
+.cm-terms small { font-size: 12px; color: var(--seal); font-weight: 600; }
+.terms a { font-size: 12.5px; padding: 3px 9px; border: 1px solid var(--rule); background: var(--hanji); text-decoration: none; }
+.terms a:hover { border-color: var(--ink); }
+@media (max-width: 760px) { .concept-map > li { grid-template-columns: 1fr; gap: 12px; } }

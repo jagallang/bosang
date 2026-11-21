@@ -48,7 +48,7 @@ export default function Info() {
           </li>
         ))}
       </ol>
-      <p className="note">일반적인 흐름이며 사업에 따라 순서가 다를 수 있습니다.</p>
+      <p className="note">일반적인 흐름이며 사업에 따라 순서가 다를 수 있습니다. 단계별 용어는 <Link href="/info/terms/">개념지도</Link>에서 봅니다.</p>
 
       <div className="cta-row">
         <a href={SITE.appPath} className="btn btn-ink">토지보상법규 문제 풀어 보기</a>
