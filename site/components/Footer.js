@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="wrap">
-        <div className="footer-brand">{SITE.name}</div>
+        <div className="footer-brand"><span className="seal sm" aria-hidden="true">補</span>{SITE.name}</div>
         {rows.length > 0 && <p className="footer-biz">{rows.join(' · ')}</p>}
         <p>문의 <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
         <p className="footer-note">

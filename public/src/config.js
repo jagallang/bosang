@@ -8,7 +8,7 @@
  *              진도는 로그인하면 클라우드에, 아니면 기기에 저장한다.
  */
 export const config = Object.freeze({
-  version: '8.0.0',
+  version: '8.1.0',
   mode: 'local',
 
   freeQuestionsUrl: 'data/questions.free.json',

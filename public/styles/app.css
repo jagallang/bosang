@@ -241,3 +241,38 @@
   .qtext table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
   .qtext th,.qtext td{border:1px solid var(--line);padding:6px 8px;text-align:center}
   .qtext th{background:var(--surface-2);font-weight:700}
+
+  /* ── 보상드림 사이트와 통일한 테마 (v8.1) ─────────────────
+     남먹 · 인주 · 한지, 제목은 Hahmlet, 본문은 IBM Plex Sans KR */
+  :root{
+    --bg:#F0EFEA; --surface:#FBFBF8; --surface-2:#F3F2EC;
+    --ink:#1C2740; --ink-2:#33405C; --muted:#5D6474; --faint:#8E95A3;
+    --line:#D8D6CD; --line-2:#E5E3DB;
+    --seal:#B23A3A; --seal-soft:#EBD3CF;
+    --correct:#2E6B4F; --correct-bg:#E4EFE8;
+    --wrong:#B23A3A; --wrong-bg:#F5E4E1;
+    --serif:'Hahmlet','Noto Serif KR','AppleMyungjo',serif;
+    --sans:'IBM Plex Sans KR',-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  }
+  body[data-stage="2"]{--bg:#ECEAE3;--surface:#FBFAF6;--surface-2:#F2F0E9;--line:#D6D2C6;--line-2:#E3E0D7;--ink:#1C2740;--ink-2:#33405C;--seal:#B23A3A}
+  :focus-visible{outline:2px solid var(--seal);outline-offset:2px}
+
+  /* 종이 느낌: 둥근 모서리를 줄이고 그림자 대신 선 */
+  .card,.qcard,.mode,.quick-card,.sbox,.diff-card,.toggle-row,.verdict{border-radius:4px}
+  .opt{border-radius:3px;border-width:1px}
+  .btn{border-radius:4px;font-weight:600}
+  .mode:hover,.quick-card:hover{transform:none;box-shadow:none;border-color:var(--ink)}
+  .qcard{box-shadow:0 18px 36px -28px rgba(20,28,48,.45)}
+
+  /* 머리띠: 사이트 헤더처럼 먹 바탕 + 도장 */
+  .topbar{border-radius:0;background:var(--ink)}
+  .topbar .logo h1{font-family:var(--serif);font-weight:700;letter-spacing:0}
+  .seal-mark{flex:none;display:inline-grid;place-items:center;width:28px;height:28px;border-radius:3px;background:var(--seal);color:#fff;font-family:var(--serif);font-weight:700;font-size:15px;box-shadow:inset 0 0 0 2px var(--seal),inset 0 0 0 3px rgba(255,255,255,.55)}
+  .topbar .nav-tab{border-radius:3px}
+
+  /* 제목·문제는 명조 계열 */
+  .qtext{font-family:var(--serif);font-weight:500;font-size:18px;line-height:1.6;border-left-width:2px}
+  .summary h2,.mode .mt,.quick-card .qc-title{font-family:var(--serif);font-weight:700}
+  .quick-card .qc-count{font-family:var(--serif)}
+  .opt .no{font-family:var(--serif);font-weight:500}
+  .menu-item{border-radius:3px}

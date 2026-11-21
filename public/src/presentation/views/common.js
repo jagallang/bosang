@@ -23,7 +23,7 @@ export function topbar(vm) {
   const tab = (page, label) => `<button class="nav-tab ${ui.page === page && !ui.inSession ? 'on' : ''}" ${act('go', { page })}>${label}</button>`;
   return `<div class="topbar">
     <div class="logo">
-      <div style="flex:none;font-size:20px" aria-hidden="true">💎</div>
+      <span class="seal-mark" aria-hidden="true">補</span>
       <div><h1>보상드림</h1><div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:-2px">${esc(o.label)}</div></div>
     </div>
     <div class="nav-tabs">

@@ -12,12 +12,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;600;800&family=Noto+Serif+KR:wght@700&display=swap"
-        />
+        <link rel="stylesheet" href="/fonts/fonts.css" />
+        <meta name="theme-color" content="#1C2740" />
       </head>
       <body>
         <Header />

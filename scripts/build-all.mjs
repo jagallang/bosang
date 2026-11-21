@@ -11,6 +11,7 @@ const run = (cmd, cwd = root) => execSync(cmd, { cwd, stdio: 'inherit', env: { .
 
 run('node scripts/build-content.mjs');
 if (!existsSync(join(root, 'site/node_modules'))) run('npm ci', join(root, 'site'));
+run('node scripts/build-fonts.mjs');
 run('npx next build', join(root, 'site'));
 
 rmSync(dist, { recursive: true, force: true });
